@@ -1,0 +1,17 @@
+<?PHP
+require_once("./include/membersite_config.php");
+
+if(!$fgmembersite->CheckLogin())
+{
+    $fgmembersite->RedirectToURL("login_.php");
+    exit;
+}
+else
+{
+if($_SESSION['uname']=='admin')
+{
+$fgmembersite->RedirectToURL("admin_home.php");
+}
+}
+?>
+

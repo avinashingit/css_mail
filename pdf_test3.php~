@@ -1,0 +1,93 @@
+<?php
+require("check.php");
+require("fpdf.php");
+///var/www/fpdf/
+$pdf = new FPDF( );
+
+$pdf->AddPage();
+
+$pdf->SetFont('Arial');
+
+
+$con=mysqli_connect("localhost","root","rootpw","faculty_recruitment");
+
+	$usrid1 = $_GET['usrid'];
+	//$usrid1 = $_SESSION['userid'];
+$pdf->Cell(10,10,$_SESSION."nnhn",0,0);
+	$retrieve = "SELECT * FROM form2 where userid = $usrid1";
+
+	$result = mysqli_query($con,$retrieve);
+
+
+	while($row = mysqli_fetch_array($result))
+  	{
+		$intjournals3 = $row['intjournals3'];
+		$intjournalsoverall = $row['intjournalsoverall'];
+		$natjournals3 = $row['natjournals3'];
+		$natjournalsoverall = $row['natjournalsoverall'];
+		$intconf3 = $row['intconf3'];
+		$intconfoverall = $row['intconfoverall'];
+		$natconf3 = $row['natconf3'];
+		$natconfoverall = $row['natconfoverall'];
+		$publications = $row['publications'];
+  	}
+
+
+$head = '15. Number of Research Publications: ';
+
+$pdf->Cell(strlen($head),10,$head);
+$pdf->Ln();
+
+$head = 'Publication Category : ';
+$pdf->Cell(2*strlen($head),10,$head,0,0);
+
+$head = 'Last 3 years';
+$pdf->Cell(2*strlen($head),10,$head,0,0);
+
+$head = '  Overall';
+$pdf->Cell(2*strlen($head),10,$head,0,0);
+$pdf->Ln();
+
+$head = 'International J             ';
+$pdf->Cell(2*strlen($head),10,$head,0,0);
+
+$pdf->Cell(10,10,$intjournals3);
+
+$pdf->Cell(10,10,$intjournalsoverall);
+$pdf->Ln();
+
+$head = 'National Journal             ';
+$pdf->Cell(2*strlen($head),10,$head,0,0);
+
+$pdf->Cell(10,10,$natjournals3);
+
+$pdf->Cell(10,10,$natjournalsoverall);
+$pdf->Ln();
+
+$head = 'International Conf          ';
+$pdf->Cell(2*strlen($head),10,$head,0,0);
+
+$pdf->Cell(10,10,$intconf3);
+
+$pdf->Cell(10,10,$intconfoverall);
+$pdf->Ln();
+
+$head = 'National Conf               ';
+$pdf->Cell(2*strlen($head),10,$head,0,0);
+
+$pdf->Cell(10,10,$natconf3);
+
+$pdf->Cell(10,10,$natconfoverall);
+$pdf->Ln();
+$pdf->Ln();
+
+$head = '16.Appendix'; 
+$pdf->Cell(2*strlen($head),10,$head,0,1);
+$pdf->MultiCell(0,10,$publications);
+$pdf->Ln();
+//$pdf->Output();
+$pdf->Output("test2.pdf",F);
+
+?>
+
+

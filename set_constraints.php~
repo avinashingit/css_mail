@@ -1,0 +1,82 @@
+<?php
+	include_once("check.php");
+	include "header1.php";
+	include "tab_style.php";
+?>
+
+<div id="header">
+  <ul>
+    <li><a href="admin_home.php">Home</a></li>
+    <li id="current"><a href="set_constraints.php">Generate</a></li>
+    <li><a href="applicant-details.php">User_Details</a></li>
+	<li><a href="change-pwd.php">Change Password</a></li>
+	<a align='right' href='logout.php'>Logout</a>
+  </ul>
+</div>
+<br/><br/><br/><br/><br/>
+
+<?php
+	// Create connection
+	$con=mysqli_connect("localhost","root","rootpw","faculty_recruitment");
+	// Check connection
+	if (mysqli_connect_errno($con))
+	{
+		echo "Failed to connect to database";
+	}
+
+/*	$userid = $_SESSION["userid"];
+
+	$query = "select username from users where id_user = $userid";
+	$result = mysqli_query($con,$query);
+        $row = mysqli_fetch_assoc($result);
+
+	$uname = $row["username"];
+
+	if(strcmp($uname,"admin") != 0)
+	{
+		echo "Access Forbidden for this page";
+		exit;
+	}*/
+if(isset($_GET['submitted_val']))
+{
+	//echo "Welcome admin";
+	$query = "drop view if exists view1";
+	mysqli_query($con,$query);
+
+
+	if(isset($_GET['percent']))
+	{
+		$percent = $_GET['percent'];
+		$query = "create view view1 as select distinct userid from educational_qualifications where percent >= $percent and sno=1";
+		mysqli_query($con, $query);
+	}
+
+	else
+	{
+		$query = "create view view1 as select id_user userid from users";
+		mysqli_query($con, $query);
+	}
+
+	$query = "select * from view1,users where id_user = userid and submitted=1";
+	$result = mysqli_query($con, $query);
+
+	if(mysqli_num_rows($result) == 0)
+		echo "<br/>No users found matching your query<br/>";
+
+	else
+		while($row = mysqli_fetch_array($result))
+			echo "<a href='applicant-details.php?uid=".$row["userid"]."'>".$row["name"]."</a><br>";
+
+
+
+}
+?>
+
+<html>
+<body>
+<br/><h1>Set Constraints page</h1><br/>
+<form method="get">
+Percent:<input type="text" name="percent" size="7"><br/>
+<input type="submit" name = "submitted_val" id="1" value="Save Form">
+</form>
+

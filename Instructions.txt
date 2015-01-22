@@ -1,0 +1,14 @@
+
+
+1.Register yourself with valid email address. A confirmation will be sent to this address.
+2. An applicant can submit exactly one application.
+3. All the starred fields are mandatory.
+4. A partially filled application can be saved and resumed at a later time.
+5. Once an application has been submitted it cannot be edited.
+
+
+
+The following documents are required to be uploaded to submit your form-
+ 1. Photograph in GIF/JPEG/PNG format
+ 2. Caste Certificate in pdf format(if applicable)
+ 3. Copies of three best papers in PDF format(if applicable)
