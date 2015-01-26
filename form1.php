@@ -19,7 +19,7 @@ Chages made:
 <?php include 'check.php'; ?>
 <?php include 'form1_h.php'; ?>
 <?php
-	error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+	error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_STRICT);
 	require_once("./include/membersite_config.php");
 	if($isAdmin)
 		{
@@ -86,7 +86,7 @@ Chages made:
 	}
 	if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	{
-		echo "<br/><span style='color:green;'>Personal Details SAVED</span>";
+		
 		//if(empty($errorMessage))
 		{
 			$count1 = $_REQUEST['count1'];
@@ -104,6 +104,7 @@ Chages made:
 				$query = "INSERT INTO educational_qualifications (userid,sno,degree,insti,yoe,yol,percent,degreetype) VALUES ($usrid1,$i,'$degree','$insti','$yoe','$yol',$percent,$degreetype)"; // Added april 9 2014
 				mysqli_query($con,$query);
 			}
+			$error=0;
 			$post=$_REQUEST['post'];
 			$area=$_REQUEST['area'];
 			$research=$_REQUEST['research'];
@@ -121,6 +122,57 @@ Chages made:
 			$perm_mobile=$_REQUEST['mob_p'];
 			$perm_email=$_REQUEST['email_p'];
 			$adno = $_REQUEST['adno'];
+
+			if(strlen($dob)!=0)
+			{
+				$dobSplitArray=explode("-", $dob);
+
+				if(!validateDate($dobSplitArray[1],$dobSplitArray[0],$dobSplitArray[2]))
+				{
+					$error=1;
+					echo "<p class='text-center'>Check your date of birth</p>";
+				}
+				if(!validateDateOfBirth($dobSplitArray[1],$dobSplitArray[0],$dobSplitArray[2]))
+				{
+					$error=1;
+					echo "<p class='text-center'>Date of birth is ahead of now</p>";
+				}
+			}
+				
+			
+			if(strlen($addr_mobile)!=0)
+				{
+					if(!is_int((int)$addr_mobile))
+					{
+						$error=1;
+						echo "<p class=\"text-center\">Please enter a valid mobile number</p>";
+					}
+				}
+			if(strlen($perm_mobile)!=0)
+			{
+				if(!is_int((int)$perm_mobile))
+				{
+					$error=1;
+					echo "<p class=\"text-center\">Please enter a valid mobile number</p>";
+				}
+			}
+			
+			if(strlen($addr_email)!=0)
+			{
+				if(!filter_var($addr_email, FILTER_VALIDATE_EMAIL)) {
+			        $error=1;
+			        echo "<p class='text-center'>Please enter a valid email</p>";
+			    }
+			}
+			if(strlen($perm_email)!=0)
+			{
+				if(!filter_var($perm_email, FILTER_VALIDATE_EMAIL)) {
+			        $error=1;
+			        echo "<p class=\"text-center\">Please enter a valid email</p>";
+			    }
+			}
+
+
 			// Upload photo
 			if(strlen($_FILES["photo"]["name"]) != 0)
 			{
@@ -145,7 +197,8 @@ Chages made:
 				}
 				else
 				{
-					echo "Invalid file";
+					$error=1;
+					echo "<p class=\"text-center\">Invalid photo</p>";
 				}
 
 			// End upload script
@@ -174,22 +227,27 @@ Chages made:
 				}
 				else
 				{
-					echo "Invalid file";
+					$error=1;
+					echo "<p class=\"text-center\">Invalid certificate file extension</p>";
 				}
 
 			// End upload script
 			}
 
-
-			$sql1="INSERT INTO form1(userid,post,area,researcharea,name,dob,nationality,gender,category,address,addr_mobile,addr_email,
-			permaddress,perm_mobile,perm_email,fathername,designation,submitted,photo,categorycerti,adno) VALUES  ('$usrid1','$post','$area','$research','$name','$dob','$nationality','$gender','$caste','$addr','$addr_mobile','$addr_email',
-			'$perm_addr','$perm_mobile','$perm_email','$fname','$posn',0,'$photo','$categorycerti','$adno')";
-			mysqli_query($con,$sql1);
-			if(isset($_POST[submitted_val1]))
+			if($error==0)
 			{
-				//echo '<script language="JavaScript" type="text/javascript">alert("Personal Detail SAVED")</script>';
-				echo '<meta http-equiv="REFRESH" content="0;url=form2.php?a=1">';
+				$sql1="INSERT INTO form1(userid,post,area,researcharea,name,dob,nationality,gender,category,address,addr_mobile,addr_email,
+					permaddress,perm_mobile,perm_email,fathername,designation,submitted,photo,categorycerti,adno) VALUES  ('$usrid1','$post','$area','$research','$name','$dob','$nationality','$gender','$caste','$addr','$addr_mobile','$addr_email',
+					'$perm_addr','$perm_mobile','$perm_email','$fname','$posn',0,'$photo','$categorycerti','$adno')";
+					mysqli_query($con,$sql1);
+					echo "<br/><span style='color:green;'>Personal Details SAVED</span>";
+					if(isset($_POST[submitted_val1]))
+					{
+						//echo '<script language="JavaScript" type="text/javascript">alert("Personal Detail SAVED")</script>';
+						echo '<meta http-equiv="REFRESH" content="0;url=form2.php?a=1">';
+					}
 			}
+			
 		}
 	}
 ?>
