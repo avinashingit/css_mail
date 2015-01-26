@@ -13,7 +13,7 @@
 
 	<div class="col-md-10 text-center">
 
-		<h6>Copyright © 2015, <a href="www.iiitdm.ac.in">IIIT D&M Kancheepuram</a>. All Rights Reserved</h6>
+		<h6>Copyright © 2015, <a href="http://www.iiitdm.ac.in">IIIT D&M Kancheepuram</a>. All Rights Reserved</h6>
 
 	</div>
 

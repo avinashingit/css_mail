@@ -41,7 +41,7 @@ if(isset($_POST['submitted']))
 
 <div class="row">
 
-  <div class="col-md-4 col-md-offset-4 text-center">
+  <div class="col-md-6 col-md-offset-3 text-center">
 
       <!-- Form Code Start -->
       <div  style="border:none !important" align='left'>
@@ -50,7 +50,7 @@ if(isset($_POST['submitted']))
 
       <input type='hidden' name='submitted' id='submitted' value='1'/>
 
-      <div class='short_explanation' style="color:red;">* required fields</div>
+      <div class='short_explanation text-center' style="color:red;">* required fields</div>
 
       <br/>
 
@@ -71,7 +71,7 @@ if(isset($_POST['submitted']))
             </div>
             <br/>
               <input class="btn btn-md btn-primary" type='submit' name='Submit' value='Submit' />
-          <br/><div class='short_explanation'><a href='reset-pwd-req.php'>Forgot Username and/or Password?</a></div>
+          <br/><br/><div class='short_explanation'><a href='reset-pwd-req.php'>Forgot Username and/or Password?</a></div>
 
         </div>
 

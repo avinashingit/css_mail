@@ -58,7 +58,7 @@ if(isset($_POST['submitted']))
                     <input class="form-control" type='text' name='username' id='username' value='<?php echo $fgmembersite->SafeDisplay('username') ?>' maxlength="50" /><br/>
                     <span id='register_username_errorloc' class='error'></span>
                 </div>
-                <div class='form-group' style='height:80px;'>
+                <div class='form-group'>
                     <label for='password' >Password <span style="color:red;">*</span>:</label><br/>
                     <div class='pwdwidgetdiv' id='thepwddiv' ></div>
                     <noscript>
