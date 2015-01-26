@@ -2,14 +2,16 @@
 require_once("./include/membersite_config.php");?>
 <?php include 'header1.php'; ?>
 <?php include 'tab_style.php'; ?>
-<div id="header">
-  <ul>
-    <li><a href=".">Home</a></li>
-	<li id="current"><a href="change-pwd.php">Change Password</a></li>
-	<a align='right' href='logout.php'>Logout</a>
-  </ul>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <ul class="nav nav-tabs nav-justified"> 
+      <li><a href=".">Home</a></li>
+      <li class="active"><a href="change-pwd.php">Change Password</a></li>
+      <li><a href='logout.php'>Logout</a></li>
+    </ul>
+  </div>
 </div>
-<br/><br/><br/><br/>
+<br/>
 <?php
 if(!$fgmembersite->CheckLogin())
 {
@@ -39,69 +41,75 @@ if(isset($_POST['submitted']))
 <body>
 
 <!-- Form Code Start -->
-<div id='fg_membersite'>
-<form id='changepwd' action='<?php echo $fgmembersite->GetSelfScript(); ?>' method='post' accept-charset='UTF-8'>
-<fieldset >
-<legend>Change Password</legend>
+<div class="row">
 
-<input type='hidden' name='submitted' id='submitted' value='1'/>
+  <div class="col-md-6 col-md-offset-3 text-center">
 
-<div class='short_explanation' style="color:red;">* required fields</div>
+    <form class="form"  id='changepwd' action='<?php echo $fgmembersite->GetSelfScript(); ?>' method='post' accept-charset='UTF-8'>
+    <fieldset >
 
-<div><span class='error'><?php echo $fgmembersite->GetErrorMessage(); ?></span></div>
-<div class='container'>
-    <label for='oldpwd' >Old Password <span style="color:red;">*</span>:</label><br/>
-    <div class='pwdwidgetdiv' id='oldpwddiv' ></div><br/>
-    <noscript>
-    <input type='password' name='oldpwd' id='oldpwd' maxlength="50" />
-    </noscript>    
-    <span id='changepwd_oldpwd_errorloc' class='error'></span>
+    <input type='hidden' name='submitted' id='submitted' value='1'/>
+
+    <div class='short_explanation' style="color:red;">* required fields</div>
+
+    <br/>
+
+    <div><span class='error'><?php echo $fgmembersite->GetErrorMessage(); ?></span></div>
+    <div class='form-group'>
+        <label for='oldpwd' >Old Password <span style="color:red;">*</span>:</label><br/>
+        <div class='pwdwidgetdiv' id='oldpwddiv' ></div>
+        <noscript>
+        <input class="form-control text-center" type='password' name='oldpwd' id='oldpwd' maxlength="50" />
+        </noscript>    
+        <span id='changepwd_oldpwd_errorloc' class='error'></span>
+    </div>
+
+    <div class='form-group'>
+        <label for='newpwd' >New Password <span style="color:red;">*</span>:</label><br/>
+        <div class='pwdwidgetdiv' id='newpwddiv' ></div>
+        <noscript>
+        <input class="form-control"  type='password' name='newpwd' id='newpwd' maxlength="50" /><br/>
+        </noscript>
+        <span id='changepwd_newpwd_errorloc' class='error'></span>
+    </div>
+
+    <br/><br/><br/>
+    <div class='form-group'>
+        <input class="btn btn-md btn-warning" type='submit' name='Submit' value='Submit' />
+    </div>
+
+    </fieldset>
+    </form>
+    <!-- client-side Form Validations:
+    Uses the excellent form validation script from JavaScript-coder.com-->
+
+    <script type='text/javascript'>
+    // <![CDATA[
+        var pwdwidget = new PasswordWidget('oldpwddiv','oldpwd');
+        pwdwidget.enableGenerate = false;
+        pwdwidget.enableShowStrength=false;
+        pwdwidget.enableShowStrengthStr =false;
+        pwdwidget.MakePWDWidget();
+        
+        var pwdwidget = new PasswordWidget('newpwddiv','newpwd');
+        pwdwidget.MakePWDWidget();
+        
+        
+        var frmvalidator  = new Validator("changepwd");
+        frmvalidator.EnableOnPageErrorDisplay();
+        frmvalidator.EnableMsgsTogether();
+
+        frmvalidator.addValidation("oldpwd","req","Please provide your old password");
+        
+        frmvalidator.addValidation("newpwd","req","Please provide your new password");
+
+    // ]]>
+    </script>
+
+  </div>
+
 </div>
 
-<div class='container'>
-    <label for='newpwd' >New Password <span style="color:red;">*</span>:</label><br/>
-    <div class='pwdwidgetdiv' id='newpwddiv' ></div>
-    <noscript>
-    <input type='password' name='newpwd' id='newpwd' maxlength="50" /><br/>
-    </noscript>
-    <span id='changepwd_newpwd_errorloc' class='error'></span>
-</div>
-
-<br/><br/><br/>
-<div class='container'>
-    <input type='submit' name='Submit' value='Submit' />
-</div>
-
-</fieldset>
-</form>
-<!-- client-side Form Validations:
-Uses the excellent form validation script from JavaScript-coder.com-->
-
-<script type='text/javascript'>
-// <![CDATA[
-    var pwdwidget = new PasswordWidget('oldpwddiv','oldpwd');
-    pwdwidget.enableGenerate = false;
-    pwdwidget.enableShowStrength=false;
-    pwdwidget.enableShowStrengthStr =false;
-    pwdwidget.MakePWDWidget();
-    
-    var pwdwidget = new PasswordWidget('newpwddiv','newpwd');
-    pwdwidget.MakePWDWidget();
-    
-    
-    var frmvalidator  = new Validator("changepwd");
-    frmvalidator.EnableOnPageErrorDisplay();
-    frmvalidator.EnableMsgsTogether();
-
-    frmvalidator.addValidation("oldpwd","req","Please provide your old password");
-    
-    frmvalidator.addValidation("newpwd","req","Please provide your new password");
-
-// ]]>
-</script>
-
-
-</div>
 <!--
 Form Code End (see html-form-guide.com for more info.)
 -->

@@ -199,8 +199,7 @@ Chages made:
 
 			<div class="col-md-12">
 
-
-				<form method="post" action="form1.php" enctype="multipart/form-data">
+				<form method="post" class="form" action="form1.php" enctype="multipart/form-data">
 					<script type="text/javascript">
 						var count1 = 1;
 						function add_row16(cnt)
@@ -226,9 +225,9 @@ Chages made:
 								cell2.innerHTML="<td><select  name=\"degreetype"+count1+"\"><option value=\"\">Select</option><option value=\"1\">Undergraduate-level</option><option value=\"2\" >Graduate-level</option><option value=\"3\" >Doctoral-level</option></select></td>";
 								cell3.innerHTML="<td><input type=\"text\" name=\"degree"+count1+"\" size=\"8\"></td>";
 								cell4.innerHTML="<td><input type=\"text\" name=\"insti"+count1+"\" size=\"8\"></td>";
-								cell5.innerHTML="<td><input type=\"number\" name=\"yoe"+count1+"\" size=\"8\"></td>";
-								cell6.innerHTML="<td><input type=\"number\" name=\"yol"+count1+"\" size=\"8\"></td>";
-								cell7.innerHTML="<td><input type=\"number\" name=\"percent"+count1+"\" size=\"5\"><input type=\"hidden\" name=\"count1\" value=\""+count1+"\"></td>";
+								cell5.innerHTML="<td><input type=\"number\" min=\"0\" name=\"yoe"+count1+"\" size=\"8\"></td>";
+								cell6.innerHTML="<td><input type=\"number\" min='0' name=\"yol"+count1+"\" size=\"8\"></td>";
+								cell7.innerHTML="<td><input type=\"number\" min='0' max='100' name=\"percent"+count1+"\" size=\"5\"><input type=\"hidden\" name=\"count1\" value=\""+count1+"\"></td>";
 							}
 							else
 							{
@@ -280,7 +279,7 @@ Chages made:
 					</script>
 					<left>
 						<br/>
-						<span style="color:red;">* required fields</span>
+						<span style="color:red;" class="text-center">* required fields</span>
 						<br/><br/>
 						<table class="table table-striped" id="myTable">
 							<tr>
@@ -288,12 +287,14 @@ Chages made:
 									1. Post Applied <span style="color:red;">*</span>
 								</td>
 								<td>
-									<select class="form-control" name="post" >
-										<option value="" <?php if($post=='') echo 'Selected="Selected"'?> >Select</option>
-										<option value="Professor" <?php if($post=='Professor') echo 'Selected="Selected"'?>>Professor</option>
-										<option value="Assistant Professor" <?php if($post=='Assistant Professor') echo 'Selected="Selected"'?> >Assistant Professor</option>
-										<option value="Associate Professor" <?php if($post=='Associate Professor') echo 'Selected="Selected"'?> >Associate Professor</option>
-									</select>
+									<div class="col-md-6">
+										<select class="form-control" name="post" >
+											<option value="" <?php if($post=='') echo 'Selected="Selected"'?> >Select</option>
+											<option value="Professor" <?php if($post=='Professor') echo 'Selected="Selected"'?>>Professor</option>
+											<option value="Assistant Professor" <?php if($post=='Assistant Professor') echo 'Selected="Selected"'?> >Assistant Professor</option>
+											<option value="Associate Professor" <?php if($post=='Associate Professor') echo 'Selected="Selected"'?> >Associate Professor</option>
+										</select>
+									</div>
 								</td>
 							</tr>
 							<tr>
@@ -301,13 +302,15 @@ Chages made:
 									2. Broad Area <span style="color:red;">*</span>
 								</td>
 								<td>
-									<select class="form-control" name="area">
-										<option value=""<?php if($area=='') echo 'Selected="Selected"'?>>Select</option>
-										<option value="Computer Science" <?php if($area=='Computer Science') echo 'Selected="Selected"'?>>Computer Science</option>
-										<option value="Electronics" <?php if($area=='Electronics') echo 'Selected="Selected"'?>>Electronics</option>
-										<option value="Mechanical" <?php if($area=='Mechanical') echo 'Selected="Selected"'?>>Mechanical</option>
-										<option value="Engineering Design" <?php if($area=='Engineering Design') echo 'Selected="Selected"'?>>Engineering Design</option>
-									</select>
+									<div class="col-md-6">
+										<select class="form-control" name="area">
+											<option value=""<?php if($area=='') echo 'Selected="Selected"'?>>Select</option>
+											<option value="Computer Science" <?php if($area=='Computer Science') echo 'Selected="Selected"'?>>Computer Science</option>
+											<option value="Electronics" <?php if($area=='Electronics') echo 'Selected="Selected"'?>>Electronics</option>
+											<option value="Mechanical" <?php if($area=='Mechanical') echo 'Selected="Selected"'?>>Mechanical</option>
+											<option value="Engineering Design" <?php if($area=='Engineering Design') echo 'Selected="Selected"'?>>Engineering Design</option>
+										</select>
+									</div>
 								</td>
 							</tr>
 							<tr>
@@ -315,12 +318,14 @@ Chages made:
 									3. Current Areas Of Research <span style="color:red;">*</span>
 								</td>
 								<td>
-									<input class="form-control" type="text" name="research" value="<?php echo $research; ?>"  >
+									<div class="col-md-6">
+										<input class="form-control" type="text" name="research" value="<?php echo $research; ?>"  >
+									</div>
 								</td>
 							</tr>
 							<tr>	
 								<td>
-									4. Advertisement No</td><td>
+									4. Advertisement No</td><td><div class="col-md-6">
 									<?php
 										$retrieve = "SELECT * FROM advt_number";
 											$result = mysqli_query($con,$retrieve);
@@ -331,7 +336,7 @@ Chages made:
 											}
 											echo $advt_no;
 									?>
-									<input type="hidden" name="adno" value="<?php echo $advt_no; ?>">
+									<input type="hidden" name="adno" value="<?php echo $advt_no; ?>"></div>
 								</td>
 							</tr>
 							<tr>
@@ -339,7 +344,9 @@ Chages made:
 									5. Name in Full (Capital Letters) <span style="color:red;">*</span></br>(as in SSLC Certificate)
 								</td>
 								<td>
-									<input class="form-control" type="text" name="name" value="<?php echo $name; ?>" >
+									<div class="col-md-6">
+										<input class="form-control" type="text" name="name" value="<?php echo $name; ?>" >
+									</div>
 								</td>
 							</tr>
 							<tr>
@@ -347,9 +354,11 @@ Chages made:
 									6. Date Of Birth <span style="color:red;">*</span></br>
 								</td>
 								<td>
-									YYYY-MM-DD</br>
-									<input class="date-picker" data-date-format="YYYY-MM-DD" type="text" name="dob" value="<?php echo $dob; ?>" ></br>
-									<!--Age:<input type="text" size="1" name="yrs" value="<?php echo $_REQUEST['yrs']; ?>" >Y<input type="text" size="1" name="months" value="<?php echo $_REQUEST['months']; ?>" >M -->
+									<div class="col-md-6">
+										YYYY-MM-DD</br>
+										<input class="date-picker form-control" data-date-format="YYYY-MM-DD" type="text" name="dob" value="<?php echo $dob; ?>" ></br>
+										<!--Age:<input type="text" size="1" name="yrs" value="<?php echo $_REQUEST['yrs']; ?>" >Y<input type="text" size="1" name="months" value="<?php echo $_REQUEST['months']; ?>" >M -->
+									</div>
 								</td>
 							</tr>
 							<tr>
@@ -357,8 +366,10 @@ Chages made:
 									7. Photograph <span style="color:red;">*</span>
 								</td>
 								<td>
-									Photo in GIF/JPEG/PNG format only<br/>
-									<input class="form-control" type="file" name="photo" id="photo"><?php if(strlen($photo) > 0) echo "You have already uploaded the photo." ?> <br>
+									<div class="col-md-6">
+										Photo in GIF/JPEG/PNG format only<br/>
+										<input type="file" name="photo" id="photo"><?php if(strlen($photo) > 0) echo "You have already uploaded the photo." ?> <br>
+									</div>
 								</tr>
 							<tr>
 								</td>
@@ -366,7 +377,9 @@ Chages made:
 									8. Nationality <span style="color:red;">*</span>
 								</td>
 								<td>
-									<input class="form-control" type="text" name="nationality" value="<?php echo $nationality; ?>" >
+									<div class="col-md-6">
+										<input class="form-control" type="text" name="nationality" value="<?php echo $nationality; ?>" >
+									</div>
 								</td>
 							</tr>
 							<tr>
@@ -374,13 +387,15 @@ Chages made:
 									9. Gender <span style="color:red;">*</span>
 								</td>
 								<td>
-									<table class="table">
-										<tr>
-											<td>Male&nbsp;&nbsp;<input type="radio" name="gender" value="Male" <?php if($gender=='Male') echo 'checked="checked"'?>/></td>&nbsp;&nbsp;&nbsp;&nbsp;
-											<td>Female&nbsp;&nbsp;<input type="radio" name="gender" value="Female" <?php if($gender=='Female') echo 'checked="checked"'?> />
-											</td>
-										</tr>
-									</table>
+									<div class="col-md-6">
+										<table class="table">
+											<tr>
+												<td>Male&nbsp;&nbsp;<input type="radio" name="gender" value="Male" <?php if($gender=='Male') echo 'checked="checked"'?>/></td>&nbsp;&nbsp;&nbsp;&nbsp;
+												<td>Female&nbsp;&nbsp;<input type="radio" name="gender" value="Female" <?php if($gender=='Female') echo 'checked="checked"'?> />
+												</td>
+											</tr>
+										</table>
+									</div>
 								</td>
 							</tr>
 							<tr>
@@ -388,12 +403,33 @@ Chages made:
 									10. Category <span style="color:red;">*</span></br>(Attach Certificate(s))
 								</td>
 								<td>
-									SC<input type="radio" name="caste" value="SC" <?php if($caste == 'SC') echo 'checked' ?>/><br />
-									ST<input type="radio" name="caste" value="ST" <?php if($caste == 'ST') echo 'checked' ?> /><br />
-									OBC<input type="radio" name="caste" value="OBC" <?php if($caste == 'OBC') echo 'checked' ?> /><br />
-									Others<input type="radio" name="caste" value="Others" <?php if($caste == 'Others') echo 'checked' ?>/><br />
-									Upload the certificate in PDF format only<br/>
-									<input type="file" name="cat_certi" id="cat_certi"><?php if(strlen($categorycerti) > 0) echo "You have already uploaded the category certificate." ?><br>
+									<div class="col-md-6">
+										<table class="table">
+											<tr>
+												<td>SC</td>
+												<td><input type="radio" name="caste" value="SC" <?php if($caste == 'SC') echo 'checked' ?>/></td>
+											</tr>
+											<tr>
+												<td>ST</td>
+												<td><input type="radio" name="caste" value="ST" <?php if($caste == 'ST') echo 'checked' ?> /></td>
+											</tr>
+											<tr>
+												<td>OBC</td>
+												<td><input type="radio" name="caste" value="OBC" <?php if($caste == 'OBC') echo 'checked' ?> /></td>
+											</tr>
+											<tr>
+												<td>Others</td>
+												<td><input type="radio" name="caste" value="Others" <?php if($caste == 'Others') echo 'checked' ?>/></td>
+											</tr>
+					
+
+										</table>
+									</div>
+									<div class="col-md-4 col-md-offset-1">
+										<br/><br/><br/>
+										Upload the certificate in PDF format only<br/>
+										<input type="file" name="cat_certi" id="cat_certi"><?php if(strlen($categorycerti) > 0) echo "You have already uploaded the category certificate." ?>
+									</div>
 								</td>
 							</tr>
 							<tr>
@@ -401,30 +437,35 @@ Chages made:
 									11. Address for Communication <span style="color:red;">*</span>
 								</td>
 								<td>
-									<textarea class="form-control" rows="5" cols="100" name="addr" type="text"><?php echo $addr; ?></textarea></br>
-									<table class="table" border="1">
-									<tr>
-										<td>Mobile</td><td><input class="form-control" type="number" name="addr_mob" value="<?php echo $addr_mobile; ?>">
-										</td>
-									</tr>
-									<tr>
-										<td>Email</td><td><input class="form-control" type="email" name="addr_email" value="<?php echo $addr_email; ?>">
-										</td>
-									</tr>
-								</table>
+									<div class="col-md-12">
+										<textarea class="form-control" rows="5" cols="100" name="addr" type="text"><?php echo $addr; ?></textarea></br>
+										<table class="table" border="1">
+											<tr>
+												<td>Mobile</td><td>
+												<div class="col-md-6"><input class="form-control" type="number" min="0" name="addr_mob" value="<?php echo $addr_mobile; ?>"></div>
+												</td>
+											</tr>
+											<tr>
+												<td>Email</td><td><div class="col-md-6"><input class="form-control" type="email" name="addr_email" value="<?php echo $addr_email; ?>"></div>
+												</td>
+											</tr>
+										</table>
+									</div>
 							</td></tr>
 							<tr>
 								<td>
 									12. Permanent Home Address <span style="color:red;">*</span>
 								</td>
 								<td>
+									<div class="col-md-12">
 									<textarea class="form-control" rows="5" cols="100" name="addr_p" type="text"><?php echo $perm_addr; ?></textarea></br>
 									<table class="table" border="1">
 										<tr>
-											<td>Mobile</td><td><input class="form-control" type="number" name="mob_p" value="<?php echo $perm_mobile; ?>">
+											<td>Mobile</td><td><div class="col-md-6"><input class="form-control" type="number" name="mob_p" value="<?php echo $perm_mobile; ?>"></div>
 											</td>
 										</tr>
 									</table>
+									</div>
 								</td>
 							</tr>
 							<tr>
@@ -432,7 +473,9 @@ Chages made:
 									13. Name of Father/Husband <span style="color:red;">*</span>
 								</td>
 								<td>
-									<input class="form-control" type="text" size="50" name="fname" value="<?php echo $fname; ?>">
+									<div class="col-md-6">
+										<input class="form-control" type="text" size="50" name="fname" value="<?php echo $fname; ?>">
+									</div>
 								</td>
 							</tr>
 							<tr>
@@ -440,7 +483,9 @@ Chages made:
 									14. Present Position/Designation & Pay Drawn  <span style="color:red;">*</span>
 								</td>
 								<td>
-									<input class="form-control" type="text" size="50" name="posn" value="<?php echo $posn; ?>">
+									<div class="col-md-6">
+										<input class="form-control" type="text" size="50" name="posn" value="<?php echo $posn; ?>">
+									</div>
 								</td>
 							</tr>
 							<tr>
@@ -461,14 +506,16 @@ Chages made:
 									</table>
 									<?php 	create_row1(); ?>
 									<br/>
-									<button type="button" onclick="<?php echo "add_row16(0)";?>">Insert new row</button>
+									<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row16(0)";?>">Insert new row</button>
 								</td>
 							</tr>
 						</table>
 						</br>
-						<input type="submit" name = "submitted_val" value="Save">
-						<input type="submit" name = "submitted_val1" value="Save & Next">
-					</form>
+						<div class="text-center">
+							<input type="submit" class="btn btn-sm btn-info" name = "submitted_val" value="Save">
+							<input type="submit" class="btn btn-sm btn-success" name = "submitted_val1" value="Save & Next">
+						</div>
+				</form>
 				</left>
 
 			</div>
@@ -478,10 +525,7 @@ Chages made:
 
 <script>
 
-$('.date-picker').datepicker(
-	{
-
-	});
+// $('.date-picker').datepicker();
 
 </script>
 
