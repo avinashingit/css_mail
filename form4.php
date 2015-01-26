@@ -1,3 +1,4 @@
+<?php include 'externalLinks.php';?><!-- this file contains all the external css and js files and plugins if any --> 
 <?php include 'check.php'; ?>
 <?php include 'form4_h.php'; ?>
 
@@ -143,23 +144,50 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 <body background="bgimage.jpg";background-repeat:no-repeat;background-attachment:scroll;>
 <form method="post" action="form4.php" enctype="multipart/form-data">
 <span style="color:red;">* required fields</span>
-<br/><br/><br/>
+<br/><br/>
+<table class="table table-striped" id="myTable">
+
 25:SOP<br/>
-a)Why would you like to join IIITDM Kancheepuram?<br/>
-(Do not exceed 4000 characters)<span style="color:red;">*</span><br/>
-<textarea style= "width: 500px; height: 150px;" row="20" column="200" name="25a" maxlength="4000"><?php echo $a25;?></textarea><br/><br/>
-b)Your vision for the growth of the institute...<br/>
-(Do not exceed 4000 characters)<span style="color:red;">*</span><br/>
-<textarea style="width: 500px; height: 150px;" row="20" column="200" name="25b" maxlength="4000"><?php echo $b25;?></textarea><br/><br/>
+<tr>
+<td>a)Why would you like to join IIITDM Kancheepuram?<br/>
+(Do not exceed 4000 characters)<span style="color:red;">*</span><br/></td>
+<td><textarea style= "width: 500px; height: 150px;" row="20" column="200" name="25a" maxlength="4000"><?php echo $a25;?></textarea><br/><br/></td>
+</tr>
+<tr>
+<td>b)Your vision for the growth of the institute...<br/>
+(Do not exceed 4000 characters)<span style="color:red;">*</span><br/></td>
+<td><textarea style="width: 500px; height: 150px;" row="20" column="200" name="25b" maxlength="4000"><?php echo $b25;?></textarea><br/><br/></td>
+</tr>
+</table>
+
+<table class="table table-striped" id="myTable">
 
 26:Referee Details<span style="color:red;">*</span><br/>
 Enter the names and addresses including email,fax, telephone no. of 3 referees.<br/>
 (at least one of them should be familiar with your recent work);<br/>Referees will be contacted by the institute directly, if required.<br/><br/>
-Referee1:<br/>
-Name: <input type="text" name="ref1_name" value="<?php echo $ref1_name ?>" pattern='[a-zA-Z0-9]{0,100}' title="Only alphanumeric input is valid upto 100 characters"/><br/>
-Address: <input type="text" name="ref1_add" value="<?php echo $ref1_add ?>"/><br/>
-Email: <input type="email" name="ref1_email" value="<?php echo $ref1_email?>" /><br/>
-Phone: <input type="number" name="ref1_phone" value="<?php echo $ref1_phone ?>" min="0"/><br/>
+<tr>
+<td><h4>Referee1:<br/></h4></td>
+<tr><td>Name:</td><td><input type="text" name="ref1_name" value="<?php echo $ref1_name ?>" pattern='[a-zA-Z0-9]{0,100}' title="Only alphanumeric input is valid upto 100 characters"/><br/></td></tr>
+<tr><td>Address:</td> <td><input type="text" name="ref1_add" value="<?php echo $ref1_add ?>"/><br/></td></tr>
+<tr><td>Email:</td> <td><input type="email" name="ref1_email" value="<?php echo $ref1_email?>" /><br/></td></tr>
+<tr><td>Phone:</td> <td><input type="number" name="ref1_phone" value="<?php echo $ref1_phone ?>" min="0"/><br/></td></tr>
+</tr>
+<tr>
+<td><h4>Referee2:</h4></td>
+<tr><td>Name:</td><td><input type="text" name="ref2_name" value="<?php echo $ref2_name ?>" pattern='[a-zA-Z0-9]{0,100}' title="Only alphanumeric input is valid upto 100 characters"/><br/></td></tr>
+<tr><td>Address:</td> <td><input type="text" name="ref2_add" value="<?php echo $ref2_add ?>"/><br/></td></tr>
+<tr><td>Email:</td> <td><input type="email" name="ref2_email" value="<?php echo $ref2_email?>" /><br/></td></tr>
+<tr><td>Phone:</td> <td><input type="number" name="ref2_phone" value="<?php echo $ref2_phone ?>" min="0"/><br/></td></tr>
+</tr>
+<tr>
+<td><h4>Referee3:</h4>
+<tr><td>Name:</td><td><input type="text" name="ref3_name" value="<?php echo $ref3_name ?>" pattern='[a-zA-Z0-9]{0,100}' title="Only alphanumeric input is valid upto 100 characters"/><br/></td></tr>
+<tr><td>Address:</td> <td><input type="text" name="ref3_add" value="<?php echo $ref3_add ?>"/><br/></td></tr>
+<tr><td>Email:</td> <td><input type="email" name="ref3_email" value="<?php echo $ref3_email?>" /><br/></td></tr>
+<tr><td>Phone:</td> <td><input type="number" name="ref3_phone" value="<?php echo $ref3_phone ?>" min="0"/><br/></td></tr>
+</tr>
+</table>
+<!--
 <br/>
 Referee2:<br/>
 Name: <input type="text" name="ref2_name" value="<?php echo $ref2_name  ?>" pattern='[a-zA-Z0-9]{0,100}' title="Only alphanumeric input is valid upto 100 characters"/><br/>
@@ -172,13 +200,19 @@ Name: <input type="text" name="ref3_name" value="<?php echo $ref3_name ?>" patte
 Address: <input type="text" name="ref3_add" value="<?php echo $ref3_add ?>" /><br/>
 Email: <input type="email" name="ref3_email" value="<?php echo  $ref3_email?>" /><br/>
 Phone: <input type="number" name="ref3_phone" value="<?php echo $ref3_phone ?>" min="0"/><br/>
-<!-- <input type='tel' pattern='[\+]\d{2}[\(]\d{2}[\)]\d{4}[\-]\d{4}' title='Phone Number (Format: +99(99)9999-9999)'>-->
+</table>
 <br/>
-27:<br/>
-Any other information you want to mention:<br/>
-<textarea style="width: 500px; height: 150px; row="20" column="200" name="27"><?php echo $othr;?></textarea><br/>
-<input type="submit" name="submitted_val" value="Save" />
-<input type="submit" name="submitted_val1" value="Save & Next" />
+-->
+<table class="table table-striped" id="myTable">
+<tr>
+<td>
+27:
+Any other information you want to mention:</td>
+<td><textarea style="width: 900px; height: 150px; " row="20" column="200" name="27"><?php echo $othr;?></textarea><br/></td></tr></table>
+						<div class="text-center">
+							<input type="submit" class="btn btn-sm btn-info" name = "submitted_val" value="Save">
+							<input type="submit" class="btn btn-sm btn-success" name = "submitted_val1" value="Save & Next">
+						</div>
 </form>
 </h3>
 </body>
