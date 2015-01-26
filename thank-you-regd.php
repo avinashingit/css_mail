@@ -9,10 +9,10 @@
 </head>
 <body>
 <div id='fg_membersite_content'>
-<h2>Thanks for registering!</h2>
-Your registration is now complete.
-<p>
-<a href='login.php'>Click here to login</a>
+<h2 class="text-center">Thanks for registering!</h2>
+<p class="text-center">Your registration is now complete.</p>
+<p class="text-center">
+<a class="btn tbn-md btn-success" href='login.php'>Click here to login</a>
 </p>
 </div>
 </body>

@@ -1,9 +1,35 @@
+<div class="row" style="margin:0px;">
+
+	<div class="col-md-2">
+
+		<img src='Medium.png' align='left' width="140" height="130">
+	
+	</div>
+
+	<div class="col-md-10 text-left">
+
+		Indian Institute of Information Technology Design & Manufacturing(IIITD&M) Kancheepuram<br/> <span class=note ;>Chennai-127</span>
+
+	</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
 <!--<div id=container_back>-->
-<div id=title_bar>
+<!-- <div id=title_bar>
 
 <img src='Medium.png' align='left' width="140" height="130">
 <center>Indian Institute of Information Technology Design & Manufacturing(IIITD&M) Kancheepuram<br/> <span class=note ;>Chennai-127</span></center>
-</div>
+</div> -->
 
 
 

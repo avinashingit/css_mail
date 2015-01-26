@@ -24,48 +24,71 @@ if(isset($_POST['submitted']))
 <body>
 
 <!-- Form Code Start -->
-<div id='fg_membersite' align='left'>
-<form id='register' action='<?php echo $fgmembersite->GetSelfScript(); ?>' method='post' accept-charset='UTF-8'>
-<br/><br/><br/>
-<fieldset >
-<legend>Register</legend>
 
-<input type='hidden' name='submitted' id='submitted' value='1'/>
+<div class="row">
 
-<div class='short_explanation' style="color:red;">* required fields</div>
-<input type='text'  class='spmhidip' name='<?php echo $fgmembersite->GetSpamTrapInputName(); ?>' />
+    <div class="col-md-4 col-md-offset-4">
 
-<div><span class='error'><?php echo $fgmembersite->GetErrorMessage(); ?></span></div>
-<div class='container'>
-    <label for='name' >Your Full Name <span style="color:red;">*</span>: </label><br/>
-    <input type='text' name='name' id='name' value='<?php echo $fgmembersite->SafeDisplay('name') ?>' maxlength="50" /><br/>
-    <span id='register_name_errorloc' class='error'></span>
-</div>
-<div class='container'>
-    <label for='email' >Email Address <span style="color:red;">*</span>:</label><br/>
-    <input type='text' name='email' id='email' value='<?php echo $fgmembersite->SafeDisplay('email') ?>' maxlength="50" /><br/>
-    <span id='register_email_errorloc' class='error'></span>
-</div>
-<div class='container'>
-    <label for='username' >UserName <span style="color:red;">*</span>:</label><br/>
-    <input type='text' name='username' id='username' value='<?php echo $fgmembersite->SafeDisplay('username') ?>' maxlength="50" /><br/>
-    <span id='register_username_errorloc' class='error'></span>
-</div>
-<div class='container' style='height:80px;'>
-    <label for='password' >Password <span style="color:red;">*</span>:</label><br/>
-    <div class='pwdwidgetdiv' id='thepwddiv' ></div>
-    <noscript>
-    <input type='password' name='password' id='password' maxlength="50" />
-    </noscript>    
-    <div id='register_password_errorloc' class='error' style='clear:both'></div>
+        <div>
+        <form id='register' action='<?php echo $fgmembersite->GetSelfScript(); ?>' method='post' accept-charset='UTF-8'>
+        <fieldset >
+
+        <input type='hidden' name='submitted' id='submitted' value='1'/>
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class='short_explanation' style="color:red;">* required fields</div><br/>
+                <input class="hidden" type='text'  class='spmhidip' name='<?php echo $fgmembersite->GetSpamTrapInputName(); ?>' />
+
+                <div><span class='error'><?php echo $fgmembersite->GetErrorMessage(); ?></span></div>
+                <div class='form-group'>
+                    <label for='name' >Your Full Name <span style="color:red;">*</span>: </label><br/>
+                    <input class="form-control" type='text' name='name' id='name' value='<?php echo $fgmembersite->SafeDisplay('name') ?>' maxlength="50" /><br/>
+                    <span id='register_name_errorloc' class='error'></span>
+                </div>
+                <div class='form-group'>
+                    <label for='email' >Email Address <span style="color:red;">*</span>:</label><br/>
+                    <input class="form-control" type='text' name='email' id='email' value='<?php echo $fgmembersite->SafeDisplay('email') ?>' maxlength="50" /><br/>
+                    <span id='register_email_errorloc' class='error'></span>
+                </div>
+                <div class='form-group'>
+                    <label for='username' >UserName <span style="color:red;">*</span>:</label><br/>
+                    <input class="form-control" type='text' name='username' id='username' value='<?php echo $fgmembersite->SafeDisplay('username') ?>' maxlength="50" /><br/>
+                    <span id='register_username_errorloc' class='error'></span>
+                </div>
+                <div class='form-group' style='height:80px;'>
+                    <label for='password' >Password <span style="color:red;">*</span>:</label><br/>
+                    <div class='pwdwidgetdiv' id='thepwddiv' ></div>
+                    <noscript>
+                    <input class="form-control"  type='password' name='password' id='password' maxlength="50" />
+                    </noscript>    
+                    <div id='register_password_errorloc' class='error' style='clear:both'></div>
+                </div>
+
+                <div class='form-group'>
+                    <input class="btn btn-md btn-primary" type='submit' name='Submit' value='Submit' />
+                </div>
+
+            </div>
+
+        </div>
+
+        
+
+        </fieldset>
+        </form>
+
+        </div>
+
+    </div>
+
 </div>
 
-<div class='container'>
-    <input type='submit' name='Submit' value='Submit' />
-</div>
 
-</fieldset>
-</form>
+
+
 <!-- client-side Form Validations:
 Uses the excellent form validation script from JavaScript-coder.com-->
 

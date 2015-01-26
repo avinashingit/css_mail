@@ -1,12 +1,18 @@
 <?php include 'header1.php'; ?>
 <?php include 'tab_style.php'; ?>
-<div id="header">
-  <ul>
-    <li><a href="home.php">Home</a></li>
-    <li><a href="register.php">Register</a></li>
-    <li id="current"><a href="login.php">Login</a></li>
-	
-  </ul>
+<div class="row">
+
+  <div class="col-md-6 col-md-offset-3 text-center">
+    <div class="text-center">
+      <ul class="nav nav-tabs nav-justified">
+        <li><a href="home.php">Home</a></li>
+        <li><a href="register.php">Register</a></li>
+        <li class="active"><a href="login.php">Login</a></li>
+      </ul>
+    </div>
+
+  </div>
+
 </div>
 <br/>
 
@@ -33,56 +39,75 @@ if(isset($_POST['submitted']))
 </head>
 <body>
 
-<!-- Form Code Start -->
-<div id='fg_membersite' align='left'>
-<form id='login' action='<?php echo $fgmembersite->GetSelfScript(); ?>' method='post' accept-charset='UTF-8'>
-<br/><br/><br/><br/><br/>
-<fieldset >
-<legend>Login</legend>
+<div class="row">
 
-<input type='hidden' name='submitted' id='submitted' value='1'/>
+  <div class="col-md-4 col-md-offset-4 text-center">
 
-<div class='short_explanation' style="color:red;">* required fields</div>
+      <!-- Form Code Start -->
+      <div  style="border:none !important" align='left'>
+      <form id='login' class="form" style="border:none !important" action='<?php echo $fgmembersite->GetSelfScript(); ?>' method='post' accept-charset='UTF-8'>
+      <fieldset >
 
-<div><span class='error'><?php echo $fgmembersite->GetErrorMessage(); ?></span></div>
-<div class='container'>
-    <label for='username' >UserName <span style="color:red;">*</span>:</label><br/>
-    <input type='text' name='username' id='username' value='<?php echo $fgmembersite->SafeDisplay('username') ?>' maxlength="50" /><br/>
-    <span id='login_username_errorloc' class='error'></span>
+      <input type='hidden' name='submitted' id='submitted' value='1'/>
+
+      <div class='short_explanation' style="color:red;">* required fields</div>
+
+      <br/>
+
+      <div><span class='error'><?php echo $fgmembersite->GetErrorMessage(); ?></span></div>
+
+      <div class="row">
+
+        <div class="col-md-8 col-md-offset-2 text-center">
+            <div class="form-group">
+              <label for='username' >UserName <span style="color:red;">*</span></label><br/>
+              <input class="form-control" type='text' name='username' id='username' value='<?php echo $fgmembersite->SafeDisplay('username') ?>' maxlength="50" requuired/><br/>
+              <span id='login_username_errorloc' class='error'></span>
+            </div>
+            <div class="form-group">
+              <label for='password' >Password <span style="color:red;">*</span></label><br/>
+              <input class="form-control" type='password' name='password' id='password' maxlength="50" required/><br/>
+              <span id='login_password_errorloc' class='error'></span>
+            </div>
+            <br/>
+              <input class="btn btn-md btn-primary" type='submit' name='Submit' value='Submit' />
+          <br/><div class='short_explanation'><a href='reset-pwd-req.php'>Forgot Username and/or Password?</a></div>
+
+        </div>
+
+      </div>
+
+      
+      </fieldset>
+      </form>
+      <!-- client-side Form Validations:
+      Uses the excellent form validation script from JavaScript-coder.com-->
+
+      <script type='text/javascript'>
+      // <![CDATA[
+
+          var frmvalidator  = new Validator("login");
+          frmvalidator.EnableOnPageErrorDisplay();
+          frmvalidator.EnableMsgsTogether();
+
+          frmvalidator.addValidation("username","req","Please provide your username");
+          
+          frmvalidator.addValidation("password","req","Please provide the password");
+
+      // ]]>
+      </script>
+      <script type="text/javascript">
+      document.getElementById('username').focus();
+      </script>
+
+      </div>
+
+
+  </div>
+
 </div>
-<div class='container'>
-    <label for='password' >Password <span style="color:red;">*</span>:</label><br/>
-    <input type='password' name='password' id='password' maxlength="50" /><br/>
-    <span id='login_password_errorloc' class='error'></span>
-</div>
 
-<div class='container'>
-    <input type='submit' name='Submit' value='Submit' />
-</div>
-<div class='short_explanation'><a href='reset-pwd-req.php'>Forgot Username and/or Password?</a></div>
-</fieldset>
-</form>
-<!-- client-side Form Validations:
-Uses the excellent form validation script from JavaScript-coder.com-->
 
-<script type='text/javascript'>
-// <![CDATA[
-
-    var frmvalidator  = new Validator("login");
-    frmvalidator.EnableOnPageErrorDisplay();
-    frmvalidator.EnableMsgsTogether();
-
-    frmvalidator.addValidation("username","req","Please provide your username");
-    
-    frmvalidator.addValidation("password","req","Please provide the password");
-
-// ]]>
-</script>
-<script type="text/javascript">
-document.getElementById('username').focus();
-</script>
-
-</div>
 <!--
 Form Code End (see html-form-guide.com for more info.)
 -->

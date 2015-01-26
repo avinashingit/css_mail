@@ -2,14 +2,22 @@
 require_once("./include/membersite_config.php");
 include 'header1.php';
 include 'tab_style.php'; ?>
-<div id="header">
-  <ul>
-    <li><a href="home.php">Home</a></li>
-    <li><a href="register.php">Register</a></li>	
-	<li><a href="change-pwd.php">Change Password</a></li>
-    <li><a href="login.php">Login</a></li>
-  </ul>
+<div class="row">
+
+  <div class="col-md-6 col-md-offset-3 text-center">
+    <div class="text-center">
+      <ul class="nav nav-tabs nav-justified">
+        <li><a href="home.php">Home</a></li>
+        <li><a href="register.php">Register</a></li>
+        <li><a href="login.php">Login</a></li>
+        <li><a href="change-pwd.php">Change password</a></li>
+      </ul>
+    </div>
+
+  </div>
+
 </div>
+
 <br/><br/><br/><br/>
 <?php
 $success = false;
@@ -32,18 +40,18 @@ if($fgmembersite->ResetPassword())
 <?php
 if($success){
 ?>
-<h2>Password is Reset Successfully</h2>
-Your new password is sent to your email address.
+<h2 class="text-center">Password is Reset Successfully</h2>
+<p class="text-center">Your new password is sent to your email address.</p>
 <?php
 }else{
 ?>
-<h2>Error</h2>
-<span class='error'><?php echo $fgmembersite->GetErrorMessage(); ?></span>
+<h2 class="text-center">Error</h2>
+<span class='text-center error'><?php echo $fgmembersite->GetErrorMessage(); ?></span>
 <?php
 }
 ?>
 </div>
-
+<br/><br/><br/><br/><br/>
 </body>
 </html>
 <?php include 'footer.php'; ?>

@@ -1,12 +1,18 @@
 <?php include 'header1.php'; ?>
 <?php include 'tab_style.php'; ?>
-<div id="header">
-  <ul>
-    <li><a href="home.php">Home</a></li>
-    <li id="current"><a href="register.php">Register</a></li>
+<div class="row">
 
-    <li><a href="login.php">Login</a></li>
-  </ul>
+	<div class="col-md-6 col-md-offset-3 text-center">
+		<div class="text-center">
+		  <ul class="nav nav-tabs nav-justified">
+		    <li><a href="home.php">Home</a></li>
+		    <li class="active"><a href="register.php">Register</a></li>
+		    <li><a href="login.php">Login</a></li>
+		  </ul>
+		</div>
+
+	</div>
+
 </div>
 <br/>
 

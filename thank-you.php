@@ -9,9 +9,9 @@
 <body>
 <br/><br/><br/>
 <div id='fg_membersite_content'>
-<h2>Thanks for registering!</h2>
-Your confirmation email is on its way. Please click the link in the 
-email to complete the registration.
+<h2 class="text-center">Thanks for registering!</h2>
+<p class="text-center">Your confirmation email is on its way. Please click the link in the 
+email to complete the registration.</p>
 </div>
 </body>
 </html>

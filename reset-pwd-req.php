@@ -1,15 +1,27 @@
 <?PHP
-require_once("./include/membersite_config.php");
 include 'header1.php';
+require_once("./include/membersite_config.php");
+
 include 'tab_style.php'; ?>
-<div id="header">
-  <ul>
-    <li><a href="home.php">Home</a></li>
-    <li><a href="register.php">Register</a></li>	
-	<li><a href="change-pwd.php">Change Password</a></li>
-    <li><a href="login.php">Login</a></li>
-  </ul>
+<div class="row">
+
+  <div class="col-md-6 col-md-offset-3 text-center">
+    <div class="text-center">
+      <ul class="nav nav-tabs nav-justified">
+        <li><a href="home.php">Home</a></li>
+        <li><a href="register.php">Register</a></li>
+        <li><a href="login.php">Login</a></li>
+        <li><a href="change-pwd.php">Change Password</a></li>
+      </ul>
+    </div>
+
+  </div>
+
 </div>
+
+
+
+
 <br/><br/><br/><br/>
 <?php
 $emailsent = false;
@@ -33,45 +45,65 @@ if(isset($_POST['submitted']))
 </head>
 <body>
 <!-- Form Code Start -->
-<div id='fg_membersite'>
-<form id='resetreq' action='<?php echo $fgmembersite->GetSelfScript(); ?>' method='post' accept-charset='UTF-8'>
-<fieldset >
-<legend>Reset Password</legend>
 
-<input type='hidden' name='submitted' id='submitted' value='1'/>
+<div class="row">
 
-<div class='short_explanation'>* required fields</div>
+  <div class="col-md-6 col-md-offset-3 text-center">
 
-<div><span class='error'><?php echo $fgmembersite->GetErrorMessage(); ?></span></div>
-<div class='container'>
-    <label for='username' >Your Email*:</label><br/>
-    <input type='text' name='email' id='email' value='<?php echo $fgmembersite->SafeDisplay('email') ?>' maxlength="50" /><br/>
-    <span id='resetreq_email_errorloc' class='error'></span>
+      <div>
+        <form class="form" id='resetreq' action='<?php echo $fgmembersite->GetSelfScript(); ?>' method='post' accept-charset='UTF-8'>
+        <fieldset >
+          <div class="col-md-12">
+          <legend>Reset Password</legend>
+
+            <input type='hidden' name='submitted' id='submitted' value='1'/>
+
+            <div class='short_explanation' style="color:red;">* required fields</div><br/>
+
+            <div><span class='error'><?php echo $fgmembersite->GetErrorMessage(); ?></span></div>
+            <div class='form-group'>
+                <label for='username' >Your Email*:</label><br/>
+                <input class="form-control" type='text' name='email' id='email' value='<?php echo $fgmembersite->SafeDisplay('email') ?>' maxlength="50" /><br/>
+                <span id='resetreq_email_errorloc' class='error'></span>
+            </div>
+            <div class='text-center short_explanation'>A link to reset your password will be sent to the email address</div><br/>
+            <div class='form-group'>
+                <input class="btn btn-danger btn-sm" type='submit' name='Submit' value='Submit' />
+            </div>
+
+          </div>
+
+        
+
+        </fieldset>
+        </form>
+        <!-- client-side Form Validations:
+        Uses the excellent form validation script from JavaScript-coder.com-->
+
+        <script type='text/javascript'>
+        // <![CDATA[
+
+            var frmvalidator  = new Validator("resetreq");
+            frmvalidator.EnableOnPageErrorDisplay();
+            frmvalidator.EnableMsgsTogether();
+
+            frmvalidator.addValidation("email","req","Please provide the email address used to sign-up");
+            frmvalidator.addValidation("email","email","Please provide the email address used to sign-up");
+
+        // ]]>
+        </script>
+
+        </div>
+
+
+  </div>
+
+
 </div>
-<div class='short_explanation'>A link to reset your password will be sent to the email address</div>
-<div class='container'>
-    <input type='submit' name='Submit' value='Submit' />
-</div>
 
-</fieldset>
-</form>
-<!-- client-side Form Validations:
-Uses the excellent form validation script from JavaScript-coder.com-->
 
-<script type='text/javascript'>
-// <![CDATA[
 
-    var frmvalidator  = new Validator("resetreq");
-    frmvalidator.EnableOnPageErrorDisplay();
-    frmvalidator.EnableMsgsTogether();
 
-    frmvalidator.addValidation("email","req","Please provide the email address used to sign-up");
-    frmvalidator.addValidation("email","email","Please provide the email address used to sign-up");
-
-// ]]>
-</script>
-
-</div>
 <!--
 Form Code End (see html-form-guide.com for more info.)
 -->
