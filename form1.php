@@ -86,7 +86,6 @@ Chages made:
 	}
 	if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	{
-		
 		//if(empty($errorMessage))
 		{
 			$count1 = $_REQUEST['count1'];

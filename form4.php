@@ -141,38 +141,38 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 
 <html>
 <body background="bgimage.jpg";background-repeat:no-repeat;background-attachment:scroll;>
-
 <form method="post" action="form4.php" enctype="multipart/form-data">
 <span style="color:red;">* required fields</span>
 <br/><br/><br/>
 25:SOP<br/>
 a)Why would you like to join IIITDM Kancheepuram?<br/>
 (Do not exceed 4000 characters)<span style="color:red;">*</span><br/>
-<textarea style="width: 500px; height: 150px; row="20" column="200" name="25a" ><?php echo $a25;?></textarea><br/><br/>
+<textarea style= "width: 500px; height: 150px;" row="20" column="200" name="25a" maxlength="4000"><?php echo $a25;?></textarea><br/><br/>
 b)Your vision for the growth of the institute...<br/>
 (Do not exceed 4000 characters)<span style="color:red;">*</span><br/>
-<textarea style="width: 500px; height: 150px; row="20" column="200" name="25b"><?php echo $b25;?></textarea><br/><br/>
+<textarea style="width: 500px; height: 150px;" row="20" column="200" name="25b" maxlength="4000"><?php echo $b25;?></textarea><br/><br/>
 
 26:Referee Details<span style="color:red;">*</span><br/>
 Enter the names and addresses including email,fax, telephone no. of 3 referees.<br/>
 (at least one of them should be familiar with your recent work);<br/>Referees will be contacted by the institute directly, if required.<br/><br/>
 Referee1:<br/>
-Name: <input type="text" name="ref1_name" value="<?php echo $ref1_name ?>" /><br/>
+Name: <input type="text" name="ref1_name" value="<?php echo $ref1_name ?>" pattern='[a-zA-Z0-9]{0,100}' title="Only alphanumeric input is valid upto 100 characters"/><br/>
 Address: <input type="text" name="ref1_add" value="<?php echo $ref1_add ?>"/><br/>
-Email: <input type="text" name="ref1_email" value="<?php echo $ref1_email?>" /><br/>
-Phone: <input type="text" name="ref1_phone" value="<?php echo $ref1_phone ?>" /><br/>
+Email: <input type="email" name="ref1_email" value="<?php echo $ref1_email?>" /><br/>
+Phone: <input type="number" name="ref1_phone" value="<?php echo $ref1_phone ?>" min="0"/><br/>
 <br/>
 Referee2:<br/>
-Name: <input type="text" name="ref2_name" value="<?php echo $ref2_name  ?>" /><br/>
+Name: <input type="text" name="ref2_name" value="<?php echo $ref2_name  ?>" pattern='[a-zA-Z0-9]{0,100}' title="Only alphanumeric input is valid upto 100 characters"/><br/>
 Address: <input type="text" name="ref2_add" value="<?php echo $ref2_add ?>" /><br/>
-Email: <input type="text" name="ref2_email" value="<?php echo $ref2_email ?>" /><br/>
-Phone: <input type="text" name="ref2_phone" value="<?php echo $ref2_phone ?>" /><br/>
+Email: <input type="email" name="ref2_email" value="<?php echo $ref2_email ?>" /><br/>
+Phone: <input type="number" name="ref2_phone" value="<?php echo $ref2_phone ?>" min="0"/><br/>
 <br/><br/>
 Referee3:<br/>
-Name: <input type="text" name="ref3_name" value="<?php echo $ref3_name ?>" /><br/>
+Name: <input type="text" name="ref3_name" value="<?php echo $ref3_name ?>" pattern='[a-zA-Z0-9]{0,100}' title="Only alphanumeric input is valid upto 100 characters"/><br/>
 Address: <input type="text" name="ref3_add" value="<?php echo $ref3_add ?>" /><br/>
-Email: <input type="text" name="ref3_email" value="<?php echo  $ref3_email?>" /><br/>
-Phone: <input type="text" name="ref3_phone" value="<?php echo $ref3_phone ?>" /><br/>
+Email: <input type="email" name="ref3_email" value="<?php echo  $ref3_email?>" /><br/>
+Phone: <input type="number" name="ref3_phone" value="<?php echo $ref3_phone ?>" min="0"/><br/>
+<!-- <input type='tel' pattern='[\+]\d{2}[\(]\d{2}[\)]\d{4}[\-]\d{4}' title='Phone Number (Format: +99(99)9999-9999)'>-->
 <br/>
 27:<br/>
 Any other information you want to mention:<br/>

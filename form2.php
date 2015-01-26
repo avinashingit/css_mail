@@ -1,3 +1,4 @@
+<?php include 'externalLinks.php';?><!-- this file contains all the external css and js files and plugins if any --> 
 <?php include 'check.php'; ?>
 <?php include 'form2_h.php'; ?>
 <?php
@@ -203,6 +204,39 @@ $natjournalsoverall,$intconf3,$intconfoverall,$natconf3,$natconfoverall,'$public
 
 <html>
 <body>
+
+<script type="text/javascript">
+	function check_file1(){
+                str=document.getElementById('paper1').value.toUpperCase();
+        suffix=".PDF";
+        if(str.indexOf(suffix, str.length - suffix.length) == -1)
+        {
+        alert('File type not allowed,\nAllowed file: *.PDF');
+            document.getElementById('paper1').value='';
+        }
+    }
+
+    	function check_file2(){
+                str=document.getElementById('paper2').value.toUpperCase();
+        suffix=".PDF";
+        if(str.indexOf(suffix, str.length - suffix.length) == -1)
+        {
+        alert('File type not allowed,\nAllowed file: *.PDF');
+            document.getElementById('paper2').value='';
+        }
+    }
+
+    	function check_file3(){
+                str=document.getElementById('paper3').value.toUpperCase();
+        suffix=".PDF";
+        if(str.indexOf(suffix, str.length - suffix.length) == -1)
+        {
+        alert('File type not allowed,\nAllowed file: *.PDF');
+            document.getElementById('paper3').value='';
+        }
+    }
+</script>
+
 <!--<div id="demo"></div>
 <script language="JavaScript" type="text/javascript">
 
@@ -237,13 +271,14 @@ if(GetUrlValue('a')==1)
   
 
 </script>-->
-<br/><br/><span style="color:red;">* required fields</span>
-<br/>	
+<br/>
+<span style="color:red;"class="text-center">* required fields</span>
+<br/><br/>	
 <form method="post" action="form2.php" enctype="multipart/form-data">
 
 <b>15.Number of Research Publications</b><span style="color:red;">*</span><br/><br/>
 
-<table>
+<table class="table table-striped" id="myTable">
 
 <tr>
 <th>Publication Category</th>
@@ -254,46 +289,58 @@ if(GetUrlValue('a')==1)
 <tr>
 <td>International Referred Journals(Published/Accepted only)</td>
 
-<td><input type="text" name="intjournals3" value="<?php echo $intjournals3;?>" size="7"></td>
-<td><input type="text" name="intjournalsoverall" value="<?php echo $intjournalsoverall;?>" size="7"></td>
+<td><input type="number" name="intjournals3" value="<?php echo $intjournals3;?>" size="7" min="1"></td>
+<td><input type="number" name="intjournalsoverall" value="<?php echo $intjournalsoverall;?>" size="7" min="1"></td>
 </tr>
 
 <tr>
 <td>National Referred Journals(Published/Accepted only)</td>
-<td><input type="text" name="natjournals3" value="<?php echo $natjournals3;?>" size="7"></td>
-<td><input type="text" name="natjournalsoverall" value="<?php echo $natjournalsoverall;?>" size="7"></td>
+<td><input type="number" name="natjournals3" value="<?php echo $natjournals3;?>" size="7" min="1"></td>
+<td><input type="number" name="natjournalsoverall" value="<?php echo $natjournalsoverall;?>" size="7" min="1"></td>
 </tr>
 
 <tr>
 <td>Presentation at International Conferences(Atleast one<br/>author should have presented personally)</td>
-<td><input type="text" name="intconf3" value="<?php echo $intconf3;?>" size="7"></td>
-<td><input type="text" name="intconfoverall" value="<?php echo $intconfoverall;?>" size="7"></td>
+<td><input type="number" name="intconf3" value="<?php echo $intconf3;?>" size="7" min="1"></td>
+<td><input type="number" name="intconfoverall" value="<?php echo $intconfoverall;?>" size="7" min="1"></td>
 </tr>
 
 <tr>
 <td>Presentation at National Conferences(Atleast one author<br/>should have presented personally)</td>
-<td><input type="text" name="natconf3" value="<?php echo $natconf3;?>" size="7"></td>
-<td><input type="text" name="natconfoverall" value="<?php echo $natconfoverall;?>" size="7"></td>
+<td><input type="number" name="natconf3" value="<?php echo $natconf3;?>" size="7" min="1"></td>
+<td><input type="number" name="natconfoverall" value="<?php echo $natconfoverall;?>" size="7" min="1"></td>
 </tr>
+
+<!--every input type above is changed to number and attribute min is assigned with 1 -->
 
 </table>
 
+<table class="table table-striped" id="myTable">
+<tr>
+<td><br/>Give the complete list as appendix with name of authors (in sequence as appeared/accepted), title, journal/conference name, year, volume, page number format.<br/></td>
 
-<br/>Give the complete list as appendix with name of authors (in sequence as appeared/accepted), title, journal/conference name, year, volume, page number format.<br/>
-
-<textarea name="publications" rows="12" cols="70">
+<td><textarea name="publications" rows="12" cols="100">	
 <?php echo $publications;?>
-</textarea>
+</textarea></td>
+	<!--12X70-->
+</tr>
+</table>
 
-
-<br/>Upload copies of three best papers in PDF format<br/>
-Paper 1:<input type="file" name="paper1" id="paper1"><?php if(strlen($paper1) > 0) echo "Paper-1 is already submitted; To overwrite, upload again"; ?><br/>
-Paper 2:<input type="file" name="paper2" id="paper2"><?php if(strlen($paper2) > 0) echo "Paper-2 is already submitted; To overwrite, upload again"; ?><br/>
-Paper 3:<input type="file" name="paper3" id="paper3"><?php if(strlen($paper3) > 0) echo "Paper-3 is already submitted; To overwrite, upload again"; ?><br/>
-
-
-<br/><input type="submit" name = "submitted_val" value="Save">
-<input type="submit" name = "submitted_val1" value="Save & Next">
+<table class="table table-striped" id="myTable">
+<tr>
+<td><br/>Upload copies of three best papers in PDF format<br/></td>
+<td>Paper 1:<input type="file" name="paper1" id="paper1" onchange="check_file1()"><?php if(strlen($paper1) > 0) echo "Paper-1 is already submitted; To overwrite, upload again"; ?><br/></td>
+<td>Paper 2:<input type="file" name="paper2" id="paper2" onchange="check_file2()"><?php if(strlen($paper2) > 0) echo "Paper-2 is already submitted; To overwrite, upload again"; ?><br/></td>
+<td>Paper 3:<input type="file" name="paper3" id="paper3" onchange="check_file3()"><?php if(strlen($paper3) > 0) echo "Paper-3 is already submitted; To overwrite, upload again"; ?><br/></td>
+</tr>
+</table>
+<!-- -->
+<!-- -->
+<br/>
+						<div class="text-center">
+							<input type="submit" class="btn btn-sm btn-info" name = "submitted_val" value="Save">
+							<input type="submit" class="btn btn-sm btn-success" name = "submitted_val1" value="Save & Next">
+						</div>
 
 <!--<input type="submit" value="Submit Form"> -->
 
