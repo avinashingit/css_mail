@@ -50,17 +50,18 @@
 
 	function validateDateOfBirth($month,$year,$day)
 	{
-		/*$date=implode("-", $day, $month, $year);
-		$currentDate=new Date("yyyy-mm-dd");
-		echo $currentDate;
-		/*if($dobTimestamp>=$currentTimestamp)
+		$dobTimestamp=mktime(0, 0, 0, $month, $day, $year);
+		// echo $dobTimestamp;
+		$currentTimestamp=time();
+		// echo $currentTimestamp;
+		if($dobTimestamp>=$currentTimestamp)
 		{
 			return false;
 		}
 		else
 		{
 			return true;
-		}*/
+		}
 	}
 
 ?>

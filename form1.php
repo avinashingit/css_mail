@@ -16,6 +16,7 @@ Chages made:
 <?php include 'externalLinks.php';?><!-- this file contains all the external css and js files and plugins if any --> 
 <?php include 'check.php'; ?>
 <?php include 'form1_h.php'; ?>
+<?php include_once('functions.php'); ?>
 <?php
 	error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_STRICT);
 	require_once("./include/membersite_config.php");
@@ -105,7 +106,7 @@ Chages made:
 			$post=$_REQUEST['post'];
 			$area=$_REQUEST['area'];
 			$research=$_REQUEST['research'];
-			$name=$_REQUEST['name'];
+			$name=strtoupper($_REQUEST['name']);
 			$dob=$_REQUEST['dob'];
 			$nationality=$_REQUEST['nationality'];
 			$gender=$_REQUEST['gender'];
