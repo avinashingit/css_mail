@@ -2,15 +2,13 @@
 
 /***************************************
 
-Author: K.Avinash
+Author: Ramesh krishnan, Sowmya jain, Anand, Avinash Kadimisetty
 File: Form-1.php
-Last edited: 22-01-2015
+Edited dates : 22/01/2015, 01/02/2015
 Chages made:
 
 1. Indented the code 
-
-
-
+2. Input validations
 
 
 *****************************************/

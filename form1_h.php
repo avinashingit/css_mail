@@ -1,7 +1,7 @@
 <?php include 'header1.php'; ?>
 <?php include 'tab_style.php'; ?>
 <div class="row">
-	<div class="col-md-10 col-md-offset-1 text-center">
+	<div class="col-md-12 text-center">
   <ul class="nav nav-tabs nav-justified">
     <li class="active"><a href="form1.php">Personal Details</a></li>
     <li><a href="form2.php">Publication Details</a></li>
