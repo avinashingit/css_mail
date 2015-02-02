@@ -60,7 +60,7 @@ if(isset($_POST['submitted']))
 
         <div class="col-md-8 col-md-offset-2 text-center">
             <div class="form-group">
-              <label for='username' >UserName <span style="color:red;">*</span></label><br/>
+              <label for='username' >Username <span style="color:red;">*</span></label><br/>
               <input class="form-control" type='text' name='username' id='username' value='<?php echo $fgmembersite->SafeDisplay('username') ?>' maxlength="50" requuired/><br/>
               <span id='login_username_errorloc' class='error'></span>
             </div>
