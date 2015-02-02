@@ -1,3 +1,4 @@
+<?php include 'externalLinks.php';?>
 <?php include 'form3_h.php'; ?>
 <?php include 'check.php'; ?>
 <?php
@@ -254,8 +255,11 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 
 <html>
 <body>
+		<div class="row">
 
-<form method="post" action="form3.php" enctype="multipart/form-data">
+			<div class="col-md-12">
+
+				<form method="post" class="form" action="form3.php" enctype="multipart/form-data">
 
 <script type="text/javascript">
 var count1 = 1;
@@ -283,14 +287,14 @@ var cell7=row.insertCell(6);
 var cell8=row.insertCell(7);
 
 cell1.innerHTML=count1+".";
-cell2.innerHTML="<input type=\"text\" name=\"emp_name"+count1+"\"></td>";
-cell3.innerHTML="<input type=\"text\" name=\"desig"+count1+"\"></td>";
+cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"emp_name"+count1+"\"></td>";
+cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"desig"+count1+"\"></td>";
 cell4.innerHTML="<input type=\"date\" name=\"doj"+count1+"\" size=\"8\"></td>";
 cell5.innerHTML="<input type=\"date\" name=\"dol"+count1+"\" size=\"8\"></td>";
-cell6.innerHTML="<input type=\"text\" name=\"duration"+count1+"\" size=\"5\"></td>";
-cell7.innerHTML="<input type=\"number\" name=\"pay"+count1+"\"></td>";
+cell6.innerHTML="<input class=\"form-control\" type=\"text\" name=\"duration"+count1+"\" size=\"5\"></td>";
+cell7.innerHTML="<input class=\"form-control\" type=\"number\" name=\"pay"+count1+"\"></td>";
 
-cell8.innerHTML="<input type=\"hidden\" name=\"count1\" value=\""+count1+"\"></td>";
+cell8.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count1\" value=\""+count1+"\"></td>";
 }
 
 
@@ -321,24 +325,26 @@ var scale = <?php echo json_encode($scale); ?>;
 
 cell1.innerHTML=sno[i-1];
 
-cell2.innerHTML="<input type=\"text\" name=\"emp_name"+i+"\" value = \""+name[i-1]+"\" ></td>";
-cell3.innerHTML="<input type=\"text\" name=\"desig"+i+"\" value = \""+designation[i-1]+"\"></td>";
+cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"emp_name"+i+"\" value = \""+name[i-1]+"\" ></td>";
+cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"desig"+i+"\" value = \""+designation[i-1]+"\"></td>";
 cell4.innerHTML="<input type=\"date\" name=\"doj"+i+"\" size=\"8\" value = \""+doj[i-1]+"\"></td>";
 cell5.innerHTML="<input type=\"date\" name=\"dol"+i+"\" size=\"8\" value = \""+dol[i-1]+"\"></td>";
-cell6.innerHTML="<input type=\"text\" name=\"duration"+i+"\" size=\"5\" value = \""+duration[i-1]+"\"></td>";
-cell7.innerHTML="<input type=\"number\" name=\"pay"+i+"\" value = \""+scale[i-1]+"\"></td>";
+cell6.innerHTML="<input class=\"form-control\" type=\"text\" name=\"duration"+i+"\" size=\"5\" value = \""+duration[i-1]+"\"></td>";
+cell7.innerHTML="<input class=\"form-control\" type=\"number\" name=\"pay"+i+"\" value = \""+scale[i-1]+"\"></td>";
 
-cell8.innerHTML="<input type=\"hidden\" name=\"count1\" value=\""+i+"\"></td>";
+cell8.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count1\" value=\""+i+"\"></td>";
 }
 }
 
 }
 </script>
-<span style="color:red;">* required fields</span><br/><br/><br/>
-16. Work Experience (in reverse chronological order)
-<br/>
-<br/>
-
+<br/><span style="color:red;">* required fields</span><br/><br/>
+<table class="table table-striped" id="myTable">
+<tr>
+<td>16. Work Experience (in reverse chronological order)</td>
+</tr>
+<tr>
+<td>
 <table id="Table16" border="1">
 
 <tr>
@@ -364,55 +370,48 @@ cell8.innerHTML="<input type=\"hidden\" name=\"count1\" value=\""+i+"\"></td>";
 </tr>-->
 
 </table> 
-
 <?php 	create_row1(); ?>
+<br/>
+									<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row16(0)";?>">Insert new row</button>
+</td></tr>
 
 
-<br/>
-<button type="button" onclick="<?php echo "add_row16(0)";?>">Insert new row</button>
+<tr>
+<td>17. Number of Student Projects Guided (mention only viva completed/graduated student details):<span style="color:red;">*</span>
+</td>
+</tr>
 
-
-<br/>
-<br/>
-17. Number of Student Projects Guided (mention only viva completed/graduated student details):<span style="color:red;">*</span>
-<br/>
-<br/>
-
+<tr>
+<td>
 <table>
 
 <tr>
 <td>Undergraduate (B.Tech/B.E/B.Sc)
-<input type="number" name="undergrad" value="<?php echo $undergrad;?>" size="2"></td>
+<input  class="form-control" type="number" name="undergrad" value="<?php echo $undergrad;?>" size="2"></td>
 
 
 <td>Reseach Degree (MS/M.Phil)
-<input type="number" name="research_deg" value="<?php echo $research_deg;?>" size="2"></td>
+<input  class="form-control" type="number" name="research_deg" value="<?php echo $research_deg;?>" size="2"></td>
 
 </tr>
-
-
 <tr>
 <td>Postgraduate (M.Tech/M.E/M.Sc)
-<input type="number" name="postgrad" value="<?php echo $postgrad;?>" size="2"></td>
+<input  class="form-control" type="number" name="postgrad" value="<?php echo $postgrad;?>" size="2"></td>
 
 
 <td>Doctoral(Ph.D)
-<input type="number" name="doctoral" value="<?php echo $doctoral;?>" size="2"></td>
+<input  class="form-control" type="number" name="doctoral" value="<?php echo $doctoral;?>" size="2"></td>
 
 </tr>
 </table>
+</td>
+</tr>
+</table>
+<table class="table table-striped" id="myTable">
 
-<br/>
-<br/>
-18. Sponsored Projects / Industrial Consultancy handled
-<br/>
-<br/>
+<tr><td>18. Sponsored Projects / Industrial Consultancy handled</td></tr>
 
-
-<br/>
-(a) As Principal Investigator
-<br/>
-<br/>
+<tr><td>(a) As Principal Investigator</td></tr>
 
 <head>
 <script type="text/javascript">
@@ -437,11 +436,11 @@ var cell5=row.insertCell(4);
 var cell6=row.insertCell(5);
 
 cell1.innerHTML=count2+".";
-cell2.innerHTML="<input type=\"text\" name=\"title2"+count2+"\"></td>";
-cell3.innerHTML="<input type=\"text\" name=\"spon2"+count2+"\"></td>";
-cell4.innerHTML="<input type=\"number\" name=\"val2"+count2+"\"></td>";
-cell5.innerHTML="<input type=\"text\" name=\"status2"+count2+"\"></td>";
-cell6.innerHTML="<input type=\"hidden\" name=\"count2\" value=\""+count2+"\"></td>";
+cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"title2"+count2+"\"></td>";
+cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"spon2"+count2+"\"></td>";
+cell4.innerHTML="<input class=\"form-control\" type=\"number\" name=\"val2"+count2+"\"></td>";
+cell5.innerHTML="<input class=\"form-control\" type=\"text\" name=\"status2"+count2+"\"></td>";
+cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count2\" value=\""+count2+"\"></td>";
 }
 
 else
@@ -468,11 +467,11 @@ var status= <?php echo json_encode($status); ?>;
 
 
 cell1.innerHTML=sno[i-1];
-cell2.innerHTML="<input type=\"text\" name=\"title2"+i+"\" value = \""+title[i-1]+"\"></td>";
-cell3.innerHTML="<input type=\"text\" name=\"spon2"+i+"\" value = \""+agency[i-1]+"\"></td>";
-cell4.innerHTML="<input type=\"number\" name=\"val2"+i+"\" value = \""+value[i-1]+"\"></td>";
-cell5.innerHTML="<input type=\"text\" name=\"status2"+i+"\" value = \""+status[i-1]+"\"></td>";
-cell6.innerHTML="<input type=\"hidden\" name=\"count2\" value=\""+i+"\"></td>";
+cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"title2"+i+"\" value = \""+title[i-1]+"\"></td>";
+cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"spon2"+i+"\" value = \""+agency[i-1]+"\"></td>";
+cell4.innerHTML="<input class=\"form-control\" type=\"number\" name=\"val2"+i+"\" value = \""+value[i-1]+"\"></td>";
+cell5.innerHTML="<input class=\"form-control\" type=\"text\" name=\"status2"+i+"\" value = \""+status[i-1]+"\"></td>";
+cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count2\" value=\""+i+"\"></td>";
 
 }
 }
@@ -480,7 +479,8 @@ cell6.innerHTML="<input type=\"hidden\" name=\"count2\" value=\""+i+"\"></td>";
 }
 </script>
 </head>
-
+<tr>
+<td>
 <table id="Table18a">
 
 <tr>
@@ -506,13 +506,10 @@ cell6.innerHTML="<input type=\"hidden\" name=\"count2\" value=\""+i+"\"></td>";
 <?php create_row2(); ?>
 
 <br/>
-<button type="button" onclick="<?php echo "add_row18a(0)";?>">Insert new row</button>
-
-<br/>
-<br/>
-(b) As Co Investigator
-<br/>
-<br/>
+									<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row16(0)";?>">Insert new row</button></td></tr>
+<tr>
+<td>(b) As Co Investigator</td>
+</tr>
 
 
 <head>
@@ -539,11 +536,11 @@ var cell5=row.insertCell(4);
 var cell6=row.insertCell(5);
 
 cell1.innerHTML=count3+".";
-cell2.innerHTML="<input type=\"text\" name=\"title3"+count3+"\"></td>";
-cell3.innerHTML="<input type=\"text\" name=\"spon3"+count3+"\"></td>";
-cell4.innerHTML="<input type=\"number\" name=\"val3"+count3+"\"></td>";
-cell5.innerHTML="<input type=\"text\" name=\"status3"+count3+"\"></td>";
-cell6.innerHTML="<input type=\"hidden\" name=\"count3\" value=\""+count3+"\"></td>";
+cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"title3"+count3+"\"></td>";
+cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"spon3"+count3+"\"></td>";
+cell4.innerHTML="<input class=\"form-control\" type=\"number\" name=\"val3"+count3+"\"></td>";
+cell5.innerHTML="<input class=\"form-control\" type=\"text\" name=\"status3"+count3+"\"></td>";
+cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count3\" value=\""+count3+"\"></td>";
 }
 
 
@@ -571,11 +568,11 @@ var status= <?php echo json_encode($status1); ?>;
 
 
 cell1.innerHTML=sno[i-1];
-cell2.innerHTML="<input type=\"text\" name=\"title3"+i+"\" value = \""+title[i-1]+"\"></td>";
-cell3.innerHTML="<input type=\"text\" name=\"spon3"+i+"\" value = \""+agency[i-1]+"\"></td>";
-cell4.innerHTML="<input type=\"number\" name=\"val3"+i+"\" value = \""+value[i-1]+"\"></td>";
-cell5.innerHTML="<input type=\"text\" name=\"status3"+i+"\" value = \""+status[i-1]+"\"></td>";
-cell6.innerHTML="<input type=\"hidden\" name=\"count3\" value=\""+i+"\"></td>";
+cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"title3"+i+"\" value = \""+title[i-1]+"\"></td>";
+cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"spon3"+i+"\" value = \""+agency[i-1]+"\"></td>";
+cell4.innerHTML="<input class=\"form-control\" type=\"number\" name=\"val3"+i+"\" value = \""+value[i-1]+"\"></td>";
+cell5.innerHTML="<input class=\"form-control\" type=\"text\" name=\"status3"+i+"\" value = \""+status[i-1]+"\"></td>";
+cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count3\" value=\""+i+"\"></td>";
 
 }
 }
@@ -584,7 +581,8 @@ cell6.innerHTML="<input type=\"hidden\" name=\"count3\" value=\""+i+"\"></td>";
 </script>
 </head>
 
-
+<tr>
+<td>
 <table id="Table18b">
 
 <tr>
@@ -613,88 +611,78 @@ cell6.innerHTML="<input type=\"hidden\" name=\"count3\" value=\""+i+"\"></td>";
 <?php create_row3(); ?>
 
 <br/>
-<button type="button" onclick="<?php echo "add_row18b(0)";?>">Insert new row</button>
+									<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row16(0)";?>">Insert new row</button>
+</td></tr>
+</table>
+<table class="table table-striped" id="myTable">
+<tr><td>19. Courses Handled</td></tr>
 
-<br/>
-<br/>
-19. Courses Handled
-<br/>
-<br/>
 
-Undergraduate Level
-<br/>
-<textarea rows="15" cols="100" name="courses_undergrad">
+<tr><td>Undergraduate Level</td>
+<td><textarea class="form-control" rows="15" cols="100" name="courses_undergrad">
 <?php echo $courses_undergrad ;?>
-</textarea>
+</textarea></td>
+</tr>
 
-<br/>
-<br/>
-Postgraduate Level
-<br/>
-<textarea rows="15" cols="100" name="courses_postgrad">
+<tr><td>Postgraduate Level</td>
+<td>
+<textarea class="form-control" rows="15" cols="100" name="courses_postgrad">
 <?php echo $courses_postgrad;?>
-</textarea>
+</textarea></td>
+</tr>
 
 
-<br/>
-<br/>
-20. Short courses / Workshops /Seminars organized
-<br/>
-<br/>
+<tr><td>20. Short courses / Workshops /Seminars organized</td>
 
-<textarea rows="5" cols="50" name="wrkshps">
+<td>
+<textarea class="form-control" rows="5" cols="50" name="wrkshps">
 <?php echo $wrkshps;?>
-</textarea>
+</textarea></td>
+</tr>
 
+<tr><td>21. Details of Patents (if any)</td>
 
-<br/>
-<br/>
-21. Details of Patents (if any)
-<br/>
-<br/>
-
-<textarea rows="5" cols="50" name="patents">
+<td>
+<textarea class="form-control" rows="5" cols="50" name="patents">
 <?php echo $patents;?>
-</textarea>
+</textarea></td>
+</tr>
 
-
-<br/>
-<br/>
-22. Administrative Experience (if any)
-<br/>
-<br/>
-
-<textarea rows="5" cols="50" name="experience">
+<tr>
+<td>22. Administrative Experience (if any)</td>
+<td>
+<textarea class="form-control" rows="5" cols="50" name="experience">
 <?php echo $experience;?>
-</textarea>
+</textarea></td>
+</tr>
 
+<tr><td>23. Membership of Professional Bodies (Give only Life Memberships, if any) </td>
 
-<br/>
-<br/>
-23. Membership of Professional Bodies (Give only Life Memberships, if any) 
-<br/>
-<br/>
-
-<textarea rows="5" cols="50" name="memberships">
+<td>
+<textarea class="form-control" rows="5" cols="50" name="memberships">
 <?php echo $memberships;?>
-</textarea>
+</textarea></td>
+</tr>
 
-<br/>
-<br/>
-24. Honors and Awards
-<br/>
-<br/>
+<tr>
+<td>24. Honors and Awards</td>
 
-<textarea rows="5" cols="50" name="awards">
+<td>
+<textarea class="form-control" rows="5" cols="50" name="awards">
 <?php echo $awards;?>
 </textarea>
-
-<br/><input type="submit" name = "submitted_val" value="Save">
-<input type="submit" name = "submitted_val1" value="Save & Next">
-
+</td>
+</tr>
+</table>
+						<div class="text-center">
+							<input type="submit" class="btn btn-sm btn-info" name = "submitted_val" value="Save">
+							<input type="submit" class="btn btn-sm btn-success" name = "submitted_val1" value="Save & Next">
+						</div>
 
 </form>
-</br>
+</div>
+</div>
+</body>
 </html>
 <?php include 'footer.php'; ?>
 

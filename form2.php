@@ -204,7 +204,11 @@ $natjournalsoverall,$intconf3,$intconfoverall,$natconf3,$natconfoverall,'$public
 
 <html>
 <body>
+		<div class="row">
 
+			<div class="col-md-12">
+
+				<form method="post" class="form" action="form2.php" enctype="multipart/form-data">			
 <script type="text/javascript">
 	function check_file1(){
                 str=document.getElementById('paper1').value.toUpperCase();
@@ -274,7 +278,7 @@ if(GetUrlValue('a')==1)
 <br/>
 <span style="color:red;"class="text-center">* required fields</span>
 <br/><br/>	
-<form method="post" action="form2.php" enctype="multipart/form-data">
+
 
 <b>15.Number of Research Publications</b><span style="color:red;">*</span><br/><br/>
 
@@ -282,33 +286,33 @@ if(GetUrlValue('a')==1)
 
 <tr>
 <th>Publication Category</th>
-<th>Last 3 Years</th>
-<th>Overall</th>
+<th class="text-center">Last 3 Years</th>
+<th class="text-center">Overall</th>
 </tr>
 
 <tr>
 <td>International Referred Journals(Published/Accepted only)</td>
 
-<td><input type="number" name="intjournals3" value="<?php echo $intjournals3;?>" size="7" min="1"></td>
-<td><input type="number" name="intjournalsoverall" value="<?php echo $intjournalsoverall;?>" size="7" min="1"></td>
+<td><input class="form-control" type="number" name="intjournals3" value="<?php echo $intjournals3;?>" size="7" min="1"></td>
+<td><input class="form-control" type="number" name="intjournalsoverall" value="<?php echo $intjournalsoverall;?>" size="7" min="1"></td>
 </tr>
 
 <tr>
 <td>National Referred Journals(Published/Accepted only)</td>
-<td><input type="number" name="natjournals3" value="<?php echo $natjournals3;?>" size="7" min="1"></td>
-<td><input type="number" name="natjournalsoverall" value="<?php echo $natjournalsoverall;?>" size="7" min="1"></td>
+<td><input class="form-control" type="number" name="natjournals3" value="<?php echo $natjournals3;?>" size="7" min="1"></td>
+<td><input class="form-control" type="number" name="natjournalsoverall" value="<?php echo $natjournalsoverall;?>" size="7" min="1"></td>
 </tr>
 
 <tr>
 <td>Presentation at International Conferences(Atleast one<br/>author should have presented personally)</td>
-<td><input type="number" name="intconf3" value="<?php echo $intconf3;?>" size="7" min="1"></td>
-<td><input type="number" name="intconfoverall" value="<?php echo $intconfoverall;?>" size="7" min="1"></td>
+<td><input class="form-control" type="number" name="intconf3" value="<?php echo $intconf3;?>" size="7" min="1"></td>
+<td><input class="form-control" type="number" name="intconfoverall" value="<?php echo $intconfoverall;?>" size="7" min="1"></td>
 </tr>
 
 <tr>
 <td>Presentation at National Conferences(Atleast one author<br/>should have presented personally)</td>
-<td><input type="number" name="natconf3" value="<?php echo $natconf3;?>" size="7" min="1"></td>
-<td><input type="number" name="natconfoverall" value="<?php echo $natconfoverall;?>" size="7" min="1"></td>
+<td><input class="form-control" type="number" name="natconf3" value="<?php echo $natconf3;?>" size="7" min="1"></td>
+<td><input class="form-control" type="number" name="natconfoverall" value="<?php echo $natconfoverall;?>" size="7" min="1"></td>
 </tr>
 
 <!--every input type above is changed to number and attribute min is assigned with 1 -->
@@ -319,7 +323,7 @@ if(GetUrlValue('a')==1)
 <tr>
 <td><br/>Give the complete list as appendix with name of authors (in sequence as appeared/accepted), title, journal/conference name, year, volume, page number format.<br/></td>
 
-<td><textarea name="publications" rows="12" cols="100">	
+<td><textarea class="form-control" name="publications" rows="12" cols="160">	
 <?php echo $publications;?>
 </textarea></td>
 	<!--12X70-->
@@ -344,7 +348,9 @@ if(GetUrlValue('a')==1)
 
 <!--<input type="submit" value="Submit Form"> -->
 
-
 </form>
+</div>
+</div>
+</body>
 </html>
 <?php include 'footer.php'; ?>

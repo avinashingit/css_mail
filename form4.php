@@ -142,7 +142,12 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 
 <html>
 <body background="bgimage.jpg";background-repeat:no-repeat;background-attachment:scroll;>
-<form method="post" action="form4.php" enctype="multipart/form-data">
+		<div class="row">
+
+			<div class="col-md-12">
+
+				<form method="post" class="form" action="form4.php" enctype="multipart/form-data">
+<br/>
 <span style="color:red;">* required fields</span>
 <br/><br/>
 <table class="table table-striped" id="myTable">
@@ -151,12 +156,12 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 <tr>
 <td>a)Why would you like to join IIITDM Kancheepuram?<br/>
 (Do not exceed 4000 characters)<span style="color:red;">*</span><br/></td>
-<td><textarea style= "width: 500px; height: 150px;" row="20" column="200" name="25a" maxlength="4000"><?php echo $a25;?></textarea><br/><br/></td>
+<td><textarea class="form-control" style= "width: 500px; height: 150px;" row="20" column="200" name="25a" maxlength="4000"><?php echo $a25;?></textarea></td>
 </tr>
 <tr>
 <td>b)Your vision for the growth of the institute...<br/>
 (Do not exceed 4000 characters)<span style="color:red;">*</span><br/></td>
-<td><textarea style="width: 500px; height: 150px;" row="20" column="200" name="25b" maxlength="4000"><?php echo $b25;?></textarea><br/><br/></td>
+<td><textarea class="form-control" style="width: 500px; height: 150px;" row="20" column="200" name="25b" maxlength="4000"><?php echo $b25;?></textarea></td>
 </tr>
 </table>
 
@@ -167,24 +172,24 @@ Enter the names and addresses including email,fax, telephone no. of 3 referees.<
 (at least one of them should be familiar with your recent work);<br/>Referees will be contacted by the institute directly, if required.<br/><br/>
 <tr>
 <td><h4>Referee1:<br/></h4></td>
-<tr><td>Name:</td><td><input type="text" name="ref1_name" value="<?php echo $ref1_name ?>" pattern='[a-zA-Z0-9]{0,100}' title="Only alphanumeric input is valid upto 100 characters"/><br/></td></tr>
-<tr><td>Address:</td> <td><input type="text" name="ref1_add" value="<?php echo $ref1_add ?>"/><br/></td></tr>
-<tr><td>Email:</td> <td><input type="email" name="ref1_email" value="<?php echo $ref1_email?>" /><br/></td></tr>
-<tr><td>Phone:</td> <td><input type="number" name="ref1_phone" value="<?php echo $ref1_phone ?>" min="0"/><br/></td></tr>
+<tr><td>Name:</td><td><input class="form-control" type="text" name="ref1_name" value="<?php echo $ref1_name ?>" pattern='[a-zA-Z0-9]{0,100}' title="Only alphanumeric input is valid upto 100 characters" style="width:50%;"/></td></tr>
+<tr><td>Address:</td> <td><input class="form-control" type="text" name="ref1_add" value="<?php echo $ref1_add ?>" style="width:50%;"/></td></tr>
+<tr><td>Email:</td> <td><input class="form-control" type="email" name="ref1_email" value="<?php echo $ref1_email?>" style="width:50%;"/></td></tr>
+<tr><td>Phone:</td> <td><input class="form-control" type="number" name="ref1_phone" value="<?php echo $ref1_phone ?>" min="0" style="width:50%;"/></td></tr>
 </tr>
 <tr>
 <td><h4>Referee2:</h4></td>
-<tr><td>Name:</td><td><input type="text" name="ref2_name" value="<?php echo $ref2_name ?>" pattern='[a-zA-Z0-9]{0,100}' title="Only alphanumeric input is valid upto 100 characters"/><br/></td></tr>
-<tr><td>Address:</td> <td><input type="text" name="ref2_add" value="<?php echo $ref2_add ?>"/><br/></td></tr>
-<tr><td>Email:</td> <td><input type="email" name="ref2_email" value="<?php echo $ref2_email?>" /><br/></td></tr>
-<tr><td>Phone:</td> <td><input type="number" name="ref2_phone" value="<?php echo $ref2_phone ?>" min="0"/><br/></td></tr>
+<tr><td>Name:</td><td><input class="form-control" type="text" name="ref2_name" value="<?php echo $ref2_name ?>" pattern='[a-zA-Z0-9]{0,100}' title="Only alphanumeric input is valid upto 100 characters" style="width:50%;"/></td></tr>
+<tr><td>Address:</td> <td><input class="form-control" type="text" name="ref2_add" value="<?php echo $ref2_add ?>" style="width:50%;"/></td></tr>
+<tr><td>Email:</td> <td><input class="form-control" type="email" name="ref2_email" value="<?php echo $ref2_email?>" style="width:50%;"/></td></tr>
+<tr><td>Phone:</td> <td><input class="form-control" type="number" name="ref2_phone" value="<?php echo $ref2_phone ?>" min="0" style="width:50%;"/></td></tr>
 </tr>
 <tr>
 <td><h4>Referee3:</h4>
-<tr><td>Name:</td><td><input type="text" name="ref3_name" value="<?php echo $ref3_name ?>" pattern='[a-zA-Z0-9]{0,100}' title="Only alphanumeric input is valid upto 100 characters"/><br/></td></tr>
-<tr><td>Address:</td> <td><input type="text" name="ref3_add" value="<?php echo $ref3_add ?>"/><br/></td></tr>
-<tr><td>Email:</td> <td><input type="email" name="ref3_email" value="<?php echo $ref3_email?>" /><br/></td></tr>
-<tr><td>Phone:</td> <td><input type="number" name="ref3_phone" value="<?php echo $ref3_phone ?>" min="0"/><br/></td></tr>
+<tr><td>Name:</td><td><input class="form-control" type="text" name="ref3_name" value="<?php echo $ref3_name ?>" pattern='[a-zA-Z0-9]{0,100}' title="Only alphanumeric input is valid upto 100 characters" style="width:50%;"/></td></tr>
+<tr><td>Address:</td> <td><input class="form-control" type="text" name="ref3_add" value="<?php echo $ref3_add ?>" style="width:50%;"/></td></tr>
+<tr><td>Email:</td> <td><input class="form-control" type="email" name="ref3_email" value="<?php echo $ref3_email?>" style="width:50%;"/></td></tr>
+<tr><td>Phone:</td> <td><input class="form-control" type="number" name="ref3_phone" value="<?php echo $ref3_phone ?>" min="0" style="width:50%;"/></td></tr>
 </tr>
 </table>
 <!--
@@ -208,15 +213,16 @@ Phone: <input type="number" name="ref3_phone" value="<?php echo $ref3_phone ?>" 
 <td>
 27:
 Any other information you want to mention:</td>
-<td><textarea style="width: 900px; height: 150px; " row="20" column="200" name="27"><?php echo $othr;?></textarea><br/></td></tr></table>
+<td><textarea class="form-control" style="width: 900px; height: 150px; " row="20" column="200" name="27"><?php echo $othr;?></textarea></td></tr></table>
 						<div class="text-center">
 							<input type="submit" class="btn btn-sm btn-info" name = "submitted_val" value="Save">
 							<input type="submit" class="btn btn-sm btn-success" name = "submitted_val1" value="Save & Next">
 						</div>
 </form>
 </h3>
+</div>
+</div>
 </body>
-</br>
 </html>
 <?php include 'footer.php'; ?>
 

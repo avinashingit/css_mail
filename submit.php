@@ -40,17 +40,23 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING); ?>
 	$a=0;
 ?>
 
-<br/><br/>
+		<div class="row">
 
-<h2>Undertaking</h2>
+			<div class="col-md-12">
+
+<div class="text-center"><h2>Undertaking</h2></div>
+
 <p>I hereby declare that I have carefully read and understood the instructions and all information furnished in this form as well as the attached sheets are true and correct to the best of my knowledge and belief. I fully understand that if it is found at a later date that any information given in the application is incorrect/false or if I do not satisfy the eligibility criteria, my candidature/appointment is liable to be cancelled/terminated.</p>
 
 <p>Click on submit to complete submission of application. Please note that once submitted, the form cannot be changed. Hence check all the saved details before submitting.</p>
+<br/>
 <div class="text-center">
 <form action='submit_conf.php'>
-<input type="submit" style="height:35px; width:200px; position: center;" class="btn btn-sm btn-info"  value="Submit"></input>
+<input type="submit" style="height:35px; width:200px; position: center;" class="btn btn-sm btn-success"  value="Submit"></input>
 </form>
 </div>
+</div>
+</div>
 <!--<p><a href='submit_conf.php'>Submit Forms</a></p>-->
-</br></br></br></br></br>	
+</br></br>
 <?php include 'footer.php'; ?>
