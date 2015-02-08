@@ -62,7 +62,15 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	$natconf3 = $_REQUEST['natconf3'];
 	$natconfoverall = $_REQUEST['natconfoverall'];
 
+	$i=1;
+	while($_REQUEST['publications'.$i]!='')
+	{
+		$temp_publications=$temp_publications.$_REQUEST['publications'.$i].',';
+		$i++;
+	}
+	$_REQUEST['publications']=$temp_publications;	
 	$publications = $_REQUEST['publications'];
+	//var_dump($_REQUEST['publications']);
 
 	mysqli_query($con,"delete from form2 where userid=$usrid1");
 
@@ -86,8 +94,8 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	{
 		// Start upload script
 		$allowedExts = array("pdf");
-		$extension = end(explode(".", $_FILES["paper1"]["name"]));
-	
+		$extension = explode(".", $_FILES["paper1"]["name"]);
+		$extension = end($extension);
 		if ((($_FILES["paper1"]["type"] == "application/pdf") && ($_FILES["paper1"]["size"] < 10000000)) && (in_array($extension, $allowedExts)))
 		{
   			if ($_FILES["paper1"]["error"] > 0)
@@ -118,8 +126,9 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	{
 		// Start upload script
 		$allowedExts = array("pdf");
-		$extension = end(explode(".", $_FILES["paper2"]["name"]));
-	
+		$extension = explode(".", $_FILES["paper2"]["name"]);
+		$extension = end($extension);
+
 		if ((($_FILES["paper2"]["type"] == "application/pdf") && ($_FILES["paper2"]["size"] < 10000000)) && (in_array($extension, $allowedExts)))
 		{
   			if ($_FILES["paper2"]["error"] > 0)
@@ -149,8 +158,9 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	{
 		// Start upload script
 		$allowedExts = array("pdf");
-		$extension = end(explode(".", $_FILES["paper3"]["name"]));
-	
+		$extension = explode(".", $_FILES["paper3"]["name"]);
+		$extension = end($extension);
+			
 		if ((($_FILES["paper3"]["type"] == "application/pdf") && ($_FILES["paper3"]["size"] < 10000000)) && (in_array($extension, $allowedExts)))
 		{
   			if ($_FILES["paper3"]["error"] > 0)
@@ -176,6 +186,8 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 		// End upload script
 
 	}
+
+	//echo $_REQUEST['publications'];
 
 // Upload end		
 	
@@ -240,6 +252,44 @@ $natjournalsoverall,$intconf3,$intconfoverall,$natconf3,$natconfoverall,'$public
         }
     }
 </script>
+<script type="text/javascript">
+	var count_cell=1;
+		<?php $publication_split= explode(',',$publications);?>	
+	function add_row() {
+		var table=document.getElementById("table_pub");
+		var row=table.insertRow();
+		var cell1=row.insertCell(0);
+		var cell2=row.insertCell(1);
+		var cell3=row.insertCell(2);
+		var cell4=row.insertCell(3);
+		var cell5=row.insertCell(4);
+		var cell6=row.insertCell(5);
+		var cell7=row.insertCell(6);		
+		cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"publications"+count_cell+"\" pattern=\'[a-zA-Z0-9]{0,100}\' title=\"Only alphanumeric input is valid upto 100 characters\"></td>";count_cell++;
+		cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"publications"+count_cell+"\" pattern=\'[a-zA-Z0-9]{0,100}\' title=\"Only alphanumeric input is valid upto 100 characters\"></td>";count_cell++;
+		cell4.innerHTML="<input class=\"form-control\" type=\"text\" name=\"publications"+count_cell+"\" pattern=\'[a-zA-Z0-9]{0,100}\' title=\"Only alphanumeric input is valid upto 100 characters\"></td>";count_cell++;
+		cell5.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\" min=\"1960\" max=\"2015\"></td>";count_cell++;
+		cell6.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\" min=\"1\"></td>";count_cell++;
+		cell7.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\"  min=\"1\"></td>";
+		cell1.innerHTML=(count_cell/6)+". ";		
+		count_cell++;						
+		}
+</script>
+<!--
+<?php
+/*function cal_publications()
+{
+			echo "hi";
+		$count=$_REQUEST['count_cell'];
+		for($i =1 ; $i<$count ; $i++)
+			{
+		 		$temp_pub=$temp_pub.$_REQUEST['publications'.$i].',';
+			}
+			$temp_pub=$temp_pub.$_REQUEST['publications6'];
+		$_REQUEST['publications']=$temp_pub;
+}*/
+?> -->
+
 
 <!--<div id="demo"></div>
 <script language="JavaScript" type="text/javascript">
@@ -322,10 +372,52 @@ if(GetUrlValue('a')==1)
 <table class="table table-striped" id="myTable">
 <tr>
 <td><br/>Give the complete list as appendix with name of authors (in sequence as appeared/accepted), title, journal/conference name, year, volume, page number format.<br/></td>
-
-<td><textarea class="form-control" name="publications" rows="12" cols="160">	
+</tr>
+<tr>
+<td>
+<!--
+<textarea class="form-control" name="publications" rows="12" cols="160">	
 <?php echo $publications;?>
-</textarea></td>
+</textarea>
+-->
+<table id="table_pub" class="text-center">
+<tr class="text-center">
+<td>S No:</td>
+<td>Name of Author:</td>
+<td>Title:</td>
+<td>Journal/conference name:</td>
+<td>Year:</td>
+<td>volume:</td>
+<td>Page number:</td>
+</tr>
+
+<!--
+<tr>
+<td>
+<input class="form-control" type="text" name="publications1" value="<?php echo $publication_split[0];?>">
+</td>
+<td>
+<input class="form-control" type="text" name="publications2" value="<?php echo $publication_split[1];?>">
+</td>
+<td>
+<input class="form-control" type="text" name="publications3" value="<?php echo $publication_split[2];?>">
+</td>
+<td>
+<input class="form-control" type="text" name="publications4" value="<?php echo $publication_split[3];?>">
+</td>
+<td>
+<input class="form-control" type="text" name="publications5" value="<?php echo $publication_split[4];?>">
+</td>
+<td>
+<input class="form-control" type="text" name="publications6" value="<?php echo $publication_split[5];?>">
+</td>
+<?php $_POST['publications'] = $row['publications1'] + ',' + $row['publications2'] + ',' + $row['publications3'] + ',' + $row['publications4'] + ',' + $row['publications5'] + ',' + $row['publications6'];?>
+</tr>-->
+</table>
+<?php echo "<script> add_row(); </script>";?>
+<br/>
+<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row()";?>">Insert new row</button>
+</td>
 	<!--12X70-->
 </tr>
 </table>

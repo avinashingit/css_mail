@@ -18,7 +18,7 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING); ?>
 -->
 	<!--<li><a href="../pdf_final.php">Submit</a></li>-->
 <div class="row">
-	<div class="col-md-10 col-md-offset-1 text-center">
+  <div class="col-md-12 text-center">
   <ul class="nav nav-tabs nav-justified">
     <li><a href="form1.php">Personal Details</a></li>
     <li><a href="form2.php">Publication Details</a></li>
