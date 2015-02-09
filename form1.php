@@ -4,12 +4,12 @@
 
 Author: Ramesh krishnan, Sowmya jain, Anand, Avinash Kadimisetty
 File: Form-1.php
-Edited dates : 22/01/2015, 01/02/2015
+Edited dates : 22/01/2015, 01/02/2015, 02/02/2015
 Chages made:
 
 1. Indented the code 
 2. Input validations
-
+3. 
 
 *****************************************/
 -->
@@ -71,7 +71,7 @@ Chages made:
 		$yoe[] = $row['yoe'];
 		$yol[] = $row['yol'];
 		$percent[] = $row['percent'];
-		$degreetype[] = $row['degreetype']; // Added april 9 2014
+		$degreetype[] = $row['degreetype'];
 	}
 	
 	function create_row1()
@@ -85,170 +85,275 @@ Chages made:
 	}
 	if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	{
-		//if(empty($errorMessage))
+		$count1 = $_REQUEST['count1'];
+		mysqli_query($con,"delete from form1 where userid=$usrid1");
+		mysqli_query($con,"delete from educational_qualifications where userid=$usrid1");
+		$degree=array();
+		$insti=array();
+		$yoe=array();
+		$yol=array();
+		$percent=array();
+		$degreetype=array();
+		for($i = 1 ; $i<=$count1 ; $i++)
 		{
-			$count1 = $_REQUEST['count1'];
-			mysqli_query($con,"delete from form1 where userid=$usrid1");
-			mysqli_query($con,"delete from educational_qualifications where userid=$usrid1");
-			for($i = 1 ; $i<=$count1 ; $i++)
-			{
-				$degree = $_REQUEST['degree'.$i];
-				$insti = $_REQUEST['insti'.$i];
-				$yoe = $_REQUEST['yoe'.$i];
-				$yol = $_REQUEST['yol'.$i];
-				$percent = $_REQUEST['percent'.$i];
-				$degreetype = $_REQUEST['degreetype'.$i]; // Added april 9 2014
+			$degree[$i-1] = $_REQUEST['degree'.$i];
+			$insti[$i-1] = $_REQUEST['insti'.$i];
+			$yoe[$i-1] = $_REQUEST['yoe'.$i];
+			$yol[$i-1] = $_REQUEST['yol'.$i];
+			$percent[$i-1] = $_REQUEST['percent'.$i];
+			$degreetype[$i-1] = $_REQUEST['degreetype'.$i];
+		}
 
-				$query = "INSERT INTO educational_qualifications (userid,sno,degree,insti,yoe,yol,percent,degreetype) VALUES ($usrid1,$i,'$degree','$insti','$yoe','$yol',$percent,$degreetype)"; // Added april 9 2014
+		$eduError=0;
+		for($i=1;$i<=$count1;$i++)
+		{
+			if($yoe[$i-1]>$yol[$i-1])
+			{
+				$eduError=1;
+			}
+			else if($percent[$i-1]<0 || $percent[$i-1]>100)
+			{
+				$eduError=1;
+			}
+		}
+
+		if($eduError==0)
+		{
+			for($i=1;$i<=$count1;$i++)
+			{
+				$x=$i-1;
+				$query = "INSERT INTO educational_qualifications (userid,sno,degree,insti,yoe,yol,percent,degreetype) VALUES ($usrid1,$i,'$degree[$x]','$insti[$x]','$yoe[$x]','$yol[$x]',$percent[$x],$degreetype[$x])"; // Added april 9 2014
 				mysqli_query($con,$query);
 			}
-			$error=0;
-			$post=$_REQUEST['post'];
-			$area=$_REQUEST['area'];
-			$research=$_REQUEST['research'];
-			$name=strtoupper($_REQUEST['name']);
-			$dob=$_REQUEST['dob'];
-			$nationality=$_REQUEST['nationality'];
-			$gender=$_REQUEST['gender'];
-			$caste=$_REQUEST['caste'];
-			$fname=$_REQUEST['fname'];
-			$posn=$_REQUEST['posn'];
-			$addr=$_REQUEST['addr'];
-			$perm_addr=$_REQUEST['addr_p'];
-			$addr_mobile=$_REQUEST['addr_mob'];
-			$addr_email=$_REQUEST['addr_email'];
-			$perm_mobile=$_REQUEST['mob_p'];
-			$perm_email=$_REQUEST['email_p'];
-			$adno = $_REQUEST['adno'];
 
-			if(strlen($dob)!=0)
+			$retrieve = "SELECT * FROM educational_qualifications where userid = $usrid1";
+			$result = mysqli_query($con,$retrieve);
+			$num_rows1 = mysqli_num_rows($result);
+			while($row = mysqli_fetch_array($result))
 			{
-				$dobSplitArray=explode("-", $dob);
+				$sno[] = $row['sno'];
+				$degree[] = $row['degree'];
+				$insti[] = $row['insti'];
+				$yoe[] = $row['yoe'];
+				$yol[] = $row['yol'];
+				$percent[] = $row['percent'];
+				$degreetype[] = $row['degreetype'];
+			}
+			echo '<script>add_row16('.$num_rows1.');</script>';
+		}
+		else
+		{
+			echo '<p class="text-center">Invalid data in educational qualifications</p>';
+		}
 
-				if(!validateDate($dobSplitArray[1],$dobSplitArray[0],$dobSplitArray[2]))
-				{
-					$error=1;
-					echo "<p class='text-center'>Check your date of birth</p>";
-				}
+		
+		$error=0;
+		$post=$_REQUEST['post'];
+		$area=$_REQUEST['area'];
+		$research=$_REQUEST['research'];
+		$name=strtoupper($_REQUEST['name']);
+		$dob=$_REQUEST['dob'];
+		$nationality=$_REQUEST['nationality'];
+		$gender=$_REQUEST['gender'];
+		$caste=$_REQUEST['caste'];
+		$fname=$_REQUEST['fname'];
+		$posn=$_REQUEST['posn'];
+		$addr=$_REQUEST['addr'];
+		$perm_addr=$_REQUEST['addr_p'];
+		$addr_mobile=$_REQUEST['addr_mob'];
+		$addr_email=$_REQUEST['addr_email'];
+		$perm_mobile=$_REQUEST['mob_p'];
+		$perm_email=$_REQUEST['email_p'];
+		$adno = $_REQUEST['adno'];
+
+		if(strlen($addr_email)!=0)
+		{
+			if(!validateEmail($addr_email))
+			{
+				$error=1;
+				echo "Enter proper email address";
+			}
+		}
+
+		if(strlen($perm_email)!=0)
+		{
+			if(!validateEmail($addr_email))
+			{
+				$error=1;
+				echo "<p class='text-center'>Enter proper email address</p>";
+			}
+		}
+
+		if(strlen($dob)!=0)
+		{
+			$dobSplitArray=explode("-", $dob);
+
+			if(!validateDate($dobSplitArray[1],$dobSplitArray[0],$dobSplitArray[2]))
+			{
+				$error=1;
+				echo "<p class='text-center'>Check your date of birth</p>";
+			}
+			else
+			{
 				if(!validateDateOfBirth($dobSplitArray[1],$dobSplitArray[0],$dobSplitArray[2]))
 				{
 					$error=1;
 					echo "<p class='text-center'>Date of birth is ahead of now</p>";
 				}
 			}
-				
-			
-			if(strlen($addr_mobile)!=0)
-				{
-					if(!is_int((int)$addr_mobile))
-					{
-						$error=1;
-						echo "<p class=\"text-center\">Please enter a valid mobile number</p>";
-					}
-				}
-			if(strlen($perm_mobile)!=0)
-			{
-				if(!is_int((int)$perm_mobile))
-				{
-					$error=1;
-					echo "<p class=\"text-center\">Please enter a valid mobile number</p>";
-				}
-			}
-			
-			if(strlen($addr_email)!=0)
-			{
-				if(!filter_var($addr_email, FILTER_VALIDATE_EMAIL)) {
-			        $error=1;
-			        echo "<p class='text-center'>Please enter a valid email</p>";
-			    }
-			}
-			if(strlen($perm_email)!=0)
-			{
-				if(!filter_var($perm_email, FILTER_VALIDATE_EMAIL)) {
-			        $error=1;
-			        echo "<p class=\"text-center\">Please enter a valid email</p>";
-			    }
-			}
-
-
-			// Upload photo
-			if(strlen($_FILES["photo"]["name"]) != 0)
-			{
-				// Start upload script
-				$allowedExts = array("gif", "jpeg", "jpg", "png");
-				$extension = end(explode(".", $_FILES["photo"]["name"]));
-
-				if (((($_FILES["photo"]["type"] == "image/png") || ($_FILES["photo"]["type"] == "image/jpg") || ($_FILES["photo"]["type"] == "image/jpeg") || ($_FILES["photo"]["type"] == "image/gif")) && ($_FILES["photo"]["size"] < 10000000)) && (in_array($extension, $allowedExts)))
-				{
-					if ($_FILES["photo"]["error"] > 0)
-					{
-						echo "Error uploading photo. Please try again";
-					}
-					else
-					{
-						$photo = "upload/" . $usrid1 ."_photo." .$extension;
-						if(move_uploaded_file($_FILES["photo"]["tmp_name"], $photo))
-							echo "<br><span style='color:green;'>Photo Saved</span><br>";
-						else 
-							echo "<br>File not saved<br>";
-					}
-				}
-				else
-				{
-					$error=1;
-					echo "<p class=\"text-center\">Invalid photo</p>";
-				}
-
-			// End upload script
-			}
-			// Upload category certi
-			if(strlen($_FILES["cat_certi"]["name"]) != 0)
-			{
-				// Start upload script
-				$allowedExts = array("pdf");
-				$extension = end(explode(".", $_FILES["cat_certi"]["name"]));
-
-				if ((($_FILES["cat_certi"]["type"] == "application/pdf") && ($_FILES["cat_certi"]["size"] < 10000000)) && (in_array($extension, 				$allowedExts)))
-				{
-					if ($_FILES["cat_certi"]["error"] > 0)
-					{
-						echo "Error uploading category certificate. Please try again";
-					}
-					else
-					{
-						$categorycerti = "upload/" . $usrid1 ."_categorycerti." .$extension;
-						if(move_uploaded_file($_FILES["cat_certi"]["tmp_name"], $categorycerti))
-							echo "<br><span style='color:green;'>Category certificate saved</span><br>";
-						else 
-							echo "<br>File not saved<br>";
-					}
-				}
-				else
-				{
-					$error=1;
-					echo "<p class=\"text-center\">Invalid certificate file extension</p>";
-				}
-
-			// End upload script
-			}
-
-			if($error==0)
-			{
-				$sql1="INSERT INTO form1(userid,post,area,researcharea,name,dob,nationality,gender,category,address,addr_mobile,addr_email,
-					permaddress,perm_mobile,perm_email,fathername,designation,submitted,photo,categorycerti,adno) VALUES  ('$usrid1','$post','$area','$research','$name','$dob','$nationality','$gender','$caste','$addr','$addr_mobile','$addr_email',
-					'$perm_addr','$perm_mobile','$perm_email','$fname','$posn',0,'$photo','$categorycerti','$adno')";
-					mysqli_query($con,$sql1);
-					echo "<br/><span style='color:green;'>Personal Details SAVED</span>";
-					if(isset($_POST[submitted_val1]))
-					{
-						//echo '<script language="JavaScript" type="text/javascript">alert("Personal Detail SAVED")</script>';
-						echo '<meta http-equiv="REFRESH" content="0;url=form2.php?a=1">';
-					}
-			}
 			
 		}
+			
+		if(strlen($addr_mobile)!=0)
+		{
+			if(!is_int(intval($addr_mobile)))
+			{
+				$error=1;
+				echo "<p class=\"text-center\">Please enter a valid mobile number</p>";
+				echo gettype($addr_mobile);
+			}
+		}
+
+		if(strlen($perm_mobile)!=0)
+		{
+			if(!is_int((int)$perm_mobile))
+			{
+				$error=1;
+				echo "<p class=\"text-center\">Please enter a valid mobile number</p>";
+			}
+		}
+		
+		if(strlen($addr_email)!=0)
+		{
+			if(!filter_var($addr_email, FILTER_VALIDATE_EMAIL)) {
+		        $error=1;
+		        echo "<p class='text-center'>Please enter a valid email</p>";
+		    }
+		}
+
+		if(strlen($perm_email)!=0)
+		{
+			if(!filter_var($perm_email, FILTER_VALIDATE_EMAIL)) {
+		        $error=1;
+		        echo "<p class=\"text-center\">Please enter a valid email</p>";
+		    }
+		}
+
+		// Upload photo
+		if(strlen($_FILES["photo"]["name"]) != 0)
+		{
+			// Start upload script
+			$allowedExts = array("gif", "jpeg", "jpg", "png");
+			$extension = end(explode(".", $_FILES["photo"]["name"]));
+
+			if (((($_FILES["photo"]["type"] == "image/png") || ($_FILES["photo"]["type"] == "image/jpg") || ($_FILES["photo"]["type"] == "image/jpeg") || ($_FILES["photo"]["type"] == "image/gif")) && ($_FILES["photo"]["size"] < 10000000)) && (in_array($extension, $allowedExts)))
+			{
+				if ($_FILES["photo"]["error"] > 0)
+				{
+					echo "Error uploading photo. Please try again";
+				}
+				else
+				{
+					$photo = "upload/" . $usrid1 ."_photo." .$extension;
+					if(move_uploaded_file($_FILES["photo"]["tmp_name"], $photo))
+						echo "<br><span style='color:green;'>Photo Saved</span><br>";
+					else 
+						echo "<br>File not saved<br>";
+				}
+			}
+			else
+			{
+				$error=1;
+				echo "<p class=\"text-center\">Invalid photo</p>";
+			}
+
+		// End upload script
+		}
+		// Upload category certi
+		if(strlen($_FILES["cat_certi"]["name"]) != 0)
+		{
+			// Start upload script
+			$allowedExts = array("pdf");
+			$extension = end(explode(".", $_FILES["cat_certi"]["name"]));
+
+			if ((($_FILES["cat_certi"]["type"] == "application/pdf") && ($_FILES["cat_certi"]["size"] < 10000000)) && (in_array($extension, 				$allowedExts)))
+			{
+				if ($_FILES["cat_certi"]["error"] > 0)
+				{
+					echo "Error uploading category certificate. Please try again";
+				}
+				else
+				{
+					$categorycerti = "upload/" . $usrid1 ."_categorycerti." .$extension;
+					if(move_uploaded_file($_FILES["cat_certi"]["tmp_name"], $categorycerti))
+						echo "<br><span style='color:green;'>Category certificate saved</span><br>";
+					else 
+						echo "<br>File not saved<br>";
+				}
+			}
+			else
+			{
+				$error=1;
+				echo "<p class=\"text-center\">Invalid certificate file extension</p>";
+			}
+
+		// End upload script
+		}
+
+		if($error==0)
+		{
+			$sql1="INSERT INTO form1(userid,post,area,researcharea,name,dob,nationality,gender,category,address,addr_mobile,addr_email,
+				permaddress,perm_mobile,perm_email,fathername,designation,submitted,photo,categorycerti,adno) VALUES  ('$usrid1','$post','$area','$research','$name','$dob','$nationality','$gender','$caste','$addr','$addr_mobile','$addr_email',
+				'$perm_addr','$perm_mobile','$perm_email','$fname','$posn',0,'$photo','$categorycerti','$adno')";
+				mysqli_query($con,$sql1);
+				echo "<br/><span class='text-center' style='color:green;'>Personal Details SAVED</span>";
+				if(isset($_POST[submitted_val1]))
+				{
+					echo '<meta http-equiv="REFRESH" content="0;url=form2.php?a=1">';
+				}
+		}
+			
 	}
 ?>
+
+<script>
+
+function checkPersonName(e)
+{
+	var k = e.which || e.keyCode || e.charCode;
+        var ok = k >= 65 && k <= 90 || // A-Z
+            k >= 97 && k <= 122 || k==8 || k==37 || k==39 || k==9 || k==32 || k==46;
+
+        if (!ok){
+            e.preventDefault();
+        }
+}
+
+function checkDateValue(e)
+{
+	var k = e.which || e.keyCode || e.charCode;
+        var ok = (k>=48&&k<=57) || k==45 || k==8 || k==37 || k==39 || k==9 || k==32 || k==46;
+
+        if (!ok){
+            e.preventDefault();
+        }
+}
+
+function checkMobileValue(e)
+{
+	var k = e.which || e.keyCode || e.charCode;
+    var ok = (k>=48 && k<=57) || k==43 || k==45 || k==8 || k==37 || k==39 || k==9 || k==32 || k==46;
+
+    if (!ok){
+        e.preventDefault();
+    }
+}
+
+
+
+
+</script>
+
 <html>
 	<body>
 		<div class="row">
@@ -260,7 +365,6 @@ Chages made:
 						var count1 = 1;
 						function add_row16(cnt)
 						{
-							//alert("hello");
 							if(cnt == 0  || cnt == -1)  //add row
 							{
 								count1 = count1+1;
@@ -326,9 +430,9 @@ Chages made:
 									cell1.innerHTML=sno[i-1];
 									cell3.innerHTML="<td><input type=\"text\" name=\"degree"+i+"\" value = \""+degree[i-1]+"\"  size=\"8\"></td>";
 									cell4.innerHTML="<td><input type=\"text\" name=\"insti"+i+"\" value = \""+insti[i-1]+"\" size=\"8\"></td>";
-									cell5.innerHTML="<td><input type=\"text\" name=\"yoe"+i+"\"  value = \""+yoe[i-1]+"\" size=\"8\"></td>";
-									cell6.innerHTML="<td><input type=\"text\" name=\"yol"+i+"\"  value = \""+yol[i-1]+"\" size=\"8\"></td>";
-									cell7.innerHTML="<td><input type=\"text\" name=\"percent"+i+"\"  value = \""+percent[i-1]+"\"  size=\"8\"><input type=\"hidden\" name=\"count1\" value=\""+i+"\"></td>";
+									cell5.innerHTML="<td><input type=\"number\" name=\"yoe"+i+"\"  value = \""+yoe[i-1]+"\" size=\"8\"></td>";
+									cell6.innerHTML="<td><input type=\"number\" name=\"yol"+i+"\"  value = \""+yol[i-1]+"\" size=\"8\"></td>";
+									cell7.innerHTML="<td><input type=\"number\" name=\"percent"+i+"\"  value = \""+percent[i-1]+"\"  size=\"8\"><input type=\"hidden\" name=\"count1\" value=\""+i+"\"></td>";
 								}
 							}
 						}
@@ -340,7 +444,7 @@ Chages made:
 						<table class="table table-striped" id="myTable">
 							<tr>
 								<td>
-									1. Post Applied <span style="color:red;">*</span>
+									<b>1. Post Applied</b> <span style="color:red;">*</span>
 								</td>
 								<td>
 									<div class="col-md-6">
@@ -355,7 +459,7 @@ Chages made:
 							</tr>
 							<tr>
 								<td>
-									2. Broad Area <span style="color:red;">*</span>
+									<b>2. Broad Area</b> <span style="color:red;">*</span>
 								</td>
 								<td>
 									<div class="col-md-6">
@@ -371,7 +475,7 @@ Chages made:
 							</tr>
 							<tr>
 								<td>
-									3. Current Areas Of Research <span style="color:red;">*</span>
+									<b>3. Current Areas Of Research</b> <span style="color:red;">*</span>
 								</td>
 								<td>
 									<div class="col-md-6">
@@ -381,7 +485,7 @@ Chages made:
 							</tr>
 							<tr>	
 								<td>
-									4. Advertisement No</td><td><div class="col-md-6">
+									<b>4. Advertisement No</b></td><td><div class="col-md-6">
 									<?php
 										$retrieve = "SELECT * FROM advt_number";
 											$result = mysqli_query($con,$retrieve);
@@ -397,29 +501,29 @@ Chages made:
 							</tr>
 							<tr>
 								<td>
-									5. Name in Full (Capital Letters) <span style="color:red;">*</span></br>(as in SSLC Certificate)
+									<b>5. Name in Full</b> (Capital Letters) <span style="color:red;">*</span></br>(as in SSLC Certificate)
 								</td>
 								<td>
 									<div class="col-md-6">
-										<input class="form-control" type="text" name="name" value="<?php echo $name; ?>" >
+										<input class="form-control" type="text" name="name" value="<?php echo $name; ?>" onkeypress="checkPersonName(event);" >
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									6. Date Of Birth <span style="color:red;">*</span></br>
+									<b>6. Date Of Birth</b> <span style="color:red;">*</span></br>
 								</td>
 								<td>
 									<div class="col-md-6">
 										YYYY-MM-DD</br>
-										<input class="date-picker form-control" data-date-format="YYYY-MM-DD" type="text" name="dob" value="<?php echo $dob; ?>" ></br>
+										<input class="date-picker form-control" data-date-format="YYYY-MM-DD" type="text" name="dob" value="<?php echo $dob; ?>" onkeypress="checkDateValue(event);"></br>
 										<!--Age:<input type="text" size="1" name="yrs" value="<?php echo $_REQUEST['yrs']; ?>" >Y<input type="text" size="1" name="months" value="<?php echo $_REQUEST['months']; ?>" >M -->
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									7. Photograph <span style="color:red;">*</span>
+									<b>7. Photograph</b> <span style="color:red;">*</span>
 								</td>
 								<td>
 									<div class="col-md-6">
@@ -430,17 +534,17 @@ Chages made:
 							<tr>
 								</td>
 								<td>
-									8. Nationality <span style="color:red;">*</span>
+									<b>8. Nationality</b> <span style="color:red;">*</span>
 								</td>
 								<td>
 									<div class="col-md-6">
-										<input class="form-control" type="text" name="nationality" value="<?php echo $nationality; ?>" >
+										<input class="form-control" type="text" name="nationality" value="<?php echo $nationality; ?>" onkeypress="checkPersonName(event);">
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									9. Gender <span style="color:red;">*</span>
+									<b>9. Gender</b> <span style="color:red;">*</span>
 								</td>
 								<td>
 									<div class="col-md-6">
@@ -456,7 +560,7 @@ Chages made:
 							</tr>
 							<tr>
 								<td>
-									10. Category <span style="color:red;">*</span></br>(Attach Certificate(s))
+									<b>10. Category</b> <span style="color:red;">*</span></br>(Attach Certificate(s))
 								</td>
 								<td>
 									<div class="col-md-6">
@@ -490,19 +594,19 @@ Chages made:
 							</tr>
 							<tr>
 								<td>
-									11. Address for Communication <span style="color:red;">*</span>
+									<b>11. Address for Communication</b> <span style="color:red;">*</span>
 								</td>
 								<td>
-									<div class="col-md-12">
+									<div class="col-md-6">
 										<textarea class="form-control" rows="5" cols="100" name="addr" type="text"><?php echo $addr; ?></textarea></br>
-										<table class="table" border="1">
+										<table class="table">
 											<tr>
-												<td>Mobile</td><td>
-												<div class="col-md-6"><input class="form-control" type="number" min="0" name="addr_mob" value="<?php echo $addr_mobile; ?>"></div>
+												<td><b>Mobile</b></td><td>
+												<div class="col-md-12"><input class="form-control" type="number" min="0" name="addr_mob" value="<?php echo $addr_mobile; ?>" onkeypress="checkMobileValue(event);"></div>
 												</td>
 											</tr>
 											<tr>
-												<td>Email</td><td><div class="col-md-6"><input class="form-control" type="email" name="addr_email" value="<?php echo $addr_email; ?>"></div>
+												<td><b>Email</b></td><td><div class="col-md-12"><input class="form-control" type="email" name="addr_email" value="<?php echo $addr_email; ?>"></div>
 												</td>
 											</tr>
 										</table>
@@ -510,14 +614,14 @@ Chages made:
 							</td></tr>
 							<tr>
 								<td>
-									12. Permanent Home Address <span style="color:red;">*</span>
+									<b>12. Permanent Home Address</b> <span style="color:red;">*</span>
 								</td>
 								<td>
-									<div class="col-md-12">
+									<div class="col-md-6">
 									<textarea class="form-control" rows="5" cols="100" name="addr_p" type="text"><?php echo $perm_addr; ?></textarea></br>
-									<table class="table" border="1">
+									<table class="table">
 										<tr>
-											<td>Mobile</td><td><div class="col-md-6"><input class="form-control" type="number" name="mob_p" value="<?php echo $perm_mobile; ?>"></div>
+											<td><b>Mobile</b></td><td><div class="col-md-12"><input class="form-control" type="number" name="mob_p" value="<?php echo $perm_mobile; ?>" onkeypress="checkMobileValue(event);"></div>
 											</td>
 										</tr>
 									</table>
@@ -526,17 +630,17 @@ Chages made:
 							</tr>
 							<tr>
 								<td>
-									13. Name of Father/Husband <span style="color:red;">*</span>
+									<b>13. Name of Father/Husband</b> <span style="color:red;">*</span>
 								</td>
 								<td>
 									<div class="col-md-6">
-										<input class="form-control" type="text" size="50" name="fname" value="<?php echo $fname; ?>">
+										<input class="form-control" type="text" size="50" name="fname" value="<?php echo $fname; ?>"  onkeypress="checkPersonName(event);">
 									</div>
 								</td>
 							</tr>
 							<tr>
 								<td>
-									14. Present Position/Designation & Pay Drawn  <span style="color:red;">*</span>
+									<b>14. Present Position/Designation & Pay Drawn</b>  <span style="color:red;">*</span>
 								</td>
 								<td>
 									<div class="col-md-6">
@@ -546,10 +650,10 @@ Chages made:
 							</tr>
 							<tr>
 								<td>
-									15. Educational Qualifications (Starting from Bachelor's Degree) <span style="color:red;">*</span>
+									<b>15. Educational Qualifications</b><br/> (Starting from Bachelor's Degree) <span style="color:red;">*</span>
 								</td>
 								<td>
-									<table class="table" id="myTable1" border="1" style="width: 5px">	
+									<table class="table" id="myTable1" >	
 										<tr>
 											<th>Sl.No</th>
 											<th>Degree Type</th>

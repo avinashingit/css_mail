@@ -54,7 +54,7 @@ if(isset($_POST['submitted']))
                     <span id='register_email_errorloc' class='error'></span>
                 </div>
                 <div class='form-group'>
-                    <label for='username' >UserName <span style="color:red;">*</span>:</label><br/>
+                    <label for='username' >Username <span style="color:red;">*</span>:</label><br/>
                     <input class="form-control" type='text' name='username' id='username' value='<?php echo $fgmembersite->SafeDisplay('username') ?>' maxlength="50" /><br/>
                     <span id='register_username_errorloc' class='error'></span>
                 </div>

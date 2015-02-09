@@ -1,4 +1,6 @@
-
+<!DOCTYPE html>
+<html>
+	<link rel="shortcut icon" href="Medium.png">
 <!-- CSS FILES -->
 
 	<!-- Bootstrap css -->
