@@ -65,8 +65,13 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	$i=1;
 	while($_REQUEST['publications'.$i]!='')
 	{
-		$temp_publications=$temp_publications.$_REQUEST['publications'.$i].',';
+		$temp=$temp.$_REQUEST['publications'.$i].',';
 		$i++;
+		if(($i-1)%6==0)
+		{
+			$temp_publications=$temp_publications.$temp;
+			$temp='';
+		}
 	}
 	$_REQUEST['publications']=$temp_publications;	
 	$publications = $_REQUEST['publications'];
@@ -373,7 +378,7 @@ if(GetUrlValue('a')==1)
 
 <table class="table table-striped" id="myTable">
 <tr>
-<td><br/>Give the complete list as appendix with name of authors (in sequence as appeared/accepted), title, journal/conference name, year, volume, page number format.<br/></td>
+<td><br/>Give the complete list as appendix with name of authors, title, journal/conference name, year, volume, page number format. (Note: incomplete rows and its followed rows will not be saved)<br/></td>
 </tr>
 <tr>
 <td>
