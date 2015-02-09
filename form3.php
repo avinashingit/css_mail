@@ -357,25 +357,28 @@ function myfunctionva4(countfunc)
 function myfunction5(countfunc)
 {
 	var inpObj= document.getElementById("id6"+countfunc);
-	var errorinname = /[`~!@#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/]|[a-z]|[A-Z]/.test(inpObj.value);
+	var errorinname = /(\d{2}|\d{1})[-](\d{2}|\d{1})/.exec(inpObj.value);
+	var errorinname2 = /[`~!@#$%^&*()_|+=?;:'",<>\{\}\[\]\\\/]|[a-zA-Z]/.test(inpObj.value);
 
-	if (inpObj.value.length != 5)
-	{
-		document.getElementById("idm6"+countfunc).innerHTML = "length should be 5";
-    }
-    else if (inpObj.value[2] != "-")
+	if (errorinname == null || errorinname2==true)
     {
-    	document.getElementById("idm6"+countfunc).innerHTML = "year and months should be seperated by \"-\" ";
-    }
-	else if (errorinname == true)
-    {
-    		document.getElementById("idm6"+countfunc).innerHTML = "* only numbers and \"-\" are allowed.";
+    		document.getElementById("idm6"+countfunc).innerHTML = "* years and months should be seperated by \"-\".";
     }
     else
     {
-    	if (inpObj.value.substr(3,5) > 12)
+    	if (inpObj.value[2]=="-")
     	{
-    	document.getElementById("idm6"+countfunc).innerHTML = "* months can not be more than 12.";
+    		if (inpObj.value.substr(3,5) > 12)
+    		{
+    			document.getElementById("idm6"+countfunc).innerHTML = "* months can not be more than 12.";
+    		}
+    	}
+    	else
+    	{
+    		if (inpObj.value.substr(2,4) > 12)
+    		{
+    			document.getElementById("idm6"+countfunc).innerHTML = "* months can not be more than 12.";
+    		}
     	}
     }
 
@@ -384,25 +387,28 @@ function myfunction5(countfunc)
 function myfunctionva5(countfunc)
 {
 	var inpObj= document.getElementById("idva6"+countfunc);
-	var errorinname = /[`~!@#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/]|[a-z]|[A-Z]/.test(inpObj.value);
+	var errorinname = /(\d{2}|\d{1})[-](\d{2}|\d{1})/.exec(inpObj.value);
+	var errorinname2 = /[`~!@#$%^&*()_|+=?;:'",<>\{\}\[\]\\\/]|[a-zA-Z]/.test(inpObj.value);
 
-	if (inpObj.value.length != 5)
-	{
-		document.getElementById("idmva6"+countfunc).innerHTML = "length should be 5";
-    }
-    else if (inpObj.value[2] != "-")
+	if (errorinname == null || errorinname2==true)
     {
-    	document.getElementById("idmva6"+countfunc).innerHTML = "year and months should be seperated by \"-\" ";
-    }
-	else if (errorinname == true)
-    {
-    		document.getElementById("idmva6"+countfunc).innerHTML = "* only numbers and \"-\" are allowed.";
+    		document.getElementById("idmva6"+countfunc).innerHTML = "* years and months should be seperated by \"-\".";
     }
     else
     {
-    	if (inpObj.value.substr(3,5) > 12)
+    	if (inpObj.value[2]=="-")
     	{
-    	document.getElementById("idmva6"+countfunc).innerHTML = "* months can not be more than 12.";
+    		if (inpObj.value.substr(3,5) > 12)
+    		{
+    			document.getElementById("idmva6"+countfunc).innerHTML = "* months can not be more than 12.";
+    		}
+    	}
+    	else
+    	{
+    		if (inpObj.value.substr(2,4) > 12)
+    		{
+    			document.getElementById("idmva6"+countfunc).innerHTML = "* months can not be more than 12.";
+    		}
     	}
     }
 
