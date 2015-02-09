@@ -1,4 +1,6 @@
+
 <?php include 'header1.php'; ?>
+<?php error_reporting(E_STRICT ^ E_WARNING * E_DEPRECATED ^ E_NOTICE);?>
 <?php include 'tab_style.php'; ?>
 <div id="header">
   <ul>
@@ -43,7 +45,7 @@
 
 
 	// Create connection
-	$con=mysqli_connect("localhost","root","rootpw","faculty_recruitment");
+	$con=mysqli_connect("localhost","root","root","faculty_recruitment");
 	// Check connection
 	if (mysqli_connect_errno($con))
 	{

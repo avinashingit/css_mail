@@ -1,7 +1,8 @@
 
 <?php
+error_reporting(E_NOTICE ^ E_DEPRECATED ^ E_NOTICE ^ E_WARNING);
 require("check.php");
-require("fpdf.php");
+require("fpdf/fpdf.php");
 /*class PDF extends FPDF
 {
 function Header()
@@ -30,7 +31,7 @@ $pdf->AddPage('L');
 $pdf->SetFont('Arial');
 
 
-$con=mysqli_connect("localhost","root","rootpw","faculty_recruitment");
+$con=mysqli_connect("localhost","root","root","faculty_recruitment");
 
 //echo " Hello";
 

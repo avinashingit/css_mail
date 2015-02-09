@@ -70,7 +70,7 @@
 		if(count($emailSplit)==2)
 		{
 			$addressSplit=explode(".",$emailSplit[1]);
-			if(count($addressSplit)==2)
+			if(count($addressSplit)>=2)
 			{
 				$noOFATs=0;
 				for($i=0;$i<strlen($email);$i++)
