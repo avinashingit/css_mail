@@ -248,6 +248,17 @@ function myfunction1(countfunc)
     }
 }
 
+function myfunctionva1(countfunc)
+{
+	var inpObj= document.getElementById("idva2"+countfunc);
+    var errorinname = /[`~!@#$%^&*()_|+\-=?;:'",<>\{\}\[\]\\\/]|[0-9]/.test(inpObj.value);
+    if (errorinname == true)
+    {
+    		document.getElementById("idmva2"+countfunc).innerHTML = "* a-z or A-Z or . are allowed.";
+    	
+    }
+}
+
 function myfunction2(countfunc)
 {
 	var inpObj= document.getElementById("id3"+countfunc);
@@ -255,6 +266,17 @@ function myfunction2(countfunc)
     if (errorinname == true)
     {
     		document.getElementById("idm3"+countfunc).innerHTML = "* a-z or A-Z  or . are allowed.";
+    }
+
+}
+
+function myfunctionva2(countfunc)
+{
+	var inpObj= document.getElementById("idva3"+countfunc);
+    var errorinname = /[`~!@#$%^&*()_|\-+=?;:'",<>\{\}\[\]\\\/]|[0-9]/.test(inpObj.value);
+    if (errorinname == true)
+    {
+    		document.getElementById("idmva3"+countfunc).innerHTML = "* a-z or A-Z  or . are allowed.";
     }
 
 }
@@ -286,6 +308,32 @@ function myfunction5(countfunc)
 
 }
 
+function myfunctionva5(countfunc)
+{
+	var inpObj= document.getElementById("idva6"+countfunc);
+	var errorinname = /[`~!@#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/]|[a-z]|[A-Z]/.test(inpObj.value);
+
+	if (inpObj.value.length != 5)
+	{
+		document.getElementById("idmva6"+countfunc).innerHTML = "length should be 5";
+    }
+    else if (inpObj.value[2] != "-")
+    {
+    	document.getElementById("idmva6"+countfunc).innerHTML = "year and months should be seperated by \"-\" ";
+    }
+	else if (errorinname == true)
+    {
+    		document.getElementById("idmva6"+countfunc).innerHTML = "* only numbers and \"-\" are allowed.";
+    }
+    else
+    {
+    	if (inpObj.value.substr(3,5) > 12)
+    	{
+    	document.getElementById("idmva6"+countfunc).innerHTML = "* months can not be more than 12.";
+    	}
+    }
+
+}
 function myfunction6(countfunc)
 {
 	var inpObj= document.getElementById("id7"+countfunc);
@@ -296,7 +344,15 @@ function myfunction6(countfunc)
     }
 }
 
-
+function myfunctionva6(countfunc)
+{
+	var inpObj= document.getElementById("idva7"+countfunc);
+	var errorinname = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]|[a-z]|[A-Z]/.test(inpObj.value);
+	if (errorinname == true)
+    {
+    		document.getElementById("idmva7"+countfunc).innerHTML = "* only positive numbers are allowed.";
+    }
+}
 </script>
 
 <!--changes I made finish
@@ -330,8 +386,8 @@ var cell8=row.insertCell(7);
 cell1.innerHTML=count1+".";
 cell2.innerHTML="<input id =\"id2"+count1+"\" class=\"form-control\" type=\"text\" name=\"emp_name"+count1+"\" onchange = \"myfunction1("+count1+")\"> <p style=\"color:red\" id=\"idm2"+count1+"\"></p></td>";
 cell3.innerHTML="<input id =\"id3"+count1+"\" class=\"form-control\" type=\"text\" name=\"desig"+count1+"\" onchange = \"myfunction2("+count1+")\" ><p style=\"color:red\" id=\"idm3"+count1+"\"></p></td>";
-cell4.innerHTML="<input  type=\"date\" name=\"doj"+count1+"\" size=\"8\"></td>";
-cell5.innerHTML="<input type=\"date\" name=\"dol"+count1+"\" size=\"8\"></td>";
+cell4.innerHTML="<input  type=\"date\" name=\"doj"+count1+"\" size=\"8\" ></td>";
+cell5.innerHTML="<input type=\"date\" name=\"dol"+count1+"\" size=\"8\" ></td>";
 cell6.innerHTML="<input id =\"id6"+count1+"\" class=\"form-control\" type=\"text\" name=\"duration"+count1+"\" size=\"5\" onchange = \"myfunction5("+count1+")\"><p style=\"color:red\" id=\"idm6"+count1+"\"></p> </td>";
 cell7.innerHTML="<input id =\"id7"+count1+"\" class=\"form-control\" type=\"number\" name=\"pay"+count1+"\" onchange = \"myfunction6("+count1+")\"><p style=\"color:red\" id=\"idm7"+count1+"\"></p></td>";
 
@@ -367,12 +423,12 @@ var cell8=row.insertCell(7);
 
 cell1.innerHTML=sno[i-1];
 
-cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"emp_name"+i+"\" value =\""+name[i-1]+"\" ></td>";
-cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"desig"+i+"\" value = \""+designation[i-1]+"\"></td>";
+cell2.innerHTML="<input id =\"idva2"+i+"\" class=\"form-control\" type=\"text\" name=\"emp_name"+i+"\" value =\""+name[i-1]+"\" onchange = \"myfunctionva1("+i+")\"> <p style=\"color:red\" id=\"idmva2"+i+"\"></p ></td>";
+cell3.innerHTML="<input id =\"idva3"+i+"\" class=\"form-control\" type=\"text\" name=\"desig"+i+"\" value = \""+designation[i-1]+"\" onchange = \"myfunctionva2("+i+")\" ><p style=\"color:red\" id=\"idmva3"+i+"\"></p></td>";
 cell4.innerHTML="<input type=\"date\" name=\"doj"+i+"\" size=\"8\" value = \""+doj[i-1]+"\"></td>";
 cell5.innerHTML="<input type=\"date\" name=\"dol"+i+"\" size=\"8\" value = \""+dol[i-1]+"\"></td>";
-cell6.innerHTML="<input class=\"form-control\" type=\"text\" name=\"duration"+i+"\" size=\"5\" value = \""+duration[i-1]+"\"></td>";
-cell7.innerHTML="<input class=\"form-control\" type=\"number\" name=\"pay"+i+"\" value = \""+scale[i-1]+"\"></td>";
+cell6.innerHTML="<input id =\"idva6"+i+"\" class=\"form-control\" type=\"text\" name=\"duration"+i+"\" size=\"5\" value = \""+duration[i-1]+"\" onchange = \"myfunctionva5("+i+")\"><p style=\"color:red\" id=\"idmva6"+i+"\"></p></td>";
+cell7.innerHTML="<input id =\"idva7"+i+"\" class=\"form-control\" type=\"number\" name=\"pay"+i+"\" value = \""+scale[i-1]+"\" onchange = \"myfunctionva6("+i+")\"><p style=\"color:red\" id=\"idmva7"+i+"\"></p></td>";
 
 cell8.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count1\" value=\""+i+"\"></td>";
 }
@@ -507,6 +563,16 @@ function myfunction11(countfunc)
     }
 }
 
+function myfunctionva11(countfunc)
+{
+	var inpObj= document.getElementById("id18vaa"+countfunc);
+	var errorinname = /[`~!@#$%^&*()_|+\-=?;:'",<>\{\}\[\]\\\/]|[a-z]|[A-Z]/.test(inpObj.value);
+	if (errorinname == true)
+    {
+    		document.getElementById("id18mvaa"+countfunc).innerHTML = "* only positive numbers are allowed.";
+    }
+}
+
 function myfunction12(countfunc)
 {
 	var inpObj= document.getElementById("id18b"+countfunc);
@@ -516,7 +582,15 @@ function myfunction12(countfunc)
     		document.getElementById("id18mb"+countfunc).innerHTML = "you have to use only a-z or A-Z.";
     }
 }
-
+function myfunctionva12(countfunc)
+{
+	var inpObj= document.getElementById("id18vab"+countfunc);
+	var errorinname = /[`~!@#$%^&*()_|+\-=?;:'",<>\{\}\[\]\\\/]|[0-9]/.test(inpObj.value);
+	if (errorinname == true)
+    {
+    		document.getElementById("id18mvab"+countfunc).innerHTML = "you have to use only a-z or A-Z.";
+    }
+}
 </script>
 
 <script type="text/javascript">
@@ -543,7 +617,7 @@ var cell6=row.insertCell(5);
 cell1.innerHTML=count2+".";
 cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"title2"+count2+"\"></td>";
 cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"spon2"+count2+"\"></td>";
-cell4.innerHTML="<input id = \"id18a"+count2+"\" class=\"form-control\" type=\"number\" name=\"val2"+count2+"\" onchange = \"myfunction11("+count2+")\"><p style=\"color:red\" id=\"id18ma"+count2+"\"></p></td>";
+cell4.innerHTML="<input id = \"id18a"+count2+"\" class=\"form-control\" type=\"number\" step = \"any\" name=\"val2"+count2+"\" onchange = \"myfunction11("+count2+")\"><p style=\"color:red\" id=\"id18ma"+count2+"\"></p></td>";
 cell5.innerHTML="<input id = \"id18b"+count2+"\" class=\"form-control\" type=\"text\" name=\"status2"+count2+"\" onchange = \"myfunction12("+count2+")\"><p style=\"color:red\" id=\"id18mb"+count2+"\"></p></td>";
 cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count2\" value=\""+count2+"\"></td>";
 }
@@ -572,8 +646,8 @@ var cell6=row.insertCell(5);
 cell1.innerHTML=sno[i-1];
 cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"title2"+i+"\" value = \""+title[i-1]+"\"></td>";
 cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"spon2"+i+"\" value = \""+agency[i-1]+"\"></td>";
-cell4.innerHTML="<input class=\"form-control\" type=\"number\" name=\"val2"+i+"\" value = \""+value[i-1]+"\"></td>";
-cell5.innerHTML="<input class=\"form-control\" type=\"text\" name=\"status2"+i+"\" value = \""+status[i-1]+"\"></td>";
+cell4.innerHTML="<input id = \"id18vaa"+i+"\" class=\"form-control\" type=\"number\" step = \"any\" name=\"val2"+i+"\" value = \""+value[i-1]+"\" onchange = \"myfunctionva11("+i+")\"><p style=\"color:red\" id=\"id18mvaa"+i+"\"></p></td>";
+cell5.innerHTML="<input id = \"id18vab"+i+"\" class=\"form-control\" type=\"text\" name=\"status2"+i+"\" value = \""+status[i-1]+"\" onchange = \"myfunctionva12("+i+")\"><p style=\"color:red\" id=\"id18mvab"+i+"\"></p></td>";
 cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count2\" value=\""+i+"\"></td>";
 
 }
@@ -632,6 +706,16 @@ function myfunction13(countfunc)
     }
 }
 
+function myfunctionva13(countfunc)
+{
+	var inpObj= document.getElementById("id18vac"+countfunc);
+	var errorinname = /[`~!@#$%^&*()_|+\-=?;:'",<>\{\}\[\]\\\/]|[a-z]|[A-Z]/.test(inpObj.value);
+	if (errorinname == true)
+    {
+    		document.getElementById("id18mvac"+countfunc).innerHTML = "* only positive numbers are allowed.";
+    }
+}
+
 function myfunction14(countfunc)
 {
 	var inpObj= document.getElementById("id18d"+countfunc);
@@ -642,6 +726,15 @@ function myfunction14(countfunc)
     }
 }
 
+function myfunctionva14(countfunc)
+{
+	var inpObj= document.getElementById("id18vad"+countfunc);
+	var errorinname = /[`~!@#$%^&*()_|+\-=?;:'",<>\{\}\[\]\\\/]|[0-9]/.test(inpObj.value);
+	if (errorinname == true)
+    {
+    		document.getElementById("id18mvad"+countfunc).innerHTML = "you have to use only a-z or A-Z.";
+    }
+}
 </script>>
 <script type="text/javascript">
 var count3 = 0;
@@ -668,7 +761,7 @@ var cell6=row.insertCell(5);
 cell1.innerHTML=count3+".";
 cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"title3"+count3+"\"></td>";
 cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"spon3"+count3+"\"></td>";
-cell4.innerHTML="<input id = \"id18c"+count3+"\" class=\"form-control\" type=\"number\" name=\"val3"+count3+"\" onchange = \"myfunction13("+count3+")\"><p style=\"color:red\" id=\"id18mc"+count3+"\"></p></td>";
+cell4.innerHTML="<input id = \"id18c"+count3+"\" class=\"form-control\" type=\"number\" step = \"any\" name=\"val3"+count3+"\" onchange = \"myfunction13("+count3+")\"><p style=\"color:red\" id=\"id18mc"+count3+"\"></p></td>";
 cell5.innerHTML="<input id = \"id18d"+count3+"\" class=\"form-control\" type=\"text\" name=\"status3"+count3+"\" onchange = \"myfunction14("+count3+")\"><p style=\"color:red\" id=\"id18md"+count3+"\"></p></td>";
 cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count3\" value=\""+count3+"\"></td>";
 }
@@ -700,8 +793,8 @@ var cell6=row.insertCell(5);
 cell1.innerHTML=sno[i-1];
 cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"title3"+i+"\" value = \""+title[i-1]+"\"></td>";
 cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"spon3"+i+"\" value = \""+agency[i-1]+"\"></td>";
-cell4.innerHTML="<input class=\"form-control\" type=\"number\" name=\"val3"+i+"\" value = \""+value[i-1]+"\"></td>";
-cell5.innerHTML="<input class=\"form-control\" type=\"text\" name=\"status3"+i+"\" value = \""+status[i-1]+"\"></td>";
+cell4.innerHTML="<input id = \"id18vac"+i+"\" class=\"form-control\" type=\"number\" step = \"any\" name=\"val3"+i+"\" value = \""+value[i-1]+"\" onchange = \"myfunctionva13("+i+")\"><p style=\"color:red\" id=\"id18mvac"+i+"\"></p></td>";
+cell5.innerHTML="<input id = \"id18vad"+i+"\" class=\"form-control\" type=\"text\" name=\"status3"+i+"\" value = \""+status[i-1]+"\" onchange = \"myfunctionva14("+i+")\"><p style=\"color:red\" id=\"id18mvad"+i+"\"></p></td>";
 cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count3\" value=\""+i+"\"></td>";
 
 }
