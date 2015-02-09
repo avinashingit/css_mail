@@ -148,7 +148,7 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 
 
 	$count1 = $_REQUEST['count1'];
-
+	$num_rows1 = $count1;
 if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1])) 
 {
 
@@ -204,6 +204,7 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	}
 
 	$count2 = $_REQUEST['count2'];
+	$num_rows2 = $count2;
 
 
 	for($i = 0,$j=1; $i<$count2 ; $i++)
@@ -225,7 +226,7 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 
 
 	$count3 = $_REQUEST['count3'];
-
+	$num_rows3 = $count3;
 
 	for($i = 0,$j=1 ; $i<$count3 ; $i++)
 	{
@@ -589,7 +590,7 @@ var title= <?php echo json_encode($title); ?>;
 var agency= <?php echo json_encode($agency); ?>;
 var value= <?php echo json_encode($value); ?>;
 var status= <?php echo json_encode($status); ?>;
-for( var i=1;i<=cnt;i++)
+for( var i=1;i<=count2;i++)
 {
 
 var table=document.getElementById("Table18a");
@@ -717,7 +718,7 @@ var status= <?php echo json_encode($status1); ?>;
 
 for( var i=1;i<=count3;i++)
 {
-
+alert(count3);
 var table=document.getElementById("Table18b");
 var row=table.insertRow(i);
 var cell1=row.insertCell(0);
