@@ -281,6 +281,79 @@ function myfunctionva2(countfunc)
 
 }
 
+function myfunction3(countfunc)
+{
+	var inpObj= document.getElementById("id4"+countfunc);
+	var matches = /(\d{4})[-\/](\d{2}|\d{1})[-\/](\d{2}|\d{1})/.exec(inpObj.value);
+    if (matches == null)
+    {
+    	document.getElementById("idm4"+countfunc).innerHTML = "* Enter valid date in given format.";
+    }
+    var year = matches[1];
+	var month = matches[2] - 1;
+	var day = matches[3];
+    var composedDate = new Date(year, month, day);
+    if (!(composedDate.getDate() == day && composedDate.getMonth() == month && composedDate.getFullYear() == year))
+    {
+    	document.getElementById("idm4"+countfunc).innerHTML = "* Enter day or month or year in limits.";
+    }
+
+}
+function myfunctionva3(countfunc)
+{
+	var inpObj= document.getElementById("idva4"+countfunc);
+	var matches = /(\d{4})[-\/](\d{2}|\d{1})[-\/](\d{2}|\d{1})/.exec(inpObj.value);
+    if (matches == null)
+    {
+    	document.getElementById("idmva4"+countfunc).innerHTML = "* Enter valid date in given format.";
+    }
+    var year = matches[1];
+	var month = matches[2] - 1;
+	var day = matches[3];
+    var composedDate = new Date(year, month, day);
+    if (!(composedDate.getDate() == day && composedDate.getMonth() == month && composedDate.getFullYear() == year))
+    {
+    	document.getElementById("idmva4"+countfunc).innerHTML = "* Enter day or month or year in limits.";
+    }
+
+}
+
+function myfunction4(countfunc)
+{
+	var inpObj= document.getElementById("id5"+countfunc);
+	var matches = /(\d{4})[-\/](\d{2}|\d{1})[-\/](\d{2}|\d{1})/.exec(inpObj.value);
+    if (matches == null)
+    {
+    	document.getElementById("idm5"+countfunc).innerHTML = "* Enter valid date in given format.";
+    }
+    var year = matches[1];
+	var month = matches[2] - 1;
+	var day = matches[3];
+    var composedDate = new Date(year, month, day);
+    if (!(composedDate.getDate() == day && composedDate.getMonth() == month && composedDate.getFullYear() == year))
+    {
+    	document.getElementById("idm5"+countfunc).innerHTML = "* Enter day or month or year in limits.";
+    }
+
+}
+function myfunctionva4(countfunc)
+{
+	var inpObj= document.getElementById("idva5"+countfunc);
+	var matches = /(\d{4})[-\/](\d{2}|\d{1})[-\/](\d{2}|\d{1})/.exec(inpObj.value);
+    if (matches == null)
+    {
+    	document.getElementById("idmva5"+countfunc).innerHTML = "* Enter valid date in given format.";
+    }
+    var year = matches[1];
+	var month = matches[2] - 1;
+	var day = matches[3];
+    var composedDate = new Date(year, month, day);
+    if (!(composedDate.getDate() == day && composedDate.getMonth() == month && composedDate.getFullYear() == year))
+    {
+    	document.getElementById("idmva5"+countfunc).innerHTML = "* Enter day or month or year in limits.";
+    }
+
+}
 function myfunction5(countfunc)
 {
 	var inpObj= document.getElementById("id6"+countfunc);
@@ -386,8 +459,8 @@ var cell8=row.insertCell(7);
 cell1.innerHTML=count1+".";
 cell2.innerHTML="<input id =\"id2"+count1+"\" class=\"form-control\" type=\"text\" name=\"emp_name"+count1+"\" onchange = \"myfunction1("+count1+")\"> <p style=\"color:red\" id=\"idm2"+count1+"\"></p></td>";
 cell3.innerHTML="<input id =\"id3"+count1+"\" class=\"form-control\" type=\"text\" name=\"desig"+count1+"\" onchange = \"myfunction2("+count1+")\" ><p style=\"color:red\" id=\"idm3"+count1+"\"></p></td>";
-cell4.innerHTML="<input  type=\"date\" name=\"doj"+count1+"\" size=\"8\" ></td>";
-cell5.innerHTML="<input type=\"date\" name=\"dol"+count1+"\" size=\"8\" ></td>";
+cell4.innerHTML="<input id =\"id4"+count1+"\" type=\"text\" name=\"doj"+count1+"\" value = \"yyyy-mm-dd\" size=\"14\" onchange = \"myfunction3("+count1+")\"><p style=\"color:red\" id=\"idm4"+count1+"\"></p></td>";
+cell5.innerHTML="<input id =\"id5"+count1+"\" type=\"text\" name=\"dol"+count1+"\" value = \"yyyy-mm-dd\" size=\"14\" onchange = \"myfunction4("+count1+")\"><p style=\"color:red\" id=\"idm5"+count1+"\"></p></td>";
 cell6.innerHTML="<input id =\"id6"+count1+"\" class=\"form-control\" type=\"text\" name=\"duration"+count1+"\" size=\"5\" onchange = \"myfunction5("+count1+")\"><p style=\"color:red\" id=\"idm6"+count1+"\"></p> </td>";
 cell7.innerHTML="<input id =\"id7"+count1+"\" class=\"form-control\" type=\"number\" name=\"pay"+count1+"\" onchange = \"myfunction6("+count1+")\"><p style=\"color:red\" id=\"idm7"+count1+"\"></p></td>";
 
@@ -425,8 +498,8 @@ cell1.innerHTML=sno[i-1];
 
 cell2.innerHTML="<input id =\"idva2"+i+"\" class=\"form-control\" type=\"text\" name=\"emp_name"+i+"\" value =\""+name[i-1]+"\" onchange = \"myfunctionva1("+i+")\"> <p style=\"color:red\" id=\"idmva2"+i+"\"></p ></td>";
 cell3.innerHTML="<input id =\"idva3"+i+"\" class=\"form-control\" type=\"text\" name=\"desig"+i+"\" value = \""+designation[i-1]+"\" onchange = \"myfunctionva2("+i+")\" ><p style=\"color:red\" id=\"idmva3"+i+"\"></p></td>";
-cell4.innerHTML="<input type=\"date\" name=\"doj"+i+"\" size=\"8\" value = \""+doj[i-1]+"\"></td>";
-cell5.innerHTML="<input type=\"date\" name=\"dol"+i+"\" size=\"8\" value = \""+dol[i-1]+"\"></td>";
+cell4.innerHTML="<input id =\"idva4"+i+"\" type=\"text\" name=\"doj"+i+"\" size=\"14\" value = \""+doj[i-1]+"\" onchange = \"myfunctionva3("+i+")\"><p style=\"color:red\" id=\"idmva4"+i+"\"></p></td>";
+cell5.innerHTML="<input id =\"idva5"+i+"\" type=\"text\" name=\"dol"+i+"\" size=\"14\" value = \""+dol[i-1]+"\" onchange = \"myfunctionva4("+i+")\"><p style=\"color:red\" id=\"idmva5"+i+"\"></p></td>";
 cell6.innerHTML="<input id =\"idva6"+i+"\" class=\"form-control\" type=\"text\" name=\"duration"+i+"\" size=\"5\" value = \""+duration[i-1]+"\" onchange = \"myfunctionva5("+i+")\"><p style=\"color:red\" id=\"idmva6"+i+"\"></p></td>";
 cell7.innerHTML="<input id =\"idva7"+i+"\" class=\"form-control\" type=\"number\" name=\"pay"+i+"\" value = \""+scale[i-1]+"\" onchange = \"myfunctionva6("+i+")\"><p style=\"color:red\" id=\"idmva7"+i+"\"></p></td>";
 
