@@ -32,9 +32,6 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 
 //	$usrid1 = $_GET['usrid'];
 
-
-
-
 	$retrieve = "SELECT * FROM form3 where userid = $usrid1";
 
 	$result = mysqli_query($con,$retrieve);
@@ -55,6 +52,7 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 		$awards = $row['awards'];
   	}
 
+  	
 
 
 
@@ -76,6 +74,8 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 		$scale[] = $row['scale'];
 
   	}
+
+  	
 
 	function create_row1()
 	{
@@ -99,7 +99,7 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 
 	while($row = mysqli_fetch_array($result))
   	{
-		$sno[] = $row['sno'];
+		$sno1[] = $row['sno'];
 		$title[] = $row['title'];
 		$agency[] = $row['agency'];
 		$value[] = $row['value'];
@@ -128,7 +128,7 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 
 	while($row = mysqli_fetch_array($result))
   	{
-		$sno1[] = $row['sno'];
+		$sno2[] = $row['sno'];
 		$title1[] = $row['title'];
 		$agency1[] = $row['agency'];
 		$value1[] = $row['value'];
@@ -148,7 +148,6 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 
 
 	$count1 = $_REQUEST['count1'];
-
 
 if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1])) 
 {
@@ -175,6 +174,8 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 		
 
 	else*/ 
+
+
        	{
 
 	mysqli_query($con,"delete from work_experience where userid=$usrid1");
@@ -183,37 +184,41 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	mysqli_query($con,"delete from form3 where userid=$usrid1");
 
 
-	for($i = 1 ; $i<=$count1 ; $i++)
+	for($i = 0,$j=1 ; $i<$count1 ; $i++)
 	{
-		$name = $_REQUEST['emp_name'.$i];
-		$designation = $_REQUEST['desig'.$i];
-		$doj = $_REQUEST['doj'.$i];
-		$dol = $_REQUEST['dol'.$i];
-		$duration = $_REQUEST['duration'.$i];
-		$scale = $_REQUEST['pay'.$i];	
+		$sno[$i] = $j;
+		$name[$i] = $_REQUEST['emp_name'.$j];
+		$designation[$i] = $_REQUEST['desig'.$j];
+		$doj[$i] = $_REQUEST['doj'.$j];
+		$dol[$i] = $_REQUEST['dol'.$j];
+		$duration[$i] = $_REQUEST['duration'.$j];
+		$scale[$i] = $_REQUEST['pay'.$j];	
 
-		$query = "INSERT INTO work_experience (userid,sno,name,designation,doj,dol,duration,scale) VALUES ($usrid1,$i,'$name','$designation','$doj','$dol','$duration','$scale')";
-
-
+		$query = "INSERT INTO work_experience (userid,sno,name,designation,doj,dol,duration,scale) VALUES ($usrid1,$j,'$name[$i]','$designation[$i]','$doj[$i]','$dol[$i]','$duration[$i]','$scale[$i]')";
+		$j=$j+1;
+		//echo gettype($doj[$i]);
+		//var_dump(checkdate($doj[$i]));
+		//if (!preg_match('/[^a-zA-Z.]/', $name[$i]) && !preg_match('/[^a-zA-Z]/', $designation[$i]) && )
 		mysqli_query($con,$query);
 
 	}
 
-
 	$count2 = $_REQUEST['count2'];
 
 
-	for($i = 1 ; $i<=$count2 ; $i++)
+	for($i = 0,$j=1; $i<$count2 ; $i++)
 	{
-		$title = $_REQUEST['title2'.$i];
-		$agency = $_REQUEST['spon2'.$i];
-		$value = $_REQUEST['val2'.$i];
-		$status = $_REQUEST['status2'.$i];
+		$sno1[$i] = $j;
+		$title[$i] = $_REQUEST['title2'.$j];
+		$agency[$i] = $_REQUEST['spon2'.$j];
+		$value[$i] = $_REQUEST['val2'.$j];
+		$status[$i] = $_REQUEST['status2'.$j];
 
-		$query = "INSERT INTO spons_principal (userid,sno,title,agency,value,status) VALUES ($usrid1,$i,'$title','$agency','$value','$status')";
+		$query = "INSERT INTO spons_principal (userid,sno,title,agency,value,status) VALUES ($usrid1,$j,'$title[$i]','$agency[$i]','$value[$i]','$status[$i]')";
 
 
 		mysqli_query($con,$query);
+		$j=$j+1;
 
 	}
 
@@ -222,18 +227,19 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	$count3 = $_REQUEST['count3'];
 
 
-	for($i = 1 ; $i<=$count3 ; $i++)
+	for($i = 0,$j=1 ; $i<$count3 ; $i++)
 	{
-		$title = $_REQUEST['title3'.$i];
-		$agency = $_REQUEST['spon3'.$i];
-		$value = $_REQUEST['val3'.$i];
-		$status = $_REQUEST['status3'.$i];
+		$sno2[$i] = $j;
+		$title1[$i] = $_REQUEST['title3'.$j];
+		$agency1[$i] = $_REQUEST['spon3'.$j];
+		$value1[$i] = $_REQUEST['val3'.$j];
+		$status1[$i] = $_REQUEST['status3'.$j];
 
-		$query = "INSERT INTO spons_co_investigator (userid,sno,title,agency,value,status) VALUES ($usrid1,$i,'$title','$agency','$value','$status')";
+		$query = "INSERT INTO spons_co_investigator (userid,sno,title,agency,value,status) VALUES ($usrid1,$j,'$title1[$i]','$agency1[$i]','$value[$i]','$status1[$i]')";
 
 
 		mysqli_query($con,$query);
-
+		$j=$j+1;
 	}
 
 
@@ -261,8 +267,76 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 
 				<form method="post" class="form" action="form3.php" enctype="multipart/form-data">
 
+<!--changes I made I made -->
+
+<script >
+function myfunction1(countfunc)
+{
+	var inpObj= document.getElementById("id2"+countfunc);
+    var errorinname = /[`~!@#$%^&*()_|+\-=?;:'",<>\{\}\[\]\\\/]|[0-9]/.test(inpObj.value);
+    if (errorinname == true)
+    {
+    		document.getElementById("idm2"+countfunc).innerHTML = "* a-z or A-Z or . are allowed.";
+    	
+    }
+}
+
+function myfunction2(countfunc)
+{
+	var inpObj= document.getElementById("id3"+countfunc);
+    var errorinname = /[`~!@#$%^&*()_|\-+=?;:'",<>\{\}\[\]\\\/]|[0-9]/.test(inpObj.value);
+    if (errorinname == true)
+    {
+    		document.getElementById("idm3"+countfunc).innerHTML = "* a-z or A-Z  or . are allowed.";
+    }
+
+}
+
+function myfunction5(countfunc)
+{
+	var inpObj= document.getElementById("id6"+countfunc);
+	var errorinname = /[`~!@#$%^&*()_|+=?;:'",.<>\{\}\[\]\\\/]|[a-z]|[A-Z]/.test(inpObj.value);
+
+	if (inpObj.value.length != 5)
+	{
+		document.getElementById("idm6"+countfunc).innerHTML = "length should be 5";
+    }
+    else if (inpObj.value[2] != "-")
+    {
+    	document.getElementById("idm6"+countfunc).innerHTML = "year and months should be seperated by \"-\" ";
+    }
+	else if (errorinname == true)
+    {
+    		document.getElementById("idm6"+countfunc).innerHTML = "* only numbers and \"-\" are allowed.";
+    }
+    else
+    {
+    	if (inpObj.value.substr(3,5) > 12)
+    	{
+    	document.getElementById("idm6"+countfunc).innerHTML = "* months can not be more than 12.";
+    	}
+    }
+
+}
+
+function myfunction6(countfunc)
+{
+	var inpObj= document.getElementById("id7"+countfunc);
+	var errorinname = /[`~!@#$%^&*()_|+\-=?;:'",.<>\{\}\[\]\\\/]|[a-z]|[A-Z]/.test(inpObj.value);
+	if (errorinname == true)
+    {
+    		document.getElementById("idm7"+countfunc).innerHTML = "* only positive numbers are allowed.";
+    }
+}
+
+
+</script>
+
+<!--changes I made finish
+myfunction6 is not checking for lphabets in salary.
+-->
 <script type="text/javascript">
-var count1 = 1;
+var count1 = 0;
 
 function add_row16(cnt)
 {
@@ -287,20 +361,28 @@ var cell7=row.insertCell(6);
 var cell8=row.insertCell(7);
 
 cell1.innerHTML=count1+".";
-cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"emp_name"+count1+"\"></td>";
-cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"desig"+count1+"\"></td>";
-cell4.innerHTML="<input type=\"date\" name=\"doj"+count1+"\" size=\"8\"></td>";
+cell2.innerHTML="<input id =\"id2"+count1+"\" class=\"form-control\" type=\"text\" name=\"emp_name"+count1+"\" onchange = \"myfunction1("+count1+")\"> <p style=\"color:red\" id=\"idm2"+count1+"\"></p></td>";
+cell3.innerHTML="<input id =\"id3"+count1+"\" class=\"form-control\" type=\"text\" name=\"desig"+count1+"\" onchange = \"myfunction2("+count1+")\" ><p style=\"color:red\" id=\"idm3"+count1+"\"></p></td>";
+cell4.innerHTML="<input  type=\"date\" name=\"doj"+count1+"\" size=\"8\"></td>";
 cell5.innerHTML="<input type=\"date\" name=\"dol"+count1+"\" size=\"8\"></td>";
-cell6.innerHTML="<input class=\"form-control\" type=\"text\" name=\"duration"+count1+"\" size=\"5\"></td>";
-cell7.innerHTML="<input class=\"form-control\" type=\"number\" name=\"pay"+count1+"\"></td>";
+cell6.innerHTML="<input id =\"id6"+count1+"\" class=\"form-control\" type=\"text\" name=\"duration"+count1+"\" size=\"5\" onchange = \"myfunction5("+count1+")\"><p style=\"color:red\" id=\"idm6"+count1+"\"></p> </td>";
+cell7.innerHTML="<input id =\"id7"+count1+"\" class=\"form-control\" type=\"number\" name=\"pay"+count1+"\" onchange = \"myfunction6("+count1+")\"><p style=\"color:red\" id=\"idm7"+count1+"\"></p></td>";
 
 cell8.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count1\" value=\""+count1+"\"></td>";
 }
 
-
 else
 {
 count1 = cnt;
+
+var sno= <?php echo json_encode($sno); ?>;
+var name= <?php echo json_encode($name); ?>;		
+var designation= <?php echo json_encode($designation); ?>;
+var doj= <?php echo json_encode($doj); ?>;
+var dol= <?php echo json_encode($dol); ?>;
+var duration= <?php echo json_encode($duration); ?>;
+var scale = <?php echo json_encode($scale); ?>;
+
 for(var i=1;i<=count1;i++)
 {
 var table=document.getElementById("Table16");
@@ -315,17 +397,10 @@ var cell7=row.insertCell(6);
 var cell8=row.insertCell(7);
 
 
-var sno= <?php echo json_encode($sno); ?>;
-var name= <?php echo json_encode($name); ?>;
-var designation= <?php echo json_encode($designation); ?>;
-var doj= <?php echo json_encode($doj); ?>;
-var dol= <?php echo json_encode($dol); ?>;
-var duration= <?php echo json_encode($duration); ?>;
-var scale = <?php echo json_encode($scale); ?>;
 
 cell1.innerHTML=sno[i-1];
 
-cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"emp_name"+i+"\" value = \""+name[i-1]+"\" ></td>";
+cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"emp_name"+i+"\" value =\""+name[i-1]+"\" ></td>";
 cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"desig"+i+"\" value = \""+designation[i-1]+"\"></td>";
 cell4.innerHTML="<input type=\"date\" name=\"doj"+i+"\" size=\"8\" value = \""+doj[i-1]+"\"></td>";
 cell5.innerHTML="<input type=\"date\" name=\"dol"+i+"\" size=\"8\" value = \""+dol[i-1]+"\"></td>";
@@ -349,31 +424,69 @@ cell8.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count1\" v
 
 <tr>
 
-<th>Sr.No</th>
-<th>Name of the<br/>Employer</th>
-<th>Designation</th>
-<th>Date of<br/>Joining<br/>yyyy-mm-dd</th>
-<th>Date of<br/>Leaving<br/>yyyy-mm-dd</th>
-<th>Duration<br/>[YY-MM]</th>
-<th>Scale + Grade<br/>Pay/Total Pay<br/>(per month) last<br/>drawn (in Rs)</th>
+<th>Sr.No &nbsp &nbsp &nbsp</th>
+<th>Name of the &nbsp &nbsp &nbsp<br/>Employer &nbsp &nbsp &nbsp</th>
+<th>Designation &nbsp &nbsp &nbsp</th>
+<th>Date of &nbsp &nbsp &nbsp<br/>Joining &nbsp &nbsp &nbsp<br/>yyyy-mm-dd &nbsp &nbsp &nbsp</th>
+<th>Date of &nbsp &nbsp &nbsp<br/>Leaving &nbsp &nbsp &nbsp<br/>yyyy-mm-dd &nbsp &nbsp &nbsp</th>
+<th>Duration &nbsp &nbsp &nbsp<br/>[YY-MM] &nbsp &nbsp &nbsp</th>
+<th>Scale + Grade &nbsp &nbsp &nbsp<br/>Pay/Total Pay &nbsp &nbsp &nbsp<br/>(per month) last &nbsp &nbsp &nbsp<br/>drawn (in Rs) &nbsp &nbsp &nbsp</th>
 </tr>
-
-<!--
-<tr>
-<td>1.</td>
-<td><input type="text" name="emp_name1"></td>
-<td><input type="text" name="desig1"></td>
-<td><input type="date" name="doj1"size="8"></td>
-<td><input type="date" name="dol1"size="8"></td>
-<td><input type="text" name="duration1"size="5"></td>
-<td><input type="number" name="pay1"></td>
-</tr>-->
-
 </table> 
-<?php 	create_row1(); ?>
+<!--<?php 	create_row1(); ?>
+-->
+<?php 
+if ($num_rows1 !=0)
+  {
+  			echo "<script> add_row16(".$num_rows1."); </script>";
+  }
+  	?>
+
+
 <br/>
 									<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row16(0)";?>">Insert new row</button>
 </td></tr>
+
+<script >
+function myfunction7()
+{
+	var inpObj= document.getElementById("id17a");
+	var errorinname = /[.\-]|[a-z]|[A-Z]/.test(inpObj.value);
+	if (errorinname==true)
+	{
+		document.getElementById("id17ma").innerHTML = "* only positive integers are valid.";
+	}
+}
+
+function myfunction8()
+{
+	var inpObj= document.getElementById("id17b");
+	var errorinname = /[.\-]|[a-z]|[A-Z]/.test(inpObj.value);
+	if (errorinname==true)
+	{
+		document.getElementById("id17mb").innerHTML = "* only positive integers are valid.";
+	}
+}
+
+function myfunction9()
+{
+	var inpObj= document.getElementById("id17c");
+	var errorinname = /[.\-]|[a-z]|[A-Z]/.test(inpObj.value);
+	if (errorinname==true)
+	{
+		document.getElementById("id17mc").innerHTML = "* only positive integers are valid.";
+	}
+}
+function myfunction10()
+{
+	var inpObj= document.getElementById("id17d");
+	var errorinname = /[.\-]|[a-z]|[A-Z]/.test(inpObj.value);
+	if (errorinname==true)
+	{
+		document.getElementById("id17md").innerHTML = "* only positive integers are valid.";
+	}
+}
+</script>
 
 
 <tr>
@@ -387,20 +500,20 @@ cell8.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count1\" v
 
 <tr>
 <td>Undergraduate (B.Tech/B.E/B.Sc)
-<input  class="form-control" type="number" name="undergrad" value="<?php echo $undergrad;?>" size="2"></td>
+<input  id = "id17a" class="form-control" type="number" name="undergrad" value="<?php echo $undergrad;?>" size="2" onchange = "myfunction7()"><p style ="color:red" id = "id17ma" ></p></td>
 
 
 <td>Reseach Degree (MS/M.Phil)
-<input  class="form-control" type="number" name="research_deg" value="<?php echo $research_deg;?>" size="2"></td>
+<input  id = "id17b" class="form-control" type="number" name="research_deg" value="<?php echo $research_deg;?>" size="2" onchange = "myfunction8()"><p style ="color:red" id = "id17mb" ></p> </td>
 
 </tr>
 <tr>
 <td>Postgraduate (M.Tech/M.E/M.Sc)
-<input  class="form-control" type="number" name="postgrad" value="<?php echo $postgrad;?>" size="2"></td>
+<input  id ="id17c" class="form-control" type="number" name="postgrad" value="<?php echo $postgrad;?>" size="2" onchange = "myfunction9()"><p style ="color:red" id = "id17mc" ></p></td>
 
 
 <td>Doctoral(Ph.D)
-<input  class="form-control" type="number" name="doctoral" value="<?php echo $doctoral;?>" size="2"></td>
+<input  id="id17d" class="form-control" type="number" name="doctoral" value="<?php echo $doctoral;?>" size="2" onchange = "myfunction10()"><p style ="color:red" id = "id17md" ></p></td>
 
 </tr>
 </table>
@@ -414,8 +527,32 @@ cell8.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count1\" v
 <tr><td>(a) As Principal Investigator</td></tr>
 
 <head>
+
+<script>
+function myfunction11(countfunc)
+{
+	var inpObj= document.getElementById("id18a"+countfunc);
+	var errorinname = /[`~!@#$%^&*()_|+\-=?;:'",<>\{\}\[\]\\\/]|[a-z]|[A-Z]/.test(inpObj.value);
+	if (errorinname == true)
+    {
+    		document.getElementById("id18ma"+countfunc).innerHTML = "* only positive numbers are allowed.";
+    }
+}
+
+function myfunction12(countfunc)
+{
+	var inpObj= document.getElementById("id18b"+countfunc);
+	var errorinname = /[`~!@#$%^&*()_|+\-=?;:'",<>\{\}\[\]\\\/]|[0-9]/.test(inpObj.value);
+	if (errorinname == true)
+    {
+    		document.getElementById("id18mb"+countfunc).innerHTML = "you have to use only a-z or A-Z.";
+    }
+}
+
+</script>
+
 <script type="text/javascript">
-var count2 = 1;
+var count2 = 0;
 function add_row18a(cnt)
 {
 
@@ -438,14 +575,20 @@ var cell6=row.insertCell(5);
 cell1.innerHTML=count2+".";
 cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"title2"+count2+"\"></td>";
 cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"spon2"+count2+"\"></td>";
-cell4.innerHTML="<input class=\"form-control\" type=\"number\" name=\"val2"+count2+"\"></td>";
-cell5.innerHTML="<input class=\"form-control\" type=\"text\" name=\"status2"+count2+"\"></td>";
+cell4.innerHTML="<input id = \"id18a"+count2+"\" class=\"form-control\" type=\"number\" name=\"val2"+count2+"\" onchange = \"myfunction11("+count2+")\"><p style=\"color:red\" id=\"id18ma"+count2+"\"></p></td>";
+cell5.innerHTML="<input id = \"id18b"+count2+"\" class=\"form-control\" type=\"text\" name=\"status2"+count2+"\" onchange = \"myfunction12("+count2+")\"><p style=\"color:red\" id=\"id18mb"+count2+"\"></p></td>";
 cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count2\" value=\""+count2+"\"></td>";
 }
 
 else
 {
 count2 = cnt;
+
+var sno= <?php echo json_encode($sno1); ?>;
+var title= <?php echo json_encode($title); ?>;
+var agency= <?php echo json_encode($agency); ?>;
+var value= <?php echo json_encode($value); ?>;
+var status= <?php echo json_encode($status); ?>;
 for( var i=1;i<=cnt;i++)
 {
 
@@ -457,14 +600,6 @@ var cell3=row.insertCell(2);
 var cell4=row.insertCell(3);
 var cell5=row.insertCell(4);
 var cell6=row.insertCell(5);
-
-
-var sno= <?php echo json_encode($sno); ?>;
-var title= <?php echo json_encode($title); ?>;
-var agency= <?php echo json_encode($agency); ?>;
-var value= <?php echo json_encode($value); ?>;
-var status= <?php echo json_encode($status); ?>;
-
 
 cell1.innerHTML=sno[i-1];
 cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"title2"+i+"\" value = \""+title[i-1]+"\"></td>";
@@ -481,15 +616,15 @@ cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count2\" v
 </head>
 <tr>
 <td>
-<table id="Table18a">
+<table id="Table18a" border ="1">
 
 <tr>
 
-<th>Sr.No</th>
-<th>Title</th>
-<th>Sponsoring Agency</th>
-<th>Value (in<br/>Lakhs)</th>
-<th>Status</th>
+<th>Sr.No &nbsp &nbsp &nbsp</th>
+<th>Title &nbsp &nbsp &nbsp</th>
+<th>Sponsoring Agency &nbsp &nbsp &nbsp</th>
+<th>Value (in<br/>Lakhs) &nbsp &nbsp &nbsp</th>
+<th>Status &nbsp &nbsp &nbsp</th>
 
 </tr>
 
@@ -502,19 +637,46 @@ cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count2\" v
 </tr>-->
 
 </table>
+<?php 
+if ($num_rows2 !=0)
+  {
+  			echo "<script> add_row18a(".$num_rows2."); </script>";
+  }
 
-<?php create_row2(); ?>
-
+  	?>
 <br/>
-									<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row16(0)";?>">Insert new row</button></td></tr>
+									<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row18a(0)";?>">Insert new row</button></td></tr>
 <tr>
 <td>(b) As Co Investigator</td>
 </tr>
 
 
 <head>
+
+<script>
+function myfunction13(countfunc)
+{
+	var inpObj= document.getElementById("id18c"+countfunc);
+	var errorinname = /[`~!@#$%^&*()_|+\-=?;:'",<>\{\}\[\]\\\/]|[a-z]|[A-Z]/.test(inpObj.value);
+	if (errorinname == true)
+    {
+    		document.getElementById("id18mc"+countfunc).innerHTML = "* only positive numbers are allowed.";
+    }
+}
+
+function myfunction14(countfunc)
+{
+	var inpObj= document.getElementById("id18d"+countfunc);
+	var errorinname = /[`~!@#$%^&*()_|+\-=?;:'",<>\{\}\[\]\\\/]|[0-9]/.test(inpObj.value);
+	if (errorinname == true)
+    {
+    		document.getElementById("id18md"+countfunc).innerHTML = "you have to use only a-z or A-Z.";
+    }
+}
+
+</script>>
 <script type="text/javascript">
-var count3 = 1;
+var count3 = 0;
 
 function add_row18b(cnt)
 {
@@ -538,8 +700,8 @@ var cell6=row.insertCell(5);
 cell1.innerHTML=count3+".";
 cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"title3"+count3+"\"></td>";
 cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"spon3"+count3+"\"></td>";
-cell4.innerHTML="<input class=\"form-control\" type=\"number\" name=\"val3"+count3+"\"></td>";
-cell5.innerHTML="<input class=\"form-control\" type=\"text\" name=\"status3"+count3+"\"></td>";
+cell4.innerHTML="<input id = \"id18c"+count3+"\" class=\"form-control\" type=\"number\" name=\"val3"+count3+"\" onchange = \"myfunction13("+count3+")\"><p style=\"color:red\" id=\"id18mc"+count3+"\"></p></td>";
+cell5.innerHTML="<input id = \"id18d"+count3+"\" class=\"form-control\" type=\"text\" name=\"status3"+count3+"\" onchange = \"myfunction14("+count3+")\"><p style=\"color:red\" id=\"id18md"+count3+"\"></p></td>";
 cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count3\" value=\""+count3+"\"></td>";
 }
 
@@ -547,7 +709,13 @@ cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count3\" v
 else
 {
 count3 = cnt;
-for( var i=1;i<=cnt;i++)
+var sno= <?php echo json_encode($sno2); ?>;
+var title= <?php echo json_encode($title1); ?>;
+var agency= <?php echo json_encode($agency1); ?>;
+var value= <?php echo json_encode($value1); ?>;
+var status= <?php echo json_encode($status1); ?>;
+
+for( var i=1;i<=count3;i++)
 {
 
 var table=document.getElementById("Table18b");
@@ -560,11 +728,6 @@ var cell5=row.insertCell(4);
 var cell6=row.insertCell(5);
 
 
-var sno= <?php echo json_encode($sno1); ?>;
-var title= <?php echo json_encode($title1); ?>;
-var agency= <?php echo json_encode($agency1); ?>;
-var value= <?php echo json_encode($value1); ?>;
-var status= <?php echo json_encode($status1); ?>;
 
 
 cell1.innerHTML=sno[i-1];
@@ -583,15 +746,15 @@ cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count3\" v
 
 <tr>
 <td>
-<table id="Table18b">
+<table id="Table18b" border = "1">
 
 <tr>
 
-<th>Sr.No</th>
-<th>Title</th>
-<th>Sponsoring Agency</th>
-<th>Value (in<br/>Lakhs)</th>
-<th>Status</th>
+<th>Sr.No &nbsp &nbsp &nbsp</th>
+<th>Title &nbsp &nbsp &nbsp</th>
+<th>Sponsoring Agency &nbsp &nbsp &nbsp</th>
+<th>Value (in<br/>Lakhs) &nbsp &nbsp &nbsp</th>
+<th>Status &nbsp &nbsp &nbsp</th>
 
 </tr>
 
@@ -606,12 +769,16 @@ cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count3\" v
 
 
 </table>
+<?php 
+if ($num_rows3 !=0)
+  {
+  			echo "<script> add_row18b(".$num_rows3."); </script>";
+  }
+  	?>
 
-
-<?php create_row3(); ?>
 
 <br/>
-									<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row16(0)";?>">Insert new row</button>
+									<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row18b(0)";?>">Insert new row</button>
 </td></tr>
 </table>
 <table class="table table-striped" id="myTable">
