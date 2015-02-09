@@ -31,8 +31,7 @@
 </div>
 </div>
 
-<br/><br/><br/><br/><br/>
-
+<br/><br/>
 
 <?php
 	require_once("./include/membersite_config.php");

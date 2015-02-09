@@ -47,7 +47,7 @@
 		$paper2 = $row['paper2'];
 		$paper3 = $row['paper3'];
   	}
-
+  	echo $publications;
 
 if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1])) 
 {
@@ -252,10 +252,11 @@ $natjournalsoverall,$intconf3,$intconfoverall,$natconf3,$natconfoverall,'$public
         }
     }
 </script>
+
 <script type="text/javascript">
 	var count_cell=1;
-		<?php $publication_split= explode(',',$publications);?>	
-	function add_row() {
+	function add_row(cnt0,cnt1,cnt2,cnt3,cnt4,cnt5) {
+				
 		var table=document.getElementById("table_pub");
 		var row=table.insertRow();
 		var cell1=row.insertCell(0);
@@ -265,15 +266,16 @@ $natjournalsoverall,$intconf3,$intconfoverall,$natconf3,$natconfoverall,'$public
 		var cell5=row.insertCell(4);
 		var cell6=row.insertCell(5);
 		var cell7=row.insertCell(6);		
-		cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"publications"+count_cell+"\" pattern=\'[a-zA-Z0-9]{0,100}\' title=\"Only alphanumeric input is valid upto 100 characters\"></td>";count_cell++;
-		cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"publications"+count_cell+"\" pattern=\'[a-zA-Z0-9]{0,100}\' title=\"Only alphanumeric input is valid upto 100 characters\"></td>";count_cell++;
-		cell4.innerHTML="<input class=\"form-control\" type=\"text\" name=\"publications"+count_cell+"\" pattern=\'[a-zA-Z0-9]{0,100}\' title=\"Only alphanumeric input is valid upto 100 characters\"></td>";count_cell++;
-		cell5.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\" min=\"1960\" max=\"2015\"></td>";count_cell++;
-		cell6.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\" min=\"1\"></td>";count_cell++;
-		cell7.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\"  min=\"1\"></td>";
+		cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"publications"+count_cell+"\" pattern=\'[a-zA-Z0-9]{0,100}\' title=\"Only alphanumeric input is valid upto 100 characters\" value=\""+cnt0+"\"></td>";count_cell++;
+		cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"publications"+count_cell+"\" pattern=\'[a-zA-Z0-9]{0,100}\' title=\"Only alphanumeric input is valid upto 100 characters\" value=\""+cnt1+"\"></td>";count_cell++;
+		cell4.innerHTML="<input class=\"form-control\" type=\"text\" name=\"publications"+count_cell+"\" pattern=\'[a-zA-Z0-9]{0,100}\' title=\"Only alphanumeric input is valid upto 100 characters\" value=\""+cnt2+"\"></td>";count_cell++;
+		cell5.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\" min=\"1960\" max=\"2015\" value=\""+cnt3+"\"></td>";count_cell++;
+		cell6.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\" min=\"1\" value=\""+cnt4+"\"></td>";count_cell++;
+		cell7.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\"  min=\"1\" value=\""+cnt5+"\"></td>";
 		cell1.innerHTML=(count_cell/6)+". ";		
 		count_cell++;						
 		}
+
 </script>
 <!--
 <?php
@@ -414,9 +416,33 @@ if(GetUrlValue('a')==1)
 <?php $_POST['publications'] = $row['publications1'] + ',' + $row['publications2'] + ',' + $row['publications3'] + ',' + $row['publications4'] + ',' + $row['publications5'] + ',' + $row['publications6'];?>
 </tr>-->
 </table>
-<?php echo "<script> add_row(); </script>";?>
+<!-- <?php //echo "<script> add_row(); </script>";?> -->
+
+<?php 
+$publication_split= explode(',',$publications);
+
+if(sizeof($publication_split)>6)
+{
+$n=(sizeof($publication_split)-1)/6;
+for($i=1;$i<=$n;$i++)
+{
+	$j=($i-1)*6;
+	$j0=$publication_split[$j];
+	$j1=$publication_split[$j+1];
+	$j2=$publication_split[$j+2];
+	$j3=$publication_split[$j+3];
+	$j4=$publication_split[$j+4];
+	$j5=$publication_split[$j+5];		
+	echo "<script> add_row($j0,$j1,$j2,$j3,$j4,$j5); </script>";
+}
+}
+else
+{
+	echo "<script> add_row('','','','','',''); </script>";
+}
+?>	
 <br/>
-<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row()";?>">Insert new row</button>
+<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row('','','','','','')";?>">Insert new row</button>
 </td>
 	<!--12X70-->
 </tr>
