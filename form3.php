@@ -75,18 +75,7 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 
   	}
 
-  	
 
-	function create_row1()
-	{
-		global $num_rows1;
-		if($num_rows1 == 0)  //empty table
-		{
-			$num_rows1 = -1;
-		}
-
-		echo "<script> add_row16(".$num_rows1."); </script>";
-	}
 
 
 
@@ -106,18 +95,6 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 		$status[] = $row['status'];
   	}
 
-	function create_row2()
-	{
-		global $num_rows2;
-		if($num_rows2 == 0)
-		{
-			$num_rows2= -1;
-		}
-
-		echo "<script> add_row18a(".$num_rows2."); </script>";
-	}
-
-
 
 
 	$retrieve = "SELECT * FROM spons_co_investigator where userid = $usrid1";
@@ -135,20 +112,7 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 		$status1[] = $row['status'];
   	}
 
-	function create_row3()
-	{
-		global $num_rows3;
-		if($num_rows3 == 0)
-		{
-			$num_rows3= -1;
-		}
 
-		echo "<script> add_row18b(".$num_rows3."); </script>";
-	}
-
-
-	$count1 = $_REQUEST['count1'];
-	$num_rows1 = $count1;
 if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1])) 
 {
 
@@ -183,6 +147,8 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	mysqli_query($con,"delete from spons_co_investigator where userid=$usrid1");
 	mysqli_query($con,"delete from form3 where userid=$usrid1");
 
+	$count1 = $_REQUEST['count1'];
+	$num_rows1 = $count1;
 
 	for($i = 0,$j=1 ; $i<$count1 ; $i++)
 	{
@@ -434,8 +400,9 @@ cell8.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count1\" v
 <th>Scale + Grade &nbsp &nbsp &nbsp<br/>Pay/Total Pay &nbsp &nbsp &nbsp<br/>(per month) last &nbsp &nbsp &nbsp<br/>drawn (in Rs) &nbsp &nbsp &nbsp</th>
 </tr>
 </table> 
-<!--<?php 	create_row1(); ?>
--->
+
+
+
 <?php 
 if ($num_rows1 !=0)
   {
@@ -718,7 +685,6 @@ var status= <?php echo json_encode($status1); ?>;
 
 for( var i=1;i<=count3;i++)
 {
-alert(count3);
 var table=document.getElementById("Table18b");
 var row=table.insertRow(i);
 var cell1=row.insertCell(0);
