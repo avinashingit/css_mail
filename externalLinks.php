@@ -20,5 +20,6 @@
 
 	<!-- Bootstra js -->
 	<script src="include/js/bootstrap.min.js" type="text/javascript"></script>
+	<script src="jsFunctions.js" type="text/javascript"></script>
 
 	

@@ -318,39 +318,36 @@ Chages made:
 
 <script>
 
-function checkPersonName(e)
-{
-	var k = e.which || e.keyCode || e.charCode;
-        var ok = k >= 65 && k <= 90 || // A-Z
-            k >= 97 && k <= 122 || k==8 || k==37 || k==39 || k==9 || k==32 || k==46;
+	function checkPersonName(e)
+	{
+		var k = e.which || e.keyCode || e.charCode;
+	        var ok = k >= 65 && k <= 90 || // A-Z
+	            k >= 97 && k <= 122 || k==8 || k==37 || k==39 || k==9 || k==32 || k==46;
 
-        if (!ok){
-            e.preventDefault();
-        }
-}
+	        if (!ok){
+	            e.preventDefault();
+	        }
+	}
 
-function checkDateValue(e)
-{
-	var k = e.which || e.keyCode || e.charCode;
-        var ok = (k>=48&&k<=57) || k==45 || k==8 || k==37 || k==39 || k==9 || k==32 || k==46;
+	function checkDateValue(e)
+	{
+		var k = e.which || e.keyCode || e.charCode;
+	        var ok = (k>=48&&k<=57) || k==45 || k==8 || k==37 || k==39 || k==9 || k==32 || k==46;
 
-        if (!ok){
-            e.preventDefault();
-        }
-}
+	        if (!ok){
+	            e.preventDefault();
+	        }
+	}
 
-function checkMobileValue(e)
-{
-	var k = e.which || e.keyCode || e.charCode;
-    var ok = (k>=48 && k<=57) || k==43 || k==45 || k==8 || k==37 || k==39 || k==9 || k==32 || k==46;
+	function checkMobileValue(e)
+	{
+		var k = e.which || e.keyCode || e.charCode;
+	    var ok = (k>=48 && k<=57) || k==8 || k==37 || k==39 || k==9 ||  k==46;
 
-    if (!ok){
-        e.preventDefault();
-    }
-}
-
-
-
+	    if (!ok){
+	        e.preventDefault();
+	    }
+	}
 
 </script>
 
@@ -385,8 +382,8 @@ function checkMobileValue(e)
 								cell2.innerHTML="<td><select  name=\"degreetype"+count1+"\"><option value=\"\">Select</option><option value=\"1\">Undergraduate-level</option><option value=\"2\" >Graduate-level</option><option value=\"3\" >Doctoral-level</option></select></td>";
 								cell3.innerHTML="<td><input type=\"text\" name=\"degree"+count1+"\" size=\"8\"></td>";
 								cell4.innerHTML="<td><input type=\"text\" name=\"insti"+count1+"\" size=\"8\"></td>";
-								cell5.innerHTML="<td><input type=\"number\" min=\"0\" name=\"yoe"+count1+"\" size=\"8\"></td>";
-								cell6.innerHTML="<td><input type=\"number\" min='0' name=\"yol"+count1+"\" size=\"8\"></td>";
+								cell5.innerHTML="<td><input type=\"number\" min=\"1980\" max='2015' name=\"yoe"+count1+"\" size=\"4\"></td>";
+								cell6.innerHTML="<td><input type=\"number\" min='1980' max='2015' name=\"yol"+count1+"\" size=\"4\"></td>";
 								cell7.innerHTML="<td><input type=\"number\" min='0' max='100' name=\"percent"+count1+"\" size=\"5\"><input type=\"hidden\" name=\"count1\" value=\""+count1+"\"></td>";
 							}
 							else
@@ -430,9 +427,9 @@ function checkMobileValue(e)
 									cell1.innerHTML=sno[i-1];
 									cell3.innerHTML="<td><input type=\"text\" name=\"degree"+i+"\" value = \""+degree[i-1]+"\"  size=\"8\"></td>";
 									cell4.innerHTML="<td><input type=\"text\" name=\"insti"+i+"\" value = \""+insti[i-1]+"\" size=\"8\"></td>";
-									cell5.innerHTML="<td><input type=\"number\" name=\"yoe"+i+"\"  value = \""+yoe[i-1]+"\" size=\"8\"></td>";
-									cell6.innerHTML="<td><input type=\"number\" name=\"yol"+i+"\"  value = \""+yol[i-1]+"\" size=\"8\"></td>";
-									cell7.innerHTML="<td><input type=\"number\" name=\"percent"+i+"\"  value = \""+percent[i-1]+"\"  size=\"8\"><input type=\"hidden\" name=\"count1\" value=\""+i+"\"></td>";
+									cell5.innerHTML="<td><input  type=\"number\" name=\"yoe"+i+"\"  value = \""+yoe[i-1]+"\" min=\"1980\" max=\"2015\"size=\"4\"></td>";
+									cell6.innerHTML="<td><input min=\"1980\" max=\"2015\" type=\"number\" name=\"yol"+i+"\"  value = \""+yol[i-1]+"\" size=\"4\"></td>";
+									cell7.innerHTML="<td><input  min=\"0\" max=\"100\" type=\"number\" name=\"percent"+i+"\"  value = \""+percent[i-1]+"\"  size=\"8\"><input type=\"hidden\" name=\"count1\" value=\""+i+"\"></td>";
 								}
 							}
 						}
@@ -528,7 +525,7 @@ function checkMobileValue(e)
 								<td>
 									<div class="col-md-6">
 										Photo in GIF/JPEG/PNG format only<br/>
-										<input type="file" name="photo" id="photo"><?php if(strlen($photo) > 0) echo "You have already uploaded the photo." ?> <br>
+										<input type="file"  onchange="check_file_image('photo')" name="photo" id="photo"><?php if(strlen($photo) > 0) echo "You have already uploaded the photo." ?> <br>
 									</div>
 								</tr>
 							<tr>
@@ -588,7 +585,7 @@ function checkMobileValue(e)
 									<div class="col-md-4 col-md-offset-1">
 										<br/><br/><br/>
 										Upload the certificate in PDF format only<br/>
-										<input type="file" name="cat_certi" id="cat_certi"><?php if(strlen($categorycerti) > 0) echo "You have already uploaded the category certificate." ?>
+										<input type="file" onchange="check_file_pdf('cat_certi');" name="cat_certi" id="cat_certi"><?php if(strlen($categorycerti) > 0) echo "You have already uploaded the category certificate." ?>
 									</div>
 								</td>
 							</tr>
@@ -602,7 +599,7 @@ function checkMobileValue(e)
 										<table class="table">
 											<tr>
 												<td><b>Mobile</b></td><td>
-												<div class="col-md-12"><input class="form-control" type="number" min="0" name="addr_mob" value="<?php echo $addr_mobile; ?>" onkeypress="checkMobileValue(event);"></div>
+												<div class="col-md-12"><input class="form-control" placeholder="Should be of the form 9898989898. 6 to 10 characters." type="text" pattern=".{6,10}" name="addr_mob" value="<?php echo $addr_mobile; ?>" maxlength="10" size="10" onkeypress="checkMobileValue(event);check_mobile_number(this,event);"></div>
 												</td>
 											</tr>
 											<tr>
@@ -621,7 +618,7 @@ function checkMobileValue(e)
 									<textarea class="form-control" rows="5" cols="100" name="addr_p" type="text"><?php echo $perm_addr; ?></textarea></br>
 									<table class="table">
 										<tr>
-											<td><b>Mobile</b></td><td><div class="col-md-12"><input class="form-control" type="number" name="mob_p" value="<?php echo $perm_mobile; ?>" onkeypress="checkMobileValue(event);"></div>
+											<td><b>Mobile</b></td><td><div class="col-md-12"><input placeholder="Should be of the form 9898989898" class="form-control" minLength="6" type="text" maxlength="10" size="10" pattern=".{6,10}" name="mob_p" value="<?php echo $perm_mobile; ?>" onkeypress="checkMobileValue(event);check_mobile_number(this,event);"></div>
 											</td>
 										</tr>
 									</table>

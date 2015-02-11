@@ -1,6 +1,6 @@
 
 <?php include 'header1.php'; ?>
-<?php error_reporting(E_STRICT ^ E_WARNING * E_DEPRECATED ^ E_NOTICE);
+<?php error_reporting(E_STRICT ^ E_WARNING * E_DEPRECATED ^ E_NOTICE);?>
 <?php include 'tab_style.php'; ?>
 <!--
 <div id="header" >
