@@ -1,6 +1,7 @@
 <?php include 'externalLinks.php';?><!-- this file contains all the external css and js files and plugins if any --> 
 <?php include 'check.php'; ?>
 <?php include 'form2_h.php'; ?>
+
 <?php
 
 	error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
@@ -47,12 +48,12 @@
 		$paper2 = $row['paper2'];
 		$paper3 = $row['paper3'];
   	}
-  	echo $publications;
 
 if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1])) 
 {
 	
-	echo "<br/><span style='color:green;'>Publication Details SAVED</span>";
+	$k=$k1=0;
+
 	$intjournals3 = $_REQUEST['intjournals3'];
 	$intjournalsoverall = $_REQUEST['intjournalsoverall'];
 	$natjournals3 = $_REQUEST['natjournals3'];
@@ -62,6 +63,43 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	$natconf3 = $_REQUEST['natconf3'];
 	$natconfoverall = $_REQUEST['natconfoverall'];
 
+	if($intjournalsoverall<$intjournals3 && !($intjournalsoverall=='' || $intjournals3==''))
+	{
+		echo "Invalid! overall journals are".$intjournalsoverall."and last 3 years journals are.".$intjournals3.".in row1";
+		$intjournalsoverall=$intjournals3='';
+		$k1=1;
+	}
+
+	if($natjournalsoverall<$natjournals3 && !($natjournalsoverall=='' || $natjournals3==''))
+	{
+		echo "Invalid! overall journals are".$natjournalsoverall."and last 3 years journals are.".$natjournals3.".in row2";
+		$natjournalsoverall=$natjournals3='';
+		$k1=1;
+	}
+	
+	if($intconfoverall<$intconf3 && !($intconfoverall=='' || $intconf3==''))
+	{
+		echo "Invalid! overall journals are".$intconfoverall."and last 3 years journals are.".$intconf3.".in row3";
+		$intconfoverall=$intconf3='';
+		$k1=1;
+	}
+
+	if($natconfoverall < $natconf3 && !($natconfoverall=='' || $natconf3==''))
+	{
+		echo "Invalid! overall journals are".$natconfoverall."and last 3 years journals are.".$natconf3.".in row4";
+		$natconfoverall=$natconf3='';
+		$k1=1;
+	}
+	if($_FILES['paper1']['name']!='' && $_FILES['paper2']['name']!='' && $_FILES['paper3']['name']!='')
+		$k=0;
+	else
+		$k=1;
+	if($k==0 && $k1==0)
+	{
+		echo "<br/><span style='color:green;'>Publication Details SAVED</span>";
+	}
+	else
+	$temp=$temp_publications='';
 	$i=1;
 	while($_REQUEST['publications'.$i]!='')
 	{
@@ -75,7 +113,36 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	}
 	$_REQUEST['publications']=$temp_publications;	
 	$publications = $_REQUEST['publications'];
+
+	//if($intjournals3=='' || $intjournalsoverall=='' || $natjournals3=='' || $natjournalsoverall=='' || $intconf3=='' || $intconfoverall=='' || $natconf3=='' || $natconfoverall=='' || $publications=='' || $_FILES["paper1"]["name"]=='' || $_FILES["paper2"]["name"]=='' || $_FILES["paper3"]["name"]=='')
+	//	k=1;
+
+	//$_REQUEST['publications']=$temp_publications;	
+	//$publications = $_REQUEST['publications'];
 	//var_dump($_REQUEST['publications']);
+	
+	/*if(strcmp($_FILES["paper1"]["name"],$_FILES["paper2"]["name"])==0 && strcmp($_FILES["paper1"]["name"],$_FILES["paper2"]["name"])==0 && 	$_FILES['paper1']['name']!='' && $_FILES['paper2']['name']!='' && $_FILES['paper3']['name']!='')
+	{
+		$message = "Check the files. you might uploading same files or change the name of the files 1,2,3.";
+		echo "<script type='text/javascript'>alert('$message');</script>";
+		$_FILES['paper2']['name']='';
+		$_FILES['paper3']['name']='';
+	}
+	elseif (strcmp($_FILES["paper1"]["name"],$_FILES["paper2"]["name"])==0 && $_FILES['paper1']['name']!='' && $_FILES['paper2']['name']!='') {
+		$message = "Check the files. you might uploading same files or change the name of the files 1,2.";
+		echo "<script type='text/javascript'>alert('$message');</script>";
+		$_FILES['paper2']['name']='';
+	}
+	elseif (strcmp($_FILES["paper2"]["name"],$_FILES["paper3"]["name"])==0 && $_FILES['paper2']['name']!='' && $_FILES['paper3']['name']!='') {
+		$message = "Check the files. you might uploading same files or change the name of the files 2,3.";
+		echo "<script type='text/javascript'>alert('$message');</script>";
+		$_FILES['paper3']['name']='';		
+	}
+	elseif (strcmp($_FILES["paper1"]["name"],$_FILES["paper3"]["name"])==0 && $_FILES['paper1']['name']!='' && $_FILES['paper3']['name']!='') {
+		$message = "Check the files. you might uploading same files or change the name of the files 1,3.";
+		echo "<script type='text/javascript'>alert('$message');</script>";
+		$_FILES['paper3']['name']='';		
+	}*/
 
 	mysqli_query($con,"delete from form2 where userid=$usrid1");
 
@@ -89,7 +156,6 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	$natconfoverall = $_REQUEST['natconfoverall'];
 
 	$publications = $_REQUEST['publications'];*/
-
 
 
 	//echo "paper1 = " . $_FILES["paper1"]["name"] . "<br>";
@@ -195,7 +261,7 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	//echo $_REQUEST['publications'];
 
 // Upload end		
-	
+
 	$query = "INSERT INTO form2 		(userid,intjournals3,intjournalsoverall,natjournals3,natjournalsoverall,intconf3,intconfoverall,natconf3,
 natconfoverall,publications,submitted,paper1,paper2,paper3) VALUES ($usrid1,$intjournals3,$intjournalsoverall,$natjournals3,
 $natjournalsoverall,$intconf3,$intconfoverall,$natconf3,$natconfoverall,'$publications',0, '$paper1', '$paper2', '$paper3')";
@@ -215,7 +281,6 @@ $natjournalsoverall,$intconf3,$intconfoverall,$natconf3,$natconfoverall,'$public
 			//echo '<script language="JavaScript" type="text/javascript">alert("Publication Details SAVED")</script>';
 			echo '<meta http-equiv="REFRESH" content="0;url=form3.php?a=1">';		
 			}	
-
 }
 ?> 
 
@@ -257,11 +322,9 @@ $natjournalsoverall,$intconf3,$intconfoverall,$natconf3,$natconfoverall,'$public
         }
     }
 </script>
-
 <script type="text/javascript">
 	var count_cell=1;
 	function add_row(cnt0,cnt1,cnt2,cnt3,cnt4,cnt5) {
-				
 		var table=document.getElementById("table_pub");
 		var row=table.insertRow();
 		var cell1=row.insertCell(0);
@@ -277,8 +340,9 @@ $natjournalsoverall,$intconf3,$intconfoverall,$natconf3,$natconfoverall,'$public
 		cell5.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\" min=\"1960\" max=\"2015\" value=\""+cnt3+"\"></td>";count_cell++;
 		cell6.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\" min=\"1\" value=\""+cnt4+"\"></td>";count_cell++;
 		cell7.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\"  min=\"1\" value=\""+cnt5+"\"></td>";
-		cell1.innerHTML=(count_cell/6)+". ";		
-		count_cell++;						
+		cell1.innerHTML=(count_cell/6)+". ";	
+		count_cell++;
+
 		}
 
 </script>
@@ -334,7 +398,9 @@ if(GetUrlValue('a')==1)
 </script>-->
 <br/>
 <span style="color:red;"class="text-center">* required fields</span>
-<br/><br/>	
+
+<div style="position:right"><span style="color:red;" class="text-center"> Incomplete upload fields will not save the form.</span></div>
+<br/>
 
 
 <b>15.Number of Research Publications</b><span style="color:red;">*</span><br/><br/>
@@ -378,7 +444,7 @@ if(GetUrlValue('a')==1)
 
 <table class="table table-striped" id="myTable">
 <tr>
-<td><br/>Give the complete list as appendix with name of authors, title, journal/conference name, year, volume, page number format. (Note: incomplete rows and its followed rows will not be saved)<br/></td>
+<td><br/>Give the complete list as appendix with name of authors, title, journal/conference name, year, volume, page number format <span style="color:red;">*</span>.   <font color="red">(Note: incomplete rows and its followed rows will not be saved)</font><br/></td>
 </tr>
 <tr>
 <td>
@@ -429,6 +495,7 @@ $publication_split= explode(',',$publications);
 if(sizeof($publication_split)>6)
 {
 $n=(sizeof($publication_split)-1)/6;
+
 for($i=1;$i<=$n;$i++)
 {
 	$j=($i-1)*6;
@@ -438,7 +505,8 @@ for($i=1;$i<=$n;$i++)
 	$j3=$publication_split[$j+3];
 	$j4=$publication_split[$j+4];
 	$j5=$publication_split[$j+5];		
-	echo "<script> add_row($j0,$j1,$j2,$j3,$j4,$j5); </script>";
+
+	echo "<script> add_row('".$j0."','".$j1."','".$j2."','".$j3."','".$j4."','".$j5."'); </script>";
 }
 }
 else
