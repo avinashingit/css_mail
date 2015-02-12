@@ -53,7 +53,7 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 {
 	
 	$k=$k1=0;
-
+	echo "<br/><span style='color:green;'>Publication Details SAVED</span>";
 	$intjournals3 = $_REQUEST['intjournals3'];
 	$intjournalsoverall = $_REQUEST['intjournalsoverall'];
 	$natjournals3 = $_REQUEST['natjournals3'];
@@ -94,11 +94,12 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 		$k=0;
 	else
 		$k=1;
-	if($k==0 && $k1==0)
+	/*if($k==0 && $k1==0)
 	{
-		echo "<br/><span style='color:green;'>Publication Details SAVED</span>";
+		
 	}
 	else
+		*/
 	$temp=$temp_publications='';
 	$i=1;
 	while($_REQUEST['publications'.$i]!='')
@@ -523,7 +524,7 @@ else
 
 <table class="table table-striped" id="myTable">
 <tr>
-<td><br/>Upload copies of three best papers in PDF format<br/></td>
+<td><br/>Upload copies of three best papers in PDF format (size more than 10MB can not be accepted.)<br/></td>
 <td>Paper 1:<input type="file" name="paper1" id="paper1" onchange="check_file1()"><?php if(strlen($paper1) > 0) echo "Paper-1 is already submitted; To overwrite, upload again"; ?><br/></td>
 <td>Paper 2:<input type="file" name="paper2" id="paper2" onchange="check_file2()"><?php if(strlen($paper2) > 0) echo "Paper-2 is already submitted; To overwrite, upload again"; ?><br/></td>
 <td>Paper 3:<input type="file" name="paper3" id="paper3" onchange="check_file3()"><?php if(strlen($paper3) > 0) echo "Paper-3 is already submitted; To overwrite, upload again"; ?><br/></td>
