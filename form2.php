@@ -53,7 +53,7 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 {
 	
 	$k=$k1=0;
-	echo "<br/><span style='color:green;'>Publication Details SAVED</span>";
+
 	$intjournals3 = $_REQUEST['intjournals3'];
 	$intjournalsoverall = $_REQUEST['intjournalsoverall'];
 	$natjournals3 = $_REQUEST['natjournals3'];
@@ -65,31 +65,34 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 
 	if($intjournalsoverall<$intjournals3 && !($intjournalsoverall=='' || $intjournals3==''))
 	{
-		echo "Invalid! overall journals are".$intjournalsoverall."and last 3 years journals are.".$intjournals3.".in row1";
+		echo "Invalid! overall journals are".$intjournalsoverall."and last 3 years journals are.".$intjournals3.".in row1, ";
 		$intjournalsoverall=$intjournals3='';
 		$k1=1;
 	}
 
 	if($natjournalsoverall<$natjournals3 && !($natjournalsoverall=='' || $natjournals3==''))
 	{
-		echo "Invalid! overall journals are".$natjournalsoverall."and last 3 years journals are.".$natjournals3.".in row2";
+		echo "Invalid! overall journals are".$natjournalsoverall."and last 3 years journals are.".$natjournals3.".in row2, ";
 		$natjournalsoverall=$natjournals3='';
 		$k1=1;
 	}
 	
 	if($intconfoverall<$intconf3 && !($intconfoverall=='' || $intconf3==''))
 	{
-		echo "Invalid! overall journals are".$intconfoverall."and last 3 years journals are.".$intconf3.".in row3";
+		echo "Invalid! overall journals are".$intconfoverall."and last 3 years journals are.".$intconf3.".in row3, ";
 		$intconfoverall=$intconf3='';
 		$k1=1;
 	}
 
 	if($natconfoverall < $natconf3 && !($natconfoverall=='' || $natconf3==''))
 	{
-		echo "Invalid! overall journals are".$natconfoverall."and last 3 years journals are.".$natconf3.".in row4";
+		echo "Invalid! overall journals are".$natconfoverall."and last 3 years journals are.".$natconf3.".in row4, ";
 		$natconfoverall=$natconf3='';
 		$k1=1;
 	}
+	if($k1==0)
+	echo "<br/><span style='color:green;'>Publication Details SAVED</span>";
+
 	if($_FILES['paper1']['name']!='' && $_FILES['paper2']['name']!='' && $_FILES['paper3']['name']!='')
 		$k=0;
 	else
