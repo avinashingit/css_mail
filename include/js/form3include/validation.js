@@ -1,3 +1,5 @@
+//this is just checking for git hub.
+
 function myfunction1(countfunc)
 {
 	var inpObj= document.getElementById("id2"+countfunc);
