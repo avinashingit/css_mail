@@ -227,6 +227,7 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 ?>
 
 <html>
+<script src="include/js/form3include/validation.js" type="text/javascript"></script>
 <body>
 		<div class="row">
 
@@ -236,7 +237,7 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 
 <!--changes I made I made -->
 
-<script >
+<!--<script >
 function myfunction1(countfunc)
 {
 	var inpObj= document.getElementById("id2"+countfunc);
@@ -245,6 +246,10 @@ function myfunction1(countfunc)
     {
     		document.getElementById("idm2"+countfunc).innerHTML = "* a-z or A-Z or . are allowed.";
     	
+    }
+    else
+    {
+    	document.getElementById("idm2"+countfunc).innerHTML = "";
     }
 }
 
@@ -257,6 +262,10 @@ function myfunctionva1(countfunc)
     		document.getElementById("idmva2"+countfunc).innerHTML = "* a-z or A-Z or . are allowed.";
     	
     }
+    else
+    {
+    	document.getElementById("idmva2"+countfunc).innerHTML = "";
+    }
 }
 
 function myfunction2(countfunc)
@@ -266,6 +275,10 @@ function myfunction2(countfunc)
     if (errorinname == true)
     {
     		document.getElementById("idm3"+countfunc).innerHTML = "* a-z or A-Z  or . are allowed.";
+    }
+    else
+    {
+    	document.getElementById("idm3"+countfunc).innerHTML = "";
     }
 
 }
@@ -279,6 +292,10 @@ function myfunctionva2(countfunc)
     		document.getElementById("idmva3"+countfunc).innerHTML = "* a-z or A-Z  or . are allowed.";
     }
 
+    else
+    {
+    	document.getElementById("idmva3"+countfunc).innerHTML = "";
+    }
 }
 
 function myfunction3(countfunc)
@@ -298,6 +315,11 @@ function myfunction3(countfunc)
     	document.getElementById("idm4"+countfunc).innerHTML = "* Enter day or month or year in limits.";
     }
 
+    else
+    {
+    	document.getElementById("idm4"+countfunc).innerHTML = "";
+    }
+
 }
 function myfunctionva3(countfunc)
 {
@@ -314,6 +336,11 @@ function myfunctionva3(countfunc)
     if (!(composedDate.getDate() == day && composedDate.getMonth() == month && composedDate.getFullYear() == year))
     {
     	document.getElementById("idmva4"+countfunc).innerHTML = "* Enter day or month or year in limits.";
+    }
+
+    else
+    {
+    	document.getElementById("idmva4"+countfunc).innerHTML = "";
     }
 
 }
@@ -335,6 +362,11 @@ function myfunction4(countfunc)
     	document.getElementById("idm5"+countfunc).innerHTML = "* Enter day or month or year in limits.";
     }
 
+    else
+    {
+    	document.getElementById("idm5"+countfunc).innerHTML = "";
+    }
+
 }
 function myfunctionva4(countfunc)
 {
@@ -351,6 +383,11 @@ function myfunctionva4(countfunc)
     if (!(composedDate.getDate() == day && composedDate.getMonth() == month && composedDate.getFullYear() == year))
     {
     	document.getElementById("idmva5"+countfunc).innerHTML = "* Enter day or month or year in limits.";
+    }
+
+    else
+    {
+    	document.getElementById("idmva5"+countfunc).innerHTML = "";
     }
 
 }
@@ -373,13 +410,19 @@ function myfunction5(countfunc)
     			document.getElementById("idm6"+countfunc).innerHTML = "* months can not be more than 12.";
     		}
     	}
-    	else
+    	else if(inpObj.value[1]=="-")
     	{
     		if (inpObj.value.substr(2,4) > 12)
     		{
     			document.getElementById("idm6"+countfunc).innerHTML = "* months can not be more than 12.";
     		}
     	}
+
+    	else
+    	{
+    	document.getElementById("idm6"+countfunc).innerHTML = "";
+    	}
+
     }
 
 }
@@ -403,12 +446,17 @@ function myfunctionva5(countfunc)
     			document.getElementById("idmva6"+countfunc).innerHTML = "* months can not be more than 12.";
     		}
     	}
-    	else
+    	else if(inpObj.value[1]=="-")
     	{
     		if (inpObj.value.substr(2,4) > 12)
     		{
     			document.getElementById("idmva6"+countfunc).innerHTML = "* months can not be more than 12.";
     		}
+    	}
+
+    	else
+    	{
+    	document.getElementById("idmva6"+countfunc).innerHTML = "";
     	}
     }
 
@@ -421,6 +469,10 @@ function myfunction6(countfunc)
     {
     		document.getElementById("idm7"+countfunc).innerHTML = "* only positive numbers are allowed.";
     }
+    else
+    {
+    	document.getElementById("idm7"+countfunc).innerHTML = "";
+    }
 }
 
 function myfunctionva6(countfunc)
@@ -431,11 +483,15 @@ function myfunctionva6(countfunc)
     {
     		document.getElementById("idmva7"+countfunc).innerHTML = "* only positive numbers are allowed.";
     }
+    else
+    {
+    	document.getElementById("idmva7"+countfunc).innerHTML = "";
+    }
 }
 </script>
 
 <!--changes I made finish
-myfunction6 is not checking for lphabets in salary.
+myfunction6 is not checking for alphabets in salary.
 -->
 <script type="text/javascript">
 var count1 = 0;
@@ -550,6 +606,7 @@ if ($num_rows1 !=0)
 									<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row16(0)";?>">Insert new row</button>
 </td></tr>
 
+<!--
 <script >
 function myfunction7()
 {
@@ -559,6 +616,11 @@ function myfunction7()
 	{
 		document.getElementById("id17ma").innerHTML = "* only positive integers are valid.";
 	}
+
+	else
+    {
+    	document.getElementById("id17ma").innerHTML = "";
+    }
 }
 
 function myfunction8()
@@ -569,6 +631,10 @@ function myfunction8()
 	{
 		document.getElementById("id17mb").innerHTML = "* only positive integers are valid.";
 	}
+	else
+    {
+    	document.getElementById("id17mb").innerHTML = "";
+    }
 }
 
 function myfunction9()
@@ -579,6 +645,11 @@ function myfunction9()
 	{
 		document.getElementById("id17mc").innerHTML = "* only positive integers are valid.";
 	}
+
+	else
+    {
+    	document.getElementById("id17mc").innerHTML = "";
+    }
 }
 function myfunction10()
 {
@@ -588,9 +659,13 @@ function myfunction10()
 	{
 		document.getElementById("id17md").innerHTML = "* only positive integers are valid.";
 	}
+	else
+    {
+    	document.getElementById("id17md").innerHTML = "";
+    }
 }
 </script>
-
+-->
 
 <tr>
 <td>17. Number of Student Projects Guided (mention only viva completed/graduated student details):<span style="color:red;">*</span>
@@ -631,6 +706,7 @@ function myfunction10()
 
 <head>
 
+<!--
 <script>
 function myfunction11(countfunc)
 {
@@ -639,6 +715,11 @@ function myfunction11(countfunc)
 	if (errorinname == true)
     {
     		document.getElementById("id18ma"+countfunc).innerHTML = "* only positive numbers are allowed.";
+    }
+
+    else
+    {
+    	document.getElementById("id18ma"+countfunc).innerHTML = "";
     }
 }
 
@@ -650,6 +731,11 @@ function myfunctionva11(countfunc)
     {
     		document.getElementById("id18mvaa"+countfunc).innerHTML = "* only positive numbers are allowed.";
     }
+
+    else
+    {
+    	document.getElementById("id18mvaa"+countfunc).innerHTML = "";
+    }
 }
 
 function myfunction12(countfunc)
@@ -660,6 +746,10 @@ function myfunction12(countfunc)
     {
     		document.getElementById("id18mb"+countfunc).innerHTML = "you have to use only a-z or A-Z.";
     }
+    else
+    {
+    	document.getElementById("id18mb"+countfunc).innerHTML = "";
+    }
 }
 function myfunctionva12(countfunc)
 {
@@ -669,8 +759,13 @@ function myfunctionva12(countfunc)
     {
     		document.getElementById("id18mvab"+countfunc).innerHTML = "you have to use only a-z or A-Z.";
     }
+    else
+    {
+    	document.getElementById("id18mvab"+countfunc).innerHTML = "";
+    }
 }
 </script>
+-->
 
 <script type="text/javascript">
 var count2 = 0;
@@ -774,6 +869,7 @@ if ($num_rows2 !=0)
 
 <head>
 
+<!--
 <script>
 function myfunction13(countfunc)
 {
@@ -782,6 +878,11 @@ function myfunction13(countfunc)
 	if (errorinname == true)
     {
     		document.getElementById("id18mc"+countfunc).innerHTML = "* only positive numbers are allowed.";
+    }
+
+    else
+    {
+    	document.getElementById("id18mc"+countfunc).innerHTML = "";
     }
 }
 
@@ -793,6 +894,11 @@ function myfunctionva13(countfunc)
     {
     		document.getElementById("id18mvac"+countfunc).innerHTML = "* only positive numbers are allowed.";
     }
+
+    else
+    {
+    	document.getElementById("id18mvac"+countfunc).innerHTML = "";
+    }
 }
 
 function myfunction14(countfunc)
@@ -802,6 +908,10 @@ function myfunction14(countfunc)
 	if (errorinname == true)
     {
     		document.getElementById("id18md"+countfunc).innerHTML = "you have to use only a-z or A-Z.";
+    }
+    else
+    {
+    	document.getElementById("id18md"+countfunc).innerHTML = "";
     }
 }
 
@@ -813,8 +923,14 @@ function myfunctionva14(countfunc)
     {
     		document.getElementById("id18mvad"+countfunc).innerHTML = "you have to use only a-z or A-Z.";
     }
+    else
+    {
+    	document.getElementById("id18mvad"+countfunc).innerHTML = "";
+    }
 }
 </script>>
+-->
+
 <script type="text/javascript">
 var count3 = 0;
 
