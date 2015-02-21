@@ -15,7 +15,7 @@ Chages made:
 -->
 <?php include 'externalLinks.php';?><!-- this file contains all the external css and js files and plugins if any --> 
 <?php include 'check.php'; ?>
-<?php include 'form1_h.php'; ?>
+<?php include 'form_h.php'; ?>
 <?php include_once('functions.php'); ?>
 <?php
 	error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_STRICT);

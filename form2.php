@@ -1,6 +1,6 @@
 <?php include 'externalLinks.php';?><!-- this file contains all the external css and js files and plugins if any --> 
 <?php include 'check.php'; ?>
-<?php include 'form2_h.php'; ?>
+<?php include 'form_h.php'; ?>
 
 <?php
 
