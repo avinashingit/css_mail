@@ -103,20 +103,16 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	}
 	else
 		*/
-	$temp=$temp_publications='';
+	$p='publications';
+	$temp='';
 	$i=1;
-	while($_REQUEST['publications'.$i]!='')
+	while(!($_REQUEST[$p.$i] == '' && $_REQUEST[$p.($i+1)] == '' && $_REQUEST[$p.($i+2)] == '' && $_REQUEST[$p.($i+3)] == '' && $_REQUEST[$p.($i+4)] == '' && $_REQUEST[$p.($i+5)] == '' ))
 	{
-		$temp=$temp.$_REQUEST['publications'.$i].',';
-		$i++;
-		if(($i-1)%6==0)
-		{
-			$temp_publications=$temp_publications.$temp;
-			$temp='';
-		}
+		$temp=$temp.$_REQUEST[$p.$i].'^'.$_REQUEST[$p.($i+1)].'^'.$_REQUEST[$p.($i+2)].'^'.$_REQUEST[$p.($i+3)].'^'.$_REQUEST[$p.($i+4)].'^'.$_REQUEST[$p.($i+5)].'$';
+		$i+=6;
 	}
-	$_REQUEST['publications']=$temp_publications;	
-	$publications = $_REQUEST['publications'];
+	$publications = $_REQUEST['publications'] = $temp;
+	//$publications = $temp_publications;
 
 	//if($intjournals3=='' || $intjournalsoverall=='' || $natjournals3=='' || $natjournalsoverall=='' || $intconf3=='' || $intconfoverall=='' || $natconf3=='' || $natconfoverall=='' || $publications=='' || $_FILES["paper1"]["name"]=='' || $_FILES["paper2"]["name"]=='' || $_FILES["paper3"]["name"]=='')
 	//	k=1;
@@ -403,8 +399,8 @@ if(GetUrlValue('a')==1)
 <br/>
 <span style="color:red;"class="text-center">* required fields</span>
 
-<div style="position:right"><span style="color:red;" class="text-center"> Incomplete upload fields will not save the form.</span></div>
-<br/>
+<!--<div style="position:right"><span style="color:red;" class="text-center"> Incomplete upload fields will not save the form.</span></div>-->
+<br/><br/>
 
 
 <b>15.Number of Research Publications</b><span style="color:red;">*</span><br/><br/>
@@ -420,26 +416,26 @@ if(GetUrlValue('a')==1)
 <tr>
 <td>International Referred Journals(Published/Accepted only)</td>
 
-<td><input class="form-control" type="number" name="intjournals3" value="<?php echo $intjournals3;?>" size="7" min="1"></td>
-<td><input class="form-control" type="number" name="intjournalsoverall" value="<?php echo $intjournalsoverall;?>" size="7" min="1"></td>
+<td><input class="form-control" type="number" name="intjournals3" value="<?php echo $intjournals3;?>" size="7" min="0"></td>
+<td><input class="form-control" type="number" name="intjournalsoverall" value="<?php echo $intjournalsoverall;?>" size="7" min="0"></td>
 </tr>
 
 <tr>
 <td>National Referred Journals(Published/Accepted only)</td>
-<td><input class="form-control" type="number" name="natjournals3" value="<?php echo $natjournals3;?>" size="7" min="1"></td>
-<td><input class="form-control" type="number" name="natjournalsoverall" value="<?php echo $natjournalsoverall;?>" size="7" min="1"></td>
+<td><input class="form-control" type="number" name="natjournals3" value="<?php echo $natjournals3;?>" size="7" min="0"></td>
+<td><input class="form-control" type="number" name="natjournalsoverall" value="<?php echo $natjournalsoverall;?>" size="7" min="0"></td>
 </tr>
 
 <tr>
 <td>Presentation at International Conferences(Atleast one<br/>author should have presented personally)</td>
-<td><input class="form-control" type="number" name="intconf3" value="<?php echo $intconf3;?>" size="7" min="1"></td>
-<td><input class="form-control" type="number" name="intconfoverall" value="<?php echo $intconfoverall;?>" size="7" min="1"></td>
+<td><input class="form-control" type="number" name="intconf3" value="<?php echo $intconf3;?>" size="7" min="0"></td>
+<td><input class="form-control" type="number" name="intconfoverall" value="<?php echo $intconfoverall;?>" size="7" min="0"></td>
 </tr>
 
 <tr>
 <td>Presentation at National Conferences(Atleast one author<br/>should have presented personally)</td>
-<td><input class="form-control" type="number" name="natconf3" value="<?php echo $natconf3;?>" size="7" min="1"></td>
-<td><input class="form-control" type="number" name="natconfoverall" value="<?php echo $natconfoverall;?>" size="7" min="1"></td>
+<td><input class="form-control" type="number" name="natconf3" value="<?php echo $natconf3;?>" size="7" min="0"></td>
+<td><input class="form-control" type="number" name="natconfoverall" value="<?php echo $natconfoverall;?>" size="7" min="0"></td>
 </tr>
 
 <!--every input type above is changed to number and attribute min is assigned with 1 -->
@@ -448,7 +444,7 @@ if(GetUrlValue('a')==1)
 
 <table class="table table-striped" id="myTable">
 <tr>
-<td><br/>Give the complete list as appendix with name of authors, title, journal/conference name, year, volume, page number format <span style="color:red;">*</span>.   <font color="red">(Note: incomplete rows and its followed rows will not be saved)</font><br/></td>
+<td><br/>Give the complete list as appendix with name of authors, title, journal/conference name, year, volume, page number format <span style="color:red;">*</span></td>
 </tr>
 <tr>
 <td>
@@ -494,21 +490,22 @@ if(GetUrlValue('a')==1)
 <!-- <?php //echo "<script> add_row(); </script>";?> -->
 
 <?php 
-$publication_split= explode(',',$publications);
+$publication_dollar= explode('$',$publications);
 
-if(sizeof($publication_split)>6)
-{
-$n=(sizeof($publication_split)-1)/6;
 
-for($i=1;$i<=$n;$i++)
+if(sizeof($publication_dollar)>1)
 {
-	$j=($i-1)*6;
-	$j0=$publication_split[$j];
-	$j1=$publication_split[$j+1];
-	$j2=$publication_split[$j+2];
-	$j3=$publication_split[$j+3];
-	$j4=$publication_split[$j+4];
-	$j5=$publication_split[$j+5];		
+$n=sizeof($publication_dollar);
+
+for($i=1;$i<$n;$i++)
+{
+	$publication_split=explode('^', $publication_dollar[$i-1]);
+	$j0=$publication_split[0];
+	$j1=$publication_split[1];
+	$j2=$publication_split[2];
+	$j3=$publication_split[3];
+	$j4=$publication_split[4];
+	$j5=$publication_split[5];		
 
 	echo "<script> add_row('".$j0."','".$j1."','".$j2."','".$j3."','".$j4."','".$j5."'); </script>";
 }
