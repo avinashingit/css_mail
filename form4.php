@@ -53,7 +53,21 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1])) 
 {
 
-	echo "<br/><span style='color:green;'>SOP and LOR SAVED</span>";
+	echo "<br/><span style='color:green;'>SOP and LOR SAVED</span><br/>";
+	
+		$ref1_name=$_REQUEST['ref1_name'];
+		$ref1_add=$_REQUEST['ref1_add'];
+		$ref1_email=$_REQUEST['ref1_email'];
+		$ref1_phone=$_REQUEST['ref1_phone'];
+		$ref2_name=$_REQUEST['ref2_name'];
+		$ref2_add=$_REQUEST['ref2_add'];
+		$ref2_email=$_REQUEST['ref2_email'];
+		$ref2_phone=$_REQUEST['ref2_phone'];
+		$ref3_name=$_REQUEST['ref3_name'];
+		$ref3_add=$_REQUEST['ref3_add'];
+		$ref3_email=$_REQUEST['ref3_email'];
+		$ref3_phone=$_REQUEST['ref3_phone'];
+		$othr=$_REQUEST['27'];
 	/*	$errorMessage = "";
 		
 		if(empty($_POST['25a'] )) 
@@ -101,23 +115,66 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 		$sql="INSERT INTO form4(userid,sop25a,sop25b,ref1_name,ref1_addr,ref1_email,ref1_phone,ref2_name,ref2_addr,ref2_email,ref2_phone,ref3_name,ref3_addr,ref3_email,ref3_phone,otherinfo27,submitted) VALUES ('$usrid1','$a25','$b25','$ref1_name','$ref1_add','$ref1_email','$ref1_phone','$ref2_name','$ref2_add','$ref2_email','$ref2_phone','$ref3_name','$ref3_add','$ref3_email','$ref3_phone','$othr',0)";
      	mysqli_query($con,$sql);
 	}
-*/
+*/		if(strlen($_FILES["25a"]["name"]) != 0)
+	{
+		// Start upload script
+		$allowedExts = array("pdf");
+		$extension = explode(".", $_FILES["25a"]["name"]);
+		$extension = end($extension);
+		if ((($_FILES["25a"]["type"] == "application/pdf") && ($_FILES["25a"]["size"] < 10000000)) && (in_array($extension, $allowedExts)))
+		{
+  			if ($_FILES["25a"]["error"] > 0)
+    			{
+			    	echo "Error uploading 25a file. Please try again";
+    			}
+  			else
+    			{
+				$a25 = "upload/" . $usrid1 ."_25a." .$extension;
+				if(move_uploaded_file($_FILES["25a"]["tmp_name"], $a25))
+					echo "<span style='color:green;'>25a file is saved</span><br>";
+				else echo "<br>File not saved<br>";
+    			}
+		}
+		else
+  		{
+  			echo "Invalid file";
+  		}
+	
+		// End upload script
+	}
+
+	// Upload paper-2
+
+	if(strlen($_FILES["25b"]["name"]) != 0)
+	{
+		// Start upload script
+		$allowedExts = array("pdf");
+		$extension = explode(".", $_FILES["25b"]["name"]);
+		$extension = end($extension);
+
+		if ((($_FILES["25b"]["type"] == "application/pdf") && ($_FILES["25b"]["size"] < 10000000)) && (in_array($extension, $allowedExts)))
+		{
+  			if ($_FILES["25b"]["error"] > 0)
+    			{
+			    	echo "Error uploading 25b file. Please try again";
+    			}
+  			else
+    			{
+				$b25 = "upload/" . $usrid1 ."_25b." .$extension;
+				if(move_uploaded_file($_FILES["25b"]["tmp_name"], $b25))
+					echo "<span style='color:green;'>25b file is saved</span><br>";
+				else echo "<br>File not saved<br>";
+    			}
+		}
+		else
+  		{
+  			echo "Invalid file";
+  		}
+	
+		// End upload script
+	}
+
 		
-		$a25=$_REQUEST['25a'];
-		$b25=$_REQUEST['25b'];
-		$ref1_name=$_REQUEST['ref1_name'];
-		$ref1_add=$_REQUEST['ref1_add'];
-		$ref1_email=$_REQUEST['ref1_email'];
-		$ref1_phone=$_REQUEST['ref1_phone'];
-		$ref2_name=$_REQUEST['ref2_name'];
-		$ref2_add=$_REQUEST['ref2_add'];
-		$ref2_email=$_REQUEST['ref2_email'];
-		$ref2_phone=$_REQUEST['ref2_phone'];
-		$ref3_name=$_REQUEST['ref3_name'];
-		$ref3_add=$_REQUEST['ref3_add'];
-		$ref3_email=$_REQUEST['ref3_email'];
-		$ref3_phone=$_REQUEST['ref3_phone'];
-		$othr=$_REQUEST['27'];
 		mysqli_query($con,"delete from form4 where userid=$usrid1");
 		$sql="INSERT INTO form4(userid,sop25a,sop25b,ref1_name,ref1_addr,ref1_email,ref1_phone,ref2_name,ref2_addr,ref2_email,ref2_phone,ref3_name,ref3_addr,ref3_email,ref3_phone,otherinfo27,submitted) VALUES ('$usrid1','$a25','$b25','$ref1_name','$ref1_add','$ref1_email','$ref1_phone','$ref2_name','$ref2_add','$ref2_email','$ref2_phone','$ref3_name','$ref3_add','$ref3_email','$ref3_phone','$othr',0)";
      	mysqli_query($con,$sql);
@@ -139,6 +196,22 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 
 
    ?>
+   <script type="text/javascript">
+	function check_25(a){
+                str=document.getElementById(a).value.toUpperCase();
+        suffix=".PDF";
+        if(str.indexOf(suffix, str.length - suffix.length) == -1)
+        {
+        alert('File type not allowed,\nAllowed file: *.PDF');
+            document.getElementById(a).value='';
+        }
+        else if(document.getElementById(a).files[0].size >= 8388608)
+        {
+        alert("Size of the file should be less than 8MB");
+            document.getElementById(a).value='';        		        		
+        }        
+    }
+    </script>
 
 <html>
 <body background="bgimage.jpg";background-repeat:no-repeat;background-attachment:scroll;>
@@ -152,16 +225,16 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 <br/><br/>
 <table class="table table-striped" id="myTable">
 
-25:SOP<br/>
+25:SOP<span style="color:red;">*</span><br/><br/>
 <tr>
-<td>a)Why would you like to join IIITDM Kancheepuram?<br/>
-(Do not exceed 4000 characters)<span style="color:red;">*</span><br/></td>
-<td><textarea class="form-control" style= "width: 500px; height: 150px;" row="20" column="200" name="25a" maxlength="4000"><?php echo $a25;?></textarea></td>
+<td>a) Why would you like to join IIITDM Kancheepuram? (file size < 8MB is accepted.)<br/></td>
+<td>b) Your vision for the growth of the institute...  (file size < 8MB is accepted.)<br/></td>
+<!--<td><textarea class="form-control" style= "width: 500px; height: 150px;" row="20" column="200" name="25a" maxlength="4000"><?php echo $a25;?></textarea></td> -->
 </tr>
 <tr>
-<td>b)Your vision for the growth of the institute...<br/>
-(Do not exceed 4000 characters)<span style="color:red;">*</span><br/></td>
-<td><textarea class="form-control" style="width: 500px; height: 150px;" row="20" column="200" name="25b" maxlength="4000"><?php echo $b25;?></textarea></td>
+<!-- <td><textarea class="form-control" style="width: 500px; height: 150px;" row="20" column="200" name="25b" maxlength="4000"><?php echo $b25;?></textarea></td> -->
+<td><input type="file" name="25a" id="25a" onchange="check_25('25a')"><?php if(strlen($a25) > 0) echo "It is already submitted; To overwrite, upload again"; ?><br/></td>
+<td><input type="file" name="25b" id="25b" onchange="check_25('25b')"><?php if(strlen($b25) > 0) echo "It is already submitted; To overwrite, upload again"; ?><br/></td>
 </tr>
 </table>
 
