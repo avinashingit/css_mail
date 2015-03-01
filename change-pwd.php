@@ -1,7 +1,8 @@
 <?PHP
 require_once("./include/membersite_config.php");?>
-<?php include 'header1.php'; ?>
-<?php include 'tab_style.php'; ?>
+<?php include 'form_h.php'; ?>
+
+<!--
 <div class="row">
   <div class="col-md-6 col-md-offset-3">
     <ul class="nav nav-tabs nav-justified"> 
@@ -11,6 +12,8 @@ require_once("./include/membersite_config.php");?>
     </ul>
   </div>
 </div>
+!-->
+
 <br/>
 <?php
 if(!$fgmembersite->CheckLogin())

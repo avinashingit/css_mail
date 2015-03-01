@@ -1,7 +1,7 @@
 <?php include_once("check.php");
-include 'header1.php';
-include 'tab_style.php';
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING); ?>
+
+<?php include 'form_h.php'; ?>
 <!--
 <div id="header">
   <ul>
@@ -17,20 +17,7 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING); ?>
 </div>
 -->
 	<!--<li><a href="../pdf_final.php">Submit</a></li>-->
-<div class="row">
-  <div class="col-md-12 text-center">
-  <ul class="nav nav-tabs nav-justified">
-    <li><a href="form1.php">Personal Details</a></li>
-    <li><a href="form2.php">Publication Details</a></li>
-    <li><a href="form3.php">Professional Activities</a></li>
-    <li><a href="form4.php">SOP and LOR</a></li>
-	<!--<li><a href="../pdf_final.php">Submit</a></li>-->
-	<li class="active"><a href="submit.php">Submit</a></li>
-	<li><a href="change-pwd.php">Change Password</a></li>
-	<li><a href='logout.php'>Logout</a></li>
-  </ul>
-</div>
-</div>
+
 <br/>	
 <?php
 	if($_GET[a]==1)

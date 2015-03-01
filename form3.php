@@ -417,6 +417,7 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 
 <html>
 <script src="include/js/form3include/validation.js" type="text/javascript"></script>
+<script src="include/js/form3include/addrow.js" type="text/javascript"></script>
 <body>
 		<div class="row">
 
@@ -647,6 +648,7 @@ cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count2\" v
 
 }
 </script>
+
 </head>
 <tr>
 <td>
@@ -1121,13 +1123,12 @@ cell3.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count10\" 
 }
 
 }
-</script>
+</script>!-->
 <table class="table table-striped" id="myTable">
 <tr><td>19. Courses Handled</td></tr>
 
 
-<tr><td>a)Undergraduate Level</td>
-</tr>
+<tr><td>a)Undergraduate Level</td></tr>
 <!--<td><textarea class="form-control" rows="15" cols="100" name="courses_undergrad">
 <?php echo $courses_undergrad ;?>
 </textarea></td>
