@@ -27,7 +27,7 @@
   <ul class="nav nav-tabs nav-justified">
 
   <?php 
-  if($arr[sizeof($arr)-1]=="form1.php")
+  if($arr[sizeof($arr)-1]=="form1.php" or $arr[sizeof($arr)-1]=='form1.php?a=1')
     {?>
 
     <li class="active"><a href="form1.php">Personal Details</a></li>
@@ -41,7 +41,7 @@
 
 
     <?php 
-  if($arr[sizeof($arr)-1]=="form2.php")
+  if($arr[sizeof($arr)-1]=="form2.php" or $arr[sizeof($arr)-1]=='form2.php?a=1')
     {?>
 
     <li class="active"><a href="form2.php">Publication Details</a></li>
@@ -56,7 +56,7 @@
 
 
     <?php
-    if($arr[sizeof($arr)-1]=="form3.php")
+    if($arr[sizeof($arr)-1]=="form3.php" or $arr[sizeof($arr)-1]=='form3.php?a=1')
     {?>
     <li class="active"><a href="form3.php">Professional Activities</a></li>
     <?php
@@ -70,7 +70,7 @@
 
 
     <?php
-    if($arr[sizeof($arr)-1]=="form4.php")
+    if($arr[sizeof($arr)-1]=="form4.php" or $arr[sizeof($arr)-1]=='form4.php?a=1')
     {?>
 
     <li class="active"><a href="form4.php">SOP and LOR</a></li>
@@ -83,7 +83,7 @@
     }?>
 
     <?php
-    if($arr[sizeof($arr)-1]=="submit.php")
+    if($arr[sizeof($arr)-1]=="submit.php" or $arr[sizeof($arr)-1]=='submit.php?a=1')
     {?>
 
     <li class="active"><a href="submit.php">Submit</a></li>

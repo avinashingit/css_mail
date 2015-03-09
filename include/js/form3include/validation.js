@@ -9,7 +9,7 @@ function myfunction1(countfunc)
     }
     else
     {
-    	document.getElementById("idm2"+countfunc).innerHTML = "";
+    	    document.getElementById("idm2"+countfunc).innerHTML = "";
     }
 }
 
@@ -24,7 +24,7 @@ function myfunctionva1(countfunc)
     }
     else
     {
-    	document.getElementById("idmva2"+countfunc).innerHTML = "";
+    	   document.getElementById("idmva2"+countfunc).innerHTML = "";
     }
 }
 
@@ -38,7 +38,7 @@ function myfunction2(countfunc)
     }
     else
     {
-    	document.getElementById("idm3"+countfunc).innerHTML = "";
+    	   document.getElementById("idm3"+countfunc).innerHTML = "";
     }
 
 }
@@ -54,7 +54,7 @@ function myfunctionva2(countfunc)
 
     else
     {
-    	document.getElementById("idmva3"+countfunc).innerHTML = "";
+    	   document.getElementById("idmva3"+countfunc).innerHTML = "";
     }
 }
 
@@ -72,12 +72,12 @@ function myfunction3(countfunc)
     var composedDate = new Date(year, month, day);
     if (!(composedDate.getDate() == day && composedDate.getMonth() == month && composedDate.getFullYear() == year))
     {
-    	document.getElementById("idm4"+countfunc).innerHTML = "* Enter day or month or year in limits.";
+    	   document.getElementById("idm4"+countfunc).innerHTML = "* Enter day or month or year in limits.";
     }
 
     else
     {
-    	document.getElementById("idm4"+countfunc).innerHTML = "";
+    	   document.getElementById("idm4"+countfunc).innerHTML = "";
     }
 
 }
@@ -95,12 +95,12 @@ function myfunctionva3(countfunc)
     var composedDate = new Date(year, month, day);
     if (!(composedDate.getDate() == day && composedDate.getMonth() == month && composedDate.getFullYear() == year))
     {
-    	document.getElementById("idmva4"+countfunc).innerHTML = "* Enter day or month or year in limits.";
+    	   document.getElementById("idmva4"+countfunc).innerHTML = "* Enter day or month or year in limits.";
     }
 
     else
     {
-    	document.getElementById("idmva4"+countfunc).innerHTML = "";
+    	   document.getElementById("idmva4"+countfunc).innerHTML = "";
     }
 
 }
@@ -111,7 +111,7 @@ function myfunction4(countfunc)
 	var matches = /(\d{4})[-\/](\d{2}|\d{1})[-\/](\d{2}|\d{1})/.exec(inpObj.value);
     if (matches == null)
     {
-    	document.getElementById("idm5"+countfunc).innerHTML = "* Enter valid date in given format.";
+    	   document.getElementById("idm5"+countfunc).innerHTML = "* Enter valid date in given format.";
     }
     var year = matches[1];
 	var month = matches[2] - 1;
@@ -119,12 +119,12 @@ function myfunction4(countfunc)
     var composedDate = new Date(year, month, day);
     if (!(composedDate.getDate() == day && composedDate.getMonth() == month && composedDate.getFullYear() == year))
     {
-    	document.getElementById("idm5"+countfunc).innerHTML = "* Enter day or month or year in limits.";
+    	   document.getElementById("idm5"+countfunc).innerHTML = "* Enter day or month or year in limits.";
     }
 
     else
     {
-    	document.getElementById("idm5"+countfunc).innerHTML = "";
+    	   document.getElementById("idm5"+countfunc).innerHTML = "";
     }
 
 }
@@ -134,7 +134,7 @@ function myfunctionva4(countfunc)
 	var matches = /(\d{4})[-\/](\d{2}|\d{1})[-\/](\d{2}|\d{1})/.exec(inpObj.value);
     if (matches == null)
     {
-    	document.getElementById("idmva5"+countfunc).innerHTML = "* Enter valid date in given format.";
+    	   document.getElementById("idmva5"+countfunc).innerHTML = "* Enter valid date in given format.";
     }
     var year = matches[1];
 	var month = matches[2] - 1;
@@ -142,12 +142,12 @@ function myfunctionva4(countfunc)
     var composedDate = new Date(year, month, day);
     if (!(composedDate.getDate() == day && composedDate.getMonth() == month && composedDate.getFullYear() == year))
     {
-    	document.getElementById("idmva5"+countfunc).innerHTML = "* Enter day or month or year in limits.";
+    	   document.getElementById("idmva5"+countfunc).innerHTML = "* Enter day or month or year in limits.";
     }
 
     else
     {
-    	document.getElementById("idmva5"+countfunc).innerHTML = "";
+    	   document.getElementById("idmva5"+countfunc).innerHTML = "";
     }
 
 }
@@ -159,7 +159,7 @@ function myfunction5(countfunc)
 
 	if(errorinname2==true || errorinname==null)
     {
-        document.getElementById("idm6"+countfunc).innerHTML = "only numbers and \"-\" are allowed.";
+            document.getElementById("idm6"+countfunc).innerHTML = "only numbers and \"-\" are allowed.";
     }
     else
     {
@@ -167,22 +167,22 @@ function myfunction5(countfunc)
     	{
     		if (inpObj.value.substr(3,5) > 12)
     		{
-    			document.getElementById("idm6"+countfunc).innerHTML = "* months can not be more than 12.";
+    			     document.getElementById("idm6"+countfunc).innerHTML = "* months can not be more than 12.";
     		}
             else
             {
-                document.getElementById("idm6"+countfunc).innerHTML = "";
+                    document.getElementById("idm6"+countfunc).innerHTML = "";
             }
     	}
     	else if(inpObj.value[1]=="-")
     	{
     		if (inpObj.value.substr(2,4) > 12)
     		{
-    			document.getElementById("idm6"+countfunc).innerHTML = "* months can not be more than 12.";
+    			     document.getElementById("idm6"+countfunc).innerHTML = "* months can not be more than 12.";
     		}
             else
             {
-                document.getElementById("idm6"+countfunc).innerHTML = "";
+                     document.getElementById("idm6"+countfunc).innerHTML = "";
             }
     	}
 
@@ -208,22 +208,22 @@ function myfunctionva5(countfunc)
     	{
     		if (inpObj.value.substr(3,5) > 12)
     		{
-    			document.getElementById("idmva6"+countfunc).innerHTML = "* months can not be more than 12.";
+    			    document.getElementById("idmva6"+countfunc).innerHTML = "* months can not be more than 12.";
     		}
             else
             {
-                document.getElementById("idmva6"+countfunc).innerHTML = "";
+                    document.getElementById("idmva6"+countfunc).innerHTML = "";
             }
     	}
     	else if(inpObj.value[1]=="-")
     	{
     		if (inpObj.value.substr(2,4) > 12)
     		{
-    			document.getElementById("idmva6"+countfunc).innerHTML = "* months can not be more than 12.";
+    			    document.getElementById("idmva6"+countfunc).innerHTML = "* months can not be more than 12.";
     		}
             else
             {
-                document.getElementById("idmva6"+countfunc).innerHTML = "";
+                    document.getElementById("idmva6"+countfunc).innerHTML = "";
             }
     	}
     }
@@ -239,7 +239,7 @@ function myfunction6(countfunc)
     }
     else
     {
-    	document.getElementById("idm7"+countfunc).innerHTML = "";
+    	    document.getElementById("idm7"+countfunc).innerHTML = "";
     }
 }
 
@@ -253,7 +253,7 @@ function myfunctionva6(countfunc)
     }
     else
     {
-    	document.getElementById("idmva7"+countfunc).innerHTML = "";
+    	    document.getElementById("idmva7"+countfunc).innerHTML = "";
     }
 }
 
@@ -264,12 +264,12 @@ function myfunction7()
     var errorinname = /[.\-]|[a-z]|[A-Z]/.test(inpObj.value);
     if (errorinname==true)
     {
-        document.getElementById("id17ma").innerHTML = "* only positive integers are valid.";
+            document.getElementById("id17ma").innerHTML = "* only positive integers are valid.";
     }
 
     else
     {
-        document.getElementById("id17ma").innerHTML = "";
+            document.getElementById("id17ma").innerHTML = "";
     }
 }
 
@@ -279,11 +279,11 @@ function myfunction8()
     var errorinname = /[.\-]|[a-z]|[A-Z]/.test(inpObj.value);
     if (errorinname==true)
     {
-        document.getElementById("id17mb").innerHTML = "* only positive integers are valid.";
+            document.getElementById("id17mb").innerHTML = "* only positive integers are valid.";
     }
     else
     {
-        document.getElementById("id17mb").innerHTML = "";
+            document.getElementById("id17mb").innerHTML = "";
     }
 }
 
@@ -293,12 +293,12 @@ function myfunction9()
     var errorinname = /[.\-]|[a-z]|[A-Z]/.test(inpObj.value);
     if (errorinname==true)
     {
-        document.getElementById("id17mc").innerHTML = "* only positive integers are valid.";
+            document.getElementById("id17mc").innerHTML = "* only positive integers are valid.";
     }
 
     else
     {
-        document.getElementById("id17mc").innerHTML = "";
+            document.getElementById("id17mc").innerHTML = "";
     }
 }
 function myfunction10()
@@ -327,7 +327,7 @@ function myfunction11(countfunc)
 
     else
     {
-        document.getElementById("id18ma"+countfunc).innerHTML = "";
+            document.getElementById("id18ma"+countfunc).innerHTML = "";
     }
 }
 
@@ -342,7 +342,7 @@ function myfunctionva11(countfunc)
 
     else
     {
-        document.getElementById("id18mvaa"+countfunc).innerHTML = "";
+            document.getElementById("id18mvaa"+countfunc).innerHTML = "";
     }
 }
 
@@ -356,7 +356,7 @@ function myfunction12(countfunc)
     }
     else
     {
-        document.getElementById("id18mb"+countfunc).innerHTML = "";
+            document.getElementById("id18mb"+countfunc).innerHTML = "";
     }
 }
 function myfunctionva12(countfunc)
@@ -369,7 +369,7 @@ function myfunctionva12(countfunc)
     }
     else
     {
-        document.getElementById("id18mvab"+countfunc).innerHTML = "";
+            document.getElementById("id18mvab"+countfunc).innerHTML = "";
     }
 }
 
@@ -384,7 +384,7 @@ function myfunction13(countfunc)
 
     else
     {
-        document.getElementById("id18mc"+countfunc).innerHTML = "";
+            document.getElementById("id18mc"+countfunc).innerHTML = "";
     }
 }
 
@@ -399,7 +399,7 @@ function myfunctionva13(countfunc)
 
     else
     {
-        document.getElementById("id18mvac"+countfunc).innerHTML = "";
+            document.getElementById("id18mvac"+countfunc).innerHTML = "";
     }
 }
 
@@ -413,7 +413,7 @@ function myfunction14(countfunc)
     }
     else
     {
-        document.getElementById("id18md"+countfunc).innerHTML = "";
+            document.getElementById("id18md"+countfunc).innerHTML = "";
     }
 }
 
@@ -427,6 +427,6 @@ function myfunctionva14(countfunc)
     }
     else
     {
-        document.getElementById("id18mvad"+countfunc).innerHTML = "";
+            document.getElementById("id18mvad"+countfunc).innerHTML = "";
     }
 }
