@@ -13,12 +13,20 @@ $fgmembersite->LogOut();
       <script type='text/javascript' src='scripts/gen_validatorv31.js'></script>
 </head>
 <body>
+<div class="row">
 
-<h2>You have logged out</h2>
-<p>
-<a href='login.php'>Login Again</a>
-<br/><br/>Visit <a href='home.php'> home</a> again
-</p>
+	<div class="col-md-12 text-center">
+
+		<h2>You have logged out</h2>
+		<p>
+		<a class="btn btn-primary btn-md" href='login.php'>Login Again</a>
+		<br/><br/>Visit <a href='home.php'> home</a> again
+		</p>
+
+	</div>
+
+</div>
+
 
 </body>
 </html>

@@ -15,7 +15,7 @@ $fgmembersite->SetAdminEmail('facultyrec.iiitdm@gmail.com');
 //by itself on submitting register.php for the first time
 $fgmembersite->InitDB(/*hostname*/'localhost',
                       /*username*/'root',
-                      /*password*/'root',
+                      /*password*/'isquarer',
                       /*database name*/'faculty_recruitment',/*was 'temp-db' prev
                       /*table name*/'users'/*'user_table'*/);
 

@@ -4,13 +4,7 @@
 <html>
 <body>
 <?php
-// Create connection
-	$con=mysqli_connect("localhost","root","rootpw","faculty_recruitment");
-	// Check connection
-	if (mysqli_connect_errno($con))
-	{
-		echo "Failed to connect to database";
-	}
+
 
 	$userid = $_SESSION["userid"];
 

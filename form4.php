@@ -4,12 +4,7 @@
 
 <?php
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
-	$con=mysqli_connect("localhost","root","root","faculty_recruitment");
-	if (mysqli_connect_errno($con))
-	{
-		echo "Failed to connect to MySQL: " . mysqli_connect_error();
-	}
-	//$usrid1 = $_GET['usrid'];
+	
 	$usrid1 = $_SESSION['userid'];
 
 	if(mysqli_num_rows(mysqli_query($con, "select submitted from form4 where userid = $usrid1 and submitted = 1")) > 0)

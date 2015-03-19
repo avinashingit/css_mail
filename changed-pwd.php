@@ -1,11 +1,20 @@
 <?php include 'header1.php'; ?>
 <?php include 'tab_style.php'; ?>
-<div id="header">
+<!-- <div id="header">
   <ul>
     <li><a href=".">Home</a></li>
 	<li id="current"><a href="change-pwd.php">Change Password</a></li>
 	<a align='right' href='logout.php'>Logout</a>
   </ul>
+</div> -->
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+    <ul class="nav nav-tabs nav-justified"> 
+      <li><a href=".">Home</a></li>
+      <li class="active"><a href="change-pwd.php">Change Password</a></li>
+      <li><a href='logout.php'>Logout</a></li>
+    </ul>
+  </div>
 </div>
 <br/><br/><br/><br/>
 

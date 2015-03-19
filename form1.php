@@ -16,7 +16,7 @@ Chages made:
 <?php include 'externalLinks.php';?><!-- this file contains all the external css and js files and plugins if any --> 
 <?php include 'check.php'; ?>
 <?php include 'form_h.php'; ?>
-<?php include_once('functions.php'); ?>
+<?php require_once('connect.php');require_once('functions.php'); ?>
 <?php
 	error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING ^ E_DEPRECATED ^ E_STRICT);
 	require_once("./include/membersite_config.php");
@@ -24,11 +24,7 @@ Chages made:
 		{
 			$fgmembersite->RedirectToURL("admin_home.php");
 		}
-	$con=mysqli_connect("localhost","root","root","faculty_recruitment");
-	if (mysqli_connect_errno($con))
-	{
-		echo "Failed to connect to MySQL: " . mysqli_connect_error();
-	}
+	
 	$usrid1 = $_SESSION['userid'];
 	if(mysqli_num_rows(mysqli_query($con, "select submitted from form1 where userid = $usrid1 and submitted = 1")) > 0)
 	{
@@ -59,6 +55,8 @@ Chages made:
 		$perm_email=$row['perm_email'];
 		$photo = $row['photo'];
 		$categorycerti = $row['categorycerti'];
+		$permSameAsCurr=$row['permAddSame'];
+		$directPhD=$row['directPHD'];
 	}
 	$retrieve = "SELECT * FROM educational_qualifications where userid = $usrid1";
 	$result = mysqli_query($con,$retrieve);
@@ -72,6 +70,7 @@ Chages made:
 		$yol[] = $row['yol'];
 		$percent[] = $row['percent'];
 		$degreetype[] = $row['degreetype'];
+		$scoreType[]=$row['scoreType'];
 	}
 	
 	function create_row1()
@@ -102,6 +101,7 @@ Chages made:
 			$yol[$i-1] = $_REQUEST['yol'.$i];
 			$percent[$i-1] = $_REQUEST['percent'.$i];
 			$degreetype[$i-1] = $_REQUEST['degreetype'.$i];
+			$scoreType[$i-1] = $_REQUEST['scoreType'.$i];
 		}
 
 		$eduError=0;
@@ -122,7 +122,7 @@ Chages made:
 			for($i=1;$i<=$count1;$i++)
 			{
 				$x=$i-1;
-				$query = "INSERT INTO educational_qualifications (userid,sno,degree,insti,yoe,yol,percent,degreetype) VALUES ($usrid1,$i,'$degree[$x]','$insti[$x]','$yoe[$x]','$yol[$x]',$percent[$x],$degreetype[$x])"; // Added april 9 2014
+				$query = "INSERT INTO educational_qualifications (userid,sno,degree,insti,yoe,yol,percent,degreetype,scoreType) VALUES ($usrid1,$i,'$degree[$x]','$insti[$x]','$yoe[$x]','$yol[$x]',$percent[$x],$degreetype[$x],$scoreType[$x])"; // Added april 9 2014
 				mysqli_query($con,$query);
 			}
 
@@ -138,6 +138,7 @@ Chages made:
 				$yol[] = $row['yol'];
 				$percent[] = $row['percent'];
 				$degreetype[] = $row['degreetype'];
+				$scoreType[]=$row['scoreType'];
 			}
 			echo '<script>add_row16('.$num_rows1.');</script>';
 		}
@@ -165,6 +166,26 @@ Chages made:
 		$perm_mobile=$_REQUEST['mob_p'];
 		$perm_email=$_REQUEST['email_p'];
 		$adno = $_REQUEST['adno'];
+		if(isset($_REQUEST['sameAsCurrentAddress']))
+		{
+			$pSAC=1;	
+		}
+		else
+		{
+			$pSAC=0;
+		}
+		
+		if(isset($_REQUEST['directPhdValue']))
+		{
+			$dPHD=1;
+		}
+		else
+		{
+			$dPHD=0;
+		}
+		// $dPHD=$_REQUEST['directPhdValue'];
+
+		echo $dPHD;
 
 		if(strlen($addr_email)!=0)
 		{
@@ -303,8 +324,8 @@ Chages made:
 		if($error==0)
 		{
 			$sql1="INSERT INTO form1(userid,post,area,researcharea,name,dob,nationality,gender,category,address,addr_mobile,addr_email,
-				permaddress,perm_mobile,perm_email,fathername,designation,submitted,photo,categorycerti,adno) VALUES  ('$usrid1','$post','$area','$research','$name','$dob','$nationality','$gender','$caste','$addr','$addr_mobile','$addr_email',
-				'$perm_addr','$perm_mobile','$perm_email','$fname','$posn',0,'$photo','$categorycerti','$adno')";
+				permaddress,perm_mobile,perm_email,fathername,designation,submitted,photo,categorycerti,adno,permAddSame,directPHD) VALUES  ('$usrid1','$post','$area','$research','$name','$dob','$nationality','$gender','$caste','$addr','$addr_mobile','$addr_email',
+				'$perm_addr','$perm_mobile','$perm_email','$fname','$posn',0,'$photo','$categorycerti','$adno','$pSAC','$dPHD')";
 				mysqli_query($con,$sql1);
 				echo "<br/><span class='text-center' style='color:green;'>Personal Details SAVED</span>";
 				if(isset($_POST[submitted_val1]))
@@ -378,13 +399,15 @@ Chages made:
 								var cell5=row.insertCell(4);
 								var cell6=row.insertCell(5);
 								var cell7=row.insertCell(6);
+								var cell8=row.insertCell(7);
 								cell1.innerHTML=count1+".";
-								cell2.innerHTML="<td><select  name=\"degreetype"+count1+"\"><option value=\"\">Select</option><option value=\"1\">Undergraduate-level</option><option value=\"2\" >Graduate-level</option><option value=\"3\" >Doctoral-level</option></select></td>";
-								cell3.innerHTML="<td><input type=\"text\" name=\"degree"+count1+"\" size=\"8\"></td>";
-								cell4.innerHTML="<td><input type=\"text\" name=\"insti"+count1+"\" size=\"8\"></td>";
-								cell5.innerHTML="<td><input type=\"number\" min=\"1980\" max='2015' name=\"yoe"+count1+"\" size=\"4\"></td>";
-								cell6.innerHTML="<td><input type=\"number\" min='1980' max='2015' name=\"yol"+count1+"\" size=\"4\"></td>";
-								cell7.innerHTML="<td><input type=\"number\" min='0' max='100' name=\"percent"+count1+"\" size=\"5\"><input type=\"hidden\" name=\"count1\" value=\""+count1+"\"></td>";
+								cell2.innerHTML="<td><select class='form-control'  name=\"degreetype"+count1+"\"><option value=\"\">Select</option><option value=\"1\">Undergraduate-level</option><option value=\"2\" >Graduate-level</option><option value=\"3\" >Doctoral-level</option></select></td>";
+								cell3.innerHTML="<td><input class='form-control' type=\"text\" name=\"degree"+count1+"\" size=\"8\"></td>";
+								cell4.innerHTML="<td><input class='form-control' type=\"text\" name=\"insti"+count1+"\" size=\"8\"></td>";
+								cell5.innerHTML="<td><input class='form-control' type=\"number\" min=\"1980\" max='2015' name=\"yoe"+count1+"\" size=\"4\"></td>";
+								cell6.innerHTML="<td><input class='form-control' type=\"number\" min='1980' max='2015' name=\"yol"+count1+"\" size=\"4\"></td>";
+								cell7.innerHTML="<td><select class='form-control'  name=\"gradeType"+count1+"\"><option value=\"\">Select</option><option value=\"1\">Percentage</option><option value=\"2\" >CGPA out of 4</option><option value=\"3\" >CGPA out of 8</option><option value=\"4\" >CGPA out of 10</option></select></td>";
+								cell8.innerHTML="<td><input class='form-control' type=\"number\" min='0' max='100' name=\"percent"+count1+"\" size=\"5\"><input type=\"hidden\" name=\"count1\" value=\""+count1+"\"></td>";
 							}
 							else
 							{
@@ -400,11 +423,13 @@ Chages made:
 									var cell5=row.insertCell(4);
 									var cell6=row.insertCell(5);
 									var cell7=row.insertCell(6);
+									var cell8=row.insertCell(7);
 									var sno= <?php echo json_encode($sno); ?>;
 									var degree= <?php echo json_encode($degree); ?>;
 									var insti= <?php echo json_encode($insti); ?>;
 									var yoe= <?php echo json_encode($yoe); ?>;
 									var yol= <?php echo json_encode($yol); ?>;
+									var gradeType=<?php echo json_encode($gT); ?>;
 									var percent= <?php echo json_encode($percent); ?>;
 									var degreetype = <?php echo json_encode($degreetype); ?>;
 									if(degreetype[i-1] == 1)  
@@ -429,7 +454,28 @@ Chages made:
 									cell4.innerHTML="<td><input type=\"text\" name=\"insti"+i+"\" value = \""+insti[i-1]+"\" size=\"8\"></td>";
 									cell5.innerHTML="<td><input  type=\"number\" name=\"yoe"+i+"\"  value = \""+yoe[i-1]+"\" min=\"1980\" max=\"2015\"size=\"4\"></td>";
 									cell6.innerHTML="<td><input min=\"1980\" max=\"2015\" type=\"number\" name=\"yol"+i+"\"  value = \""+yol[i-1]+"\" size=\"4\"></td>";
-									cell7.innerHTML="<td><input  min=\"0\" max=\"100\" type=\"number\" name=\"percent"+i+"\"  value = \""+percent[i-1]+"\"  size=\"8\"><input type=\"hidden\" name=\"count1\" value=\""+i+"\"></td>";
+
+									if(gT[i-1]==1)
+									{
+										cell7.innerHTML="<td><select class='form-control'  name=\"gradeType"+count1+"\"><option value=\"\">Select</option><option value=\"1\" Selected=\"Selected\">Percentage</option><option value=\"2\" >CGPA out of 4</option><option value=\"3\" >CGPA out of 8</option><option value=\"4\" >CGPA out of 10</option></select></td>";
+									}
+
+									else if(gT[i-1]==2)
+									{
+										cell7.innerHTML="<td><select class='form-control'  name=\"gradeType"+count1+"\"><option value=\"\">Select</option><option value=\"1\">Percentage</option><option value=\"2\"  Selected=\"Selected\">CGPA out of 4</option><option value=\"3\" >CGPA out of 8</option><option value=\"4\" >CGPA out of 10</option></select></td>";
+									}
+
+									else if(gT[i-1]==3)
+									{
+										cell7.innerHTML="<td><select class='form-control'  name=\"gradeType"+count1+"\"><option value=\"\">Select</option><option value=\"1\">Percentage</option><option value=\"2\"  >CGPA out of 4</option><option value=\"3\" Selected=\"Selected\">CGPA out of 8</option><option value=\"4\" >CGPA out of 10</option></select></td>";
+									}
+
+									else if(gT[i-1]==4)
+									{
+										cell7.innerHTML="<td><select class='form-control'  name=\"gradeType"+count1+"\"><option value=\"\">Select</option><option value=\"1\">Percentage</option><option value=\"2\"  >CGPA out of 4</option><option value=\"3\" >CGPA out of 8</option><option value=\"4\" Selected=\"Selected\">CGPA out of 10</option></select></td>";
+									}
+
+									cell8.innerHTML="<td><input  min=\"0\" max=\"100\" type=\"number\" name=\"percent"+i+"\"  value = \""+percent[i-1]+"\"  size=\"8\"><input type=\"hidden\" name=\"count1\" value=\""+i+"\"></td>";
 								}
 							}
 						}
@@ -623,6 +669,15 @@ Chages made:
 										</tr>
 									</table>
 									</div>
+									<div class="col-md-6">
+
+										<label>
+
+											<input type="checkbox" value="0" name="sameAsCurrentAddress">&nbsp;&nbsp; Check this if permanent address is same as current address
+
+										</label>
+
+									</div>
 								</td>
 							</tr>
 							<tr>
@@ -645,26 +700,35 @@ Chages made:
 									</div>
 								</td>
 							</tr>
-							<tr>
+							<tr >
 								<td>
 									<b>15. Educational Qualifications</b><br/> (Starting from Bachelor's Degree) <span style="color:red;">*</span>
 								</td>
+
 								<td>
-									<table class="table" id="myTable1" >	
+									
+									<label><input type="checkbox" value="1" name="directPhdValue">&nbsp&nbsp;Direct Ph.D &nbsp;&nbsp; </label><small> Check this if Ph.D is taken after undergraduate degree.</small>
+
+								</td>
+
+							</tr>
+
+							<tr class="col-md-12">
+									<table class="table " id="myTable1" >	
 										<tr>
 											<th>Sl.No</th>
-											<th>Degree Type</th>
-											<th>Degree</th>
-											<th>Institution/University</th>
-											<th>Year Of Entry</th>
-											<th>Year Of Leaving</th>
-											<th>Percentage</br>(out of 100)</th>
+											<th class="col-md-2">Degree Type</th>
+											<th class="col-md-2">Degree</th>
+											<th class="col-md-3">Institution/University</th>
+											<th class="col-md-1">Year Of Entry</th>
+											<th class="col-md-1">Year Of Leaving</th>
+											<th class="col-md-2">Score type</th>
+											<th class="col-md-2">Score</th>
 										</tr>
 									</table>
 									<?php 	create_row1(); ?>
 									<br/>
 									<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row16(0)";?>">Insert new row</button>
-								</td>
 							</tr>
 						</table>
 						</br>

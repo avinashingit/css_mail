@@ -60,16 +60,16 @@ if(isset($_POST['submitted']))
     <div><span class='error'><?php echo $fgmembersite->GetErrorMessage(); ?></span></div>
     <div class='form-group'>
         <label for='oldpwd' >Old Password <span style="color:red;">*</span>:</label><br/>
-        <div class='pwdwidgetdiv' id='oldpwddiv' ></div>
+        <div class='pwdwidgetdiv col-md-6 col-md-offset-5' id='oldpwddiv' ></div>
         <noscript>
         <input class="form-control text-center" type='password' name='oldpwd' id='oldpwd' maxlength="50" />
         </noscript>    
         <span id='changepwd_oldpwd_errorloc' class='error'></span>
     </div>
-
+    <br/>
     <div class='form-group'>
         <label for='newpwd' >New Password <span style="color:red;">*</span>:</label><br/>
-        <div class='pwdwidgetdiv' id='newpwddiv' ></div>
+        <div class='pwdwidgetdiv col-md-6 col-md-offset-5' id='newpwddiv' ></div>
         <noscript>
         <input class="form-control"  type='password' name='newpwd' id='newpwd' maxlength="50" /><br/>
         </noscript>

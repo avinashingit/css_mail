@@ -13,15 +13,7 @@
 <br/><br/><br/>	
 <?php
 	include_once("check.php");
-	//echo "Hi"; 
-
-	// Create connection
-	$con=mysqli_connect("localhost","root","rootpw","faculty_recruitment");
-	// Check connection
-	if (mysqli_connect_errno($con))
-	{
-		echo "Failed to connect to database";
-	}
+	
 
 /*	$userid = $_SESSION["userid"];
 

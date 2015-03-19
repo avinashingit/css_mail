@@ -5,15 +5,7 @@
 error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 	//echo "<script> add_row16(1); </script>";
 
-	// Create connection
-	$con=mysqli_connect("localhost","root","root","faculty_recruitment");
-
-	// Check connection
-	if (mysqli_connect_errno($con))
-  	{
-  		echo "Failed to connect to MySQL: " . mysqli_connect_error();
-  	}
-	$usrid1=$_SESSION['userid'];
+		$usrid1=$_SESSION['userid'];
  
 	if($_GET[a]==1)
 	{

@@ -1,4 +1,4 @@
-<?php require_once("./externalLinks.php");require_once('functions.php');?>
+<?php require_once("./externalLinks.php");require_once('connect.php');require_once('functions.php');?>
 <div class="row" style="margin:0px !important;padding:0px !important;">
 
 	<div class="col-md-12 text-center" style="margin:0px !important;padding:0px !important;background-color:#38004A;color:#fff;">
