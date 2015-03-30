@@ -200,9 +200,9 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
         alert('File type not allowed,\nAllowed file: *.PDF');
             document.getElementById(a).value='';
         }
-        else if(document.getElementById(a).files[0].size >= 8388608)
+        else if(document.getElementById(a).files[0].size >= 2097152)
         {
-        alert("Size of the file should be less than 8MB");
+        alert("Size of the file should be less than 2MB");
             document.getElementById(a).value='';        		        		
         }        
     }
@@ -222,8 +222,8 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 
 25:SOP<span style="color:red;">*</span><br/><br/>
 <tr>
-<td>a) Why would you like to join IIITDM Kancheepuram? (file size < 8MB is accepted.)<br/></td>
-<td>b) Your vision for the growth of the institute...  (file size < 8MB is accepted.)<br/></td>
+<td>a) Why would you like to join IIITDM Kancheepuram? (file size < 2MB is accepted.)<br/></td>
+<td>b) Your vision for the growth of the institute...  (file size < 2MB is accepted.)<br/></td>
 <!--<td><textarea class="form-control" style= "width: 500px; height: 150px;" row="20" column="200" name="25a" maxlength="4000"><?php echo $a25;?></textarea></td> -->
 </tr>
 <tr>

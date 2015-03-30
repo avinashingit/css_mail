@@ -209,11 +209,38 @@
 		$query = "SELECT * FROM form2 where userid = $userid";
 		$result = mysqli_query($con,$query);
 		$row2 = mysqli_fetch_assoc($result);
-	if(strlen($row2['intjournals3']) == 0 || strlen($row2['intjournalsoverall'])==0 || strlen($row2['natjournals3'])==0 || strlen($row2['natjournalsoverall'])==0 || strlen($row2['intconf3'])==0 || strlen($row2['intconfoverall'])==0 || strlen($row2['natconf3'])==0 || strlen($row2['natconfoverall'])==0) 
+		$errorMessage = "";		
+	if(strlen($row2['intjournals3']) == 0 || strlen($row2['intjournalsoverall'])==0 || strlen($row2['natjournals3'])==0 || strlen($row2['natjournalsoverall'])==0 || strlen($row2['intconf3'])==0 || strlen($row2['intconfoverall'])==0 || strlen($row2['natconf3'])==0 || strlen($row2['natconfoverall'])==0)
         {
-		echo "<p>There are errors in <a href='form2.php'>Publication Details</a></p>";
+        	$errorMessage .="<li> All entries of Field 15 needs to be filled (fill 0 if NA) </li>";
+		}
+
+		$publication_dollar= explode('$',$row2['publications']);
+
+		if(sizeof($publication_dollar)>1)
+		{
+		$n=sizeof($publication_dollar);
+
+		for($i=1;$i<$n;$i++)
+		{
+			$publication_split=explode('^', $publication_dollar[$i-1]);
+			if(strlen($publication_split[0]) == 0 || strlen($publication_split[1]) == 0 || strlen($publication_split[2]) == 0 || strlen($publication_split[3]) == 0 || strlen($publication_split[4]) == 0 || strlen($publication_split[5]) == 0	)
+				$errorMessage .= " <li> row " .$i. " of journal details is incomplete </li>";								
+		}
+		}
+		else
+		{
+			$errorMessage .="<li>You have forgotton to enter journal details field (Atleast one row need to be filled completely)</li>";
+		}
+		if(strlen($row2['paper1']) == 0 || strlen($row2['paper2']) == 0 || strlen($row2['paper3']) == 0 )
+		{
+			$errorMessage .="<li>one or more upload fields of best papers are empty please upload all of them </li>";
+		}
+	if(!empty($errorMessage))
+	{
 		
-		echo "<ul><li> All entries of Field 15 needs to be filled (fill 0 if NA)</li></ul>";
+		echo "<p>There are errors in <a href='form2.php'>Publication Details</a></p>";
+		echo "<ul>".$errorMessage."</ul>";
 		$validate=false;
 	}
 
@@ -237,7 +264,6 @@
 				echo "<ul><li> All entries of Field 17 needs to be filled (fill 0 if NA)</li></ul>";
 				$validate=false;
 		}
-
 		else
 		{
 			mysqli_query($con, "update form3 set submitted = 1 where userid = $userid");
@@ -256,11 +282,11 @@
 		$errorMessage = "";
 		if(empty($row4['sop25a'] )) 
         	{
-			$errorMessage .= "<li>You have forgotten to write your SOP(25-a)!</li>";
+			$errorMessage .= "<li>You have forgotten to upload your SOP(25-a)!</li>";
 		}
 		if(empty($row4['sop25b'])) 
         	{
-			$errorMessage .= "<li>You have forgotten to write your SOP(25-b)!</li>";
+			$errorMessage .= "<li>You have forgotten to upload your SOP(25-b)!</li>";
 		}
 		if(empty($row4['ref1_name']) | empty($row4['ref1_addr']) | empty($row4['ref1_email']) | empty($row4['ref1_phone']) ) 
 	        {

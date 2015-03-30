@@ -384,6 +384,9 @@ $pdf->Cell($per_len,10,$percent[$i],1,1);
 		$natconf3 = $row['natconf3'];
 		$natconfoverall = $row['natconfoverall'];
 		$publications = $row['publications'];
+		$paper1 = $row['paper1'];
+		$paper2 = $row['paper2'];
+		$paper3 = $row['paper3'];		
   	}
 
 
@@ -440,12 +443,56 @@ $pdf->Cell($sz3,10,$natconfoverall,1);
 $pdf->Ln();
 //$pdf->Ln();
 
-$pdf->SetFont('Arial','B');
+/*$pdf->SetFont('Arial','B');
 $head = 'Appendix :'; 
 $pdf->Cell(2*strlen($head),10,$head,0,1);
 $pdf->SetFont('Arial');
 $pdf->MultiCell(0,10,$publications);
+$pdf->Ln();*/
 $pdf->Ln();
+$pdf->SetFont('Arial','B');
+$head = 'Journal details (Appendix)';
+$pdf->Cell(2*strlen($head),10,$head);
+$pdf->Ln();
+$pdf->SetFont('Arial');
+
+$head = 'Sr.No   ';
+$sno_len = 2*strlen($head);
+$pdf->Cell($sno_len,10,$head,1,0);
+$head = '    Name of Author      ';
+$authorname_len = 2*strlen($head);
+$pdf->Cell($authorname_len,10,$head,1,0);
+$head = '     Title    ';
+$title_len = 2*strlen($head);
+$pdf->Cell($title_len,10,$head,1,0);
+$head = '	Journal/conference name    ';
+$journalname_len = 2*strlen($head);
+$pdf->Cell($journalname_len,10,$head,1,0);
+$head = '	Year    ';
+$year_len = 2*strlen($head);
+$pdf->Cell($year_len,10,$head,1,0);
+$head = '	volume    ';
+$vol_len = 2*strlen($head);
+$pdf->Cell($vol_len,10,$head,1,0);
+$head = '	Page number    ';
+$pageno_len = 2*strlen($head);
+$pdf->Cell($pageno_len,10,$head,1,0);
+$pdf->Ln();
+
+$publication_dollar= explode('$',$publications);
+$n=sizeof($publication_dollar);
+for($i=1;$i<$n;$i++)
+{
+	$publication_split=explode('^', $publication_dollar[$i-1]);
+	$pdf->Cell($sno_len,10,$i,1,0);
+	$pdf->Cell($authorname_len,10,$publication_split[0],1,0);
+	$pdf->Cell($title_len,10,$publication_split[1],1,0);
+	$pdf->Cell($journalname_len,10,$publication_split[2],1,0);
+	$pdf->Cell($year_len,10,$publication_split[3],1,0);
+	$pdf->Cell($vol_len,10,$publication_split[4],1,0);
+	$pdf->Cell($pageno_len,10,$publication_split[5],1,0);
+	$pdf->Ln();
+}
 
 //*****END Of FORM2*****/
 
@@ -880,7 +927,7 @@ $pdf->Ln();
 	
   	}
 
-$pdf->SetFont('Arial','B');
+/*$pdf->SetFont('Arial','B');
 $head = '25:  SOP';
 $pdf->Cell(2*strlen($head),10,$head);
 $pdf->Ln();
@@ -904,7 +951,7 @@ $pdf->SetFont('Arial');
 $pdf->Ln();
 $pdf->MultiCell(0,10,$b25);
 $pdf->Ln();
-$pdf->SetFont('Arial','B');
+$pdf->SetFont('Arial','B');*/
 
 $head = '26. Enter the names and addresses including email,fax, telephone no. of 3 referees.
 (at least one of them should be familiar with your recent work);
@@ -1008,6 +1055,32 @@ $pdf->SetFont('Arial');
 
 $pdf->MultiCell(0,10,$othr);
 $pdf->Ln();
+
+$pdf->SetFont('Arial','B');
+$head = ' Files Attached ';
+$pdf->Cell(2*strlen($head),10,$head);
+$pdf->Ln();
+
+$pdf->SetFont('Arial','B');
+$head=' Uploaded Papers ';
+$pdf->Cell(50,10,$head,100,0);
+$pdf->SetFont('Arial');
+$pdf->Cell(50,10,$paper1,100,0);
+$pdf->Cell(50,10,$paper2,100,0);
+$pdf->Cell(0,10,$paper3,100,0);
+$pdf->Ln();
+
+$pdf->SetFont('Arial','B');
+$head = '25:  SOP';
+$pdf->Cell(2*strlen($head),10,$head);
+$pdf->Ln();
+$pdf->SetFont('Arial');
+$head='a)Why would you like to join IIITDM Kancheepuram?            b)Your vision for the growth of the institute...';
+$pdf->SetFont('Arial','B');
+$pdf->Cell(2*strlen($head),10,$head,0,1);
+$pdf->SetFont('Arial');
+$pdf->Cell(120,10,$a25,100,0);
+$pdf->Cell(0,10,$b25,100,0);
 
 //****END OF FORM4***//
 $pdf->Output();

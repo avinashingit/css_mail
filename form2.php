@@ -22,7 +22,7 @@
 	}
 
 
-	$retrieve = "SELECT * FROM form2 where userid = $usrid1";
+	$retrieve ="SELECT * FROM form2 where userid = $usrid1";
 
 	$result = mysqli_query($con,$retrieve);
 
@@ -44,8 +44,7 @@
 
 if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1])) 
 {
-	
-	$k=$k1=0;
+	echo "<br/><span style='color:green;'>Publication Details SAVED</span>";
 
 	$intjournals3 = $_REQUEST['intjournals3'];
 	$intjournalsoverall = $_REQUEST['intjournalsoverall'];
@@ -55,47 +54,7 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	$intconfoverall = $_REQUEST['intconfoverall'];
 	$natconf3 = $_REQUEST['natconf3'];
 	$natconfoverall = $_REQUEST['natconfoverall'];
-
-	if($intjournalsoverall<$intjournals3 && !($intjournalsoverall=='' || $intjournals3==''))
-	{
-		echo "Invalid! overall journals are".$intjournalsoverall."and last 3 years journals are.".$intjournals3.".in row1, ";
-		$intjournalsoverall=$intjournals3='';
-		$k1=1;
-	}
-
-	if($natjournalsoverall<$natjournals3 && !($natjournalsoverall=='' || $natjournals3==''))
-	{
-		echo "Invalid! overall journals are".$natjournalsoverall."and last 3 years journals are.".$natjournals3.".in row2, ";
-		$natjournalsoverall=$natjournals3='';
-		$k1=1;
-	}
 	
-	if($intconfoverall<$intconf3 && !($intconfoverall=='' || $intconf3==''))
-	{
-		echo "Invalid! overall journals are".$intconfoverall."and last 3 years journals are.".$intconf3.".in row3, ";
-		$intconfoverall=$intconf3='';
-		$k1=1;
-	}
-
-	if($natconfoverall < $natconf3 && !($natconfoverall=='' || $natconf3==''))
-	{
-		echo "Invalid! overall journals are".$natconfoverall."and last 3 years journals are.".$natconf3.".in row4, ";
-		$natconfoverall=$natconf3='';
-		$k1=1;
-	}
-	if($k1==0)
-	echo "<br/><span style='color:green;'>Publication Details SAVED</span>";
-
-	if($_FILES['paper1']['name']!='' && $_FILES['paper2']['name']!='' && $_FILES['paper3']['name']!='')
-		$k=0;
-	else
-		$k=1;
-	/*if($k==0 && $k1==0)
-	{
-		
-	}
-	else
-		*/
 	$p='publications';
 	$temp='';
 	$i=1;
@@ -254,12 +213,23 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	//echo $_REQUEST['publications'];
 
 // Upload end		
+	//echo $intjournals3;
 
-	$query = "INSERT INTO form2 		(userid,intjournals3,intjournalsoverall,natjournals3,natjournalsoverall,intconf3,intconfoverall,natconf3,
+
+	/*$query = "INSERT INTO form2 (userid,intjournals3,intjournalsoverall,natjournals3,natjournalsoverall,intconf3,intconfoverall,natconf3,
 natconfoverall,publications,submitted,paper1,paper2,paper3) VALUES ($usrid1,$intjournals3,$intjournalsoverall,$natjournals3,
 $natjournalsoverall,$intconf3,$intconfoverall,$natconf3,$natconfoverall,'$publications',0, '$paper1', '$paper2', '$paper3')";
 
- 	mysqli_query($con,$query);
+$query = "INSERT INTO `form2` (`userid`,`intjournals3`,`intjournalsoverall`,`natjournals3`,`natjournalsoverall`,`intconf3`,`intconfoverall`,`natconf3`,
+ 							   `natconfoverall`,`publications`,`submitted`,`paper1`,`paper2`,`paper3`) 
+VALUES ('$usrid1','$intjournals3','$intjournalsoverall','$natjournals3','$natjournalsoverall','$intconf3','$intconfoverall','$natconf3','$natconfoverall',
+		'$publications','0','$paper1','$paper2','$paper3')";*/
+
+$query = "INSERT INTO form2 (userid,intjournals3,intjournalsoverall,natjournals3,natjournalsoverall,intconf3,intconfoverall,natconf3,
+natconfoverall,publications,submitted,paper1,paper2,paper3) VALUES ('$usrid1','$intjournals3','$intjournalsoverall','$natjournals3',
+'$natjournalsoverall','$intconf3','$intconfoverall','$natconf3','$natconfoverall','$publications',0, '$paper1', '$paper2', '$paper3')";
+
+ 	mysqli_query($con,$query) or die(mysqli_error($con));
 
 	//echo '<meta http-equiv="REFRESH" content="0;url=saved.php">';
 	//echo "Form saved successfully";
@@ -277,44 +247,23 @@ $natjournalsoverall,$intconf3,$intconfoverall,$natconf3,$natconfoverall,'$public
 }
 ?> 
 
-<html>
-<body>
-		<div class="row">
-
-			<div class="col-md-12">
-
-				<form method="post" class="form" action="form2.php" enctype="multipart/form-data">			
 <script type="text/javascript">
-	function check_file1(){
-                str=document.getElementById('paper1').value.toUpperCase();
+	function check_file(a){
+                str=document.getElementById(a).value.toUpperCase();
         suffix=".PDF";
         if(str.indexOf(suffix, str.length - suffix.length) == -1)
         {
         alert('File type not allowed,\nAllowed file: *.PDF');
-            document.getElementById('paper1').value='';
+            document.getElementById(a).value='';
         }
-    }
-
-    	function check_file2(){
-                str=document.getElementById('paper2').value.toUpperCase();
-        suffix=".PDF";
-        if(str.indexOf(suffix, str.length - suffix.length) == -1)
+        else if(document.getElementById(a).files[0].size >= 2097152)
         {
-        alert('File type not allowed,\nAllowed file: *.PDF');
-            document.getElementById('paper2').value='';
-        }
-    }
-
-    	function check_file3(){
-                str=document.getElementById('paper3').value.toUpperCase();
-        suffix=".PDF";
-        if(str.indexOf(suffix, str.length - suffix.length) == -1)
-        {
-        alert('File type not allowed,\nAllowed file: *.PDF');
-            document.getElementById('paper3').value='';
-        }
+        alert("Size of the file should be less than 2MB");
+            document.getElementById(a).value='';        		        		
+        }	
     }
 </script>
+
 <script type="text/javascript">
 	var count_cell=1;
 	function add_row(cnt0,cnt1,cnt2,cnt3,cnt4,cnt5) {
@@ -330,15 +279,46 @@ $natjournalsoverall,$intconf3,$intconfoverall,$natconf3,$natconfoverall,'$public
 		cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"publications"+count_cell+"\" pattern=\'[a-zA-Z0-9]{0,100}\' title=\"Only alphanumeric input is valid upto 100 characters\" value=\""+cnt0+"\"></td>";count_cell++;
 		cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"publications"+count_cell+"\" pattern=\'[a-zA-Z0-9]{0,100}\' title=\"Only alphanumeric input is valid upto 100 characters\" value=\""+cnt1+"\"></td>";count_cell++;
 		cell4.innerHTML="<input class=\"form-control\" type=\"text\" name=\"publications"+count_cell+"\" pattern=\'[a-zA-Z0-9]{0,100}\' title=\"Only alphanumeric input is valid upto 100 characters\" value=\""+cnt2+"\"></td>";count_cell++;
-		cell5.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\" min=\"1960\" max=\"2015\" value=\""+cnt3+"\"></td>";count_cell++;
-		cell6.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\" min=\"1\" value=\""+cnt4+"\"></td>";count_cell++;
-		cell7.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\"  min=\"1\" value=\""+cnt5+"\"></td>";
+		cell5.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\" value=\""+cnt3+"\"></td>";count_cell++;
+		cell6.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\" min=\"0\" value=\""+cnt4+"\"></td>";count_cell++;
+		cell7.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\"  min=\"0\" value=\""+cnt5+"\"></td>";
 		cell1.innerHTML=(count_cell/6)+". ";	
 		count_cell++;
 
 		}
 
 </script>
+
+<script type="text/javascript">
+	function greaterthan1(a,b)
+	{
+		if (document.getElementById(a).value>document.getElementById(b).value && document.getElementById(a).value!='' && document.getElementById(b).value!='')
+		{
+			alert("Journals published in last 3 years are more than total");
+			document.getElementById(a).value='';
+		}
+
+	}
+	function greaterthan2(a,b)
+	{
+		if (document.getElementById(a).value>document.getElementById(b).value && document.getElementById(a).value!='' && document.getElementById(b).value!='')
+		{
+			alert("Journals published in last 3 years are more than total");
+			document.getElementById(b).value='';
+		}
+
+	}
+</script>
+
+<html>
+<body>
+		<div class="row">
+
+			<div class="col-md-12">
+
+				<form method="post" class="form" action="form2.php" enctype="multipart/form-data">			
+
+
 <!--
 <?php
 /*function cal_publications()
@@ -409,26 +389,26 @@ if(GetUrlValue('a')==1)
 <tr>
 <td>International Referred Journals(Published/Accepted only)</td>
 
-<td><input class="form-control" type="number" name="intjournals3" value="<?php echo $intjournals3;?>" size="7" min="0"></td>
-<td><input class="form-control" type="number" name="intjournalsoverall" value="<?php echo $intjournalsoverall;?>" size="7" min="0"></td>
+<td><input class="form-control" type="number" id="intjournals3" onchange="greaterthan1('intjournals3', 'intjournalsoverall')" name="intjournals3" value="<?php echo $intjournals3;?>" size="7" min="0"></td>
+<td><input class="form-control" type="number" id="intjournalsoverall" onchange="greaterthan2('intjournals3', 'intjournalsoverall')" name="intjournalsoverall" value="<?php echo $intjournalsoverall;?>" size="7" min="0"></td>
 </tr>
 
 <tr>
 <td>National Referred Journals(Published/Accepted only)</td>
-<td><input class="form-control" type="number" name="natjournals3" value="<?php echo $natjournals3;?>" size="7" min="0"></td>
-<td><input class="form-control" type="number" name="natjournalsoverall" value="<?php echo $natjournalsoverall;?>" size="7" min="0"></td>
+<td><input class="form-control" type="number" id="natjournals3" onchange="greaterthan1('natjournals3', 'natjournalsoverall')"  name="natjournals3" value="<?php echo $natjournals3;?>" size="7" min="0"></td>
+<td><input class="form-control" type="number" id="natjournalsoverall" onchange="greaterthan2('natjournals3', 'natjournalsoverall')" name="natjournalsoverall" value="<?php echo $natjournalsoverall;?>" size="7" min="0"></td>
 </tr>
 
 <tr>
 <td>Presentation at International Conferences(Atleast one<br/>author should have presented personally)</td>
-<td><input class="form-control" type="number" name="intconf3" value="<?php echo $intconf3;?>" size="7" min="0"></td>
-<td><input class="form-control" type="number" name="intconfoverall" value="<?php echo $intconfoverall;?>" size="7" min="0"></td>
+<td><input class="form-control" type="number" id="intconf3" onchange="greaterthan1('intconf3', 'intconfoverall')"  name="intconf3" value="<?php echo $intconf3;?>" size="7" min="0"></td>
+<td><input class="form-control" type="number" id="intconfoverall" onchange="greaterthan2('intconf3', 'intconfoverall')" name="intconfoverall" value="<?php echo $intconfoverall;?>" size="7" min="0"></td>
 </tr>
 
 <tr>
 <td>Presentation at National Conferences(Atleast one author<br/>should have presented personally)</td>
-<td><input class="form-control" type="number" name="natconf3" value="<?php echo $natconf3;?>" size="7" min="0"></td>
-<td><input class="form-control" type="number" name="natconfoverall" value="<?php echo $natconfoverall;?>" size="7" min="0"></td>
+<td><input class="form-control" type="number" id="natconf3" onchange="greaterthan1('natconf3', 'natconfoverall')"  name="natconf3" value="<?php echo $natconf3;?>" size="7" min="0"></td>
+<td><input class="form-control" type="number" id="natconfoverall" onchange="greaterthan2('natconf3', 'natconfoverall')" name="natconfoverall" value="<?php echo $natconfoverall;?>" size="7" min="0"></td>
 </tr>
 
 <!--every input type above is changed to number and attribute min is assigned with 1 -->
@@ -517,10 +497,10 @@ else
 
 <table class="table table-striped" id="myTable">
 <tr>
-<td><br/>Upload copies of three best papers in PDF format (size more than 10MB can not be accepted.)<br/></td>
-<td>Paper 1:<input type="file" name="paper1" id="paper1" onchange="check_file1()"><?php if(strlen($paper1) > 0) echo "Paper-1 is already submitted; To overwrite, upload again"; ?><br/></td>
-<td>Paper 2:<input type="file" name="paper2" id="paper2" onchange="check_file2()"><?php if(strlen($paper2) > 0) echo "Paper-2 is already submitted; To overwrite, upload again"; ?><br/></td>
-<td>Paper 3:<input type="file" name="paper3" id="paper3" onchange="check_file3()"><?php if(strlen($paper3) > 0) echo "Paper-3 is already submitted; To overwrite, upload again"; ?><br/></td>
+<td><br/>Upload copies of three best papers in PDF format (file size < 2MB is accepted.)<br/></td>
+<td>Paper 1:<input type="file" name="paper1" id="paper1" onchange="check_file('paper1')"><?php if(strlen($paper1) > 0) echo "Paper-1 is already submitted; To overwrite, upload again"; ?><br/></td>
+<td>Paper 2:<input type="file" name="paper2" id="paper2" onchange="check_file('paper2')"><?php if(strlen($paper2) > 0) echo "Paper-2 is already submitted; To overwrite, upload again"; ?><br/></td>
+<td>Paper 3:<input type="file" name="paper3" id="paper3" onchange="check_file('paper3')"><?php if(strlen($paper3) > 0) echo "Paper-3 is already submitted; To overwrite, upload again"; ?><br/></td>
 </tr>
 </table>
 <!-- -->
