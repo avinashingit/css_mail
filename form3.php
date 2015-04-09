@@ -216,7 +216,6 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 
        	{
 
-	mysqli_query($con,"delete from work_experience where userid=$usrid1");
 	mysqli_query($con,"delete from spons_principal where userid=$usrid1");
 	mysqli_query($con,"delete from spons_co_investigator where userid=$usrid1");
     mysqli_query($con,"delete from courses_handled_undergrad_level where userid=$usrid1");
@@ -230,7 +229,7 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 
 	$count1 = $_REQUEST['count1'];
 	$num_rows1 = $count1;
-
+    $error=0;
 	for($i = 0,$j=1 ; $i<$count1 ; $i++)
 	{
 		$sno[$i] = $j;
@@ -241,14 +240,115 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 		$duration[$i] = $_REQUEST['duration'.$j];
 		$scale[$i] = $_REQUEST['pay'.$j];	
 
-		$query = "INSERT INTO work_experience (userid,sno,name,designation,doj,dol,duration,scale) VALUES ($usrid1,$j,'$name[$i]','$designation[$i]','$doj[$i]','$dol[$i]','$duration[$i]','$scale[$i]')";
-		$j=$j+1;
+ 
+        $j=$j+1;
 		//echo gettype($doj[$i]);
 		//var_dump(checkdate($doj[$i]));
 		//if (!preg_match('/[^a-zA-Z.]/', $name[$i]) && !preg_match('/[^a-zA-Z]/', $designation[$i]) && )
-		mysqli_query($con,$query);
 
 	}
+    $i=0;
+    while(!($name[$i]=='' && $designation[$i]==''&& ($doj[$i]=='' or $doj[$i]=='0000-00-00' or $doj[$i]=='yyyy-mm-dd') && ($dol[$i]=='' or $dol[$i]=='0000-00-00' or $dol[$i]=='yyyy-mm-dd') && $duration[$i] =='' && ($scale[$i] =='' or $scale[$i])))
+    {
+                       if(strlen($doj[$i])!=0)
+        {
+            $dobSplitArray=explode("-", $doj[$i]);
+            if(sizeof($dobSplitArray)!=3)
+            {
+                echo "<p class='text-center'>invalid format in row".($i+1)." of doj</p>";
+                                $error=1;
+            }
+            else
+            {
+            if(!validateDate($dobSplitArray[1],$dobSplitArray[0],$dobSplitArray[2]) or $dobSplitArray[2]=='00' or strlen($dobSplitArray[1])!=2 or strlen($dobSplitArray[2])!=2 or strlen($dobSplitArray[0])!=4 )
+            {
+                $error=1;
+                echo "<p class='text-center'>Check date of Joining in row ".($i+1)."</p>";
+            }
+            else
+            {
+                if(!validateDateOfBirth($dobSplitArray[1],$dobSplitArray[0],$dobSplitArray[2]) or $dobSplitArray[2]=='00' or strlen($dobSplitArray[1])!=2 or strlen($dobSplitArray[2])!=2 or strlen($dobSplitArray[0])!=4 )
+                {
+                    $error=1;
+                    echo "<p class='text-center'>Date of joining is ahead of now in row".($i+1)."</p>";
+                }
+            }
+            }
+        }
+                        if(strlen($dol[$i])!=0)
+        {
+            $dobSplitArray1=explode("-", $dol[$i]);
+            if(sizeof($dobSplitArray1)!=3)
+            {
+                echo "<p class='text-center'>invalid format in row".($i+1)." of dol</p>";
+                                $error=1;
+            }
+            else
+            {
+            if(!validateDate($dobSplitArray1[1],$dobSplitArray1[0],$dobSplitArray1[2]) or $dobSplitArray1[2]=='00' or strlen($dobSplitArray1[1])!=2 or strlen($dobSplitArray1[2])!=2 or strlen($dobSplitArray1[0])!=4 )
+            {
+                $error=1;
+                echo "<p class='text-center'>Check date of leaving in row ".($i+1)."</p>";
+            }
+            else
+            {
+                if(!validateDateOfBirth($dobSplitArray1[1],$dobSplitArray1[0],$dobSplitArray1[2]) or $dobSplitArray1[2]=='00' or $dobSplitArray1[2]=='00' or strlen($dobSplitArray1[1])!=2 or strlen($dobSplitArray1[2])!=2 or strlen($dobSplitArray1[0])!=4 )
+                {
+                    $error=1;
+                    echo "<p class='text-center'>Date of leaving is ahead of now in row".($i+1)."</p>";
+                }
+            }
+            }
+        }
+        if($dobSplitArray[0]>$dobSplitArray1[0])
+        {
+                    $error=1;            
+            echo "<p class='text-center'>date of leaving is behind date of joining </p>";
+        }
+        else if($dobSplitArray[0]==$dobSplitArray1[0])
+        {
+            if($dobSplitArray[1]>$dobSplitArray1[1])
+            {
+                    $error=1;                
+                echo "<p class='text-center'>date of leaving is behind date of joining </p>";
+            }
+            else if($dobSplitArray[1]==$dobSplitArray1[1])
+            {
+                if($dobSplitArray[2]>$dobSplitArray1[2])
+                {
+                    $error=1;                    
+                    echo "<p class='text-center'>date of leaving is behind date of joining </p>";
+                }
+            }
+        }
+        if(strlen($duration[$i])!=0)
+        {
+            $durationSplitArray=explode("-", $duration[$i]);
+            if(sizeof($durationSplitArray)!=2 )
+            {
+                echo "<p class='text-center'>invalid format in row".($i+1)." of duration</p>";
+                $error=1;
+            }
+            else if(($durationSplitArray[0]==0 and $durationSplitArray[1]==0)  or strlen($durationSplitArray[0])>2 or strlen($durationSplitArray[1])>2 )
+            {
+                echo "<p class='text-center'>invalid values in row".($i+1)." of duration</p>";
+            }
+            else if(!validateDate(($durationSplitArray[1]+1),'2000','10'))
+            {
+              echo "<p class='text-center'>months are greater than 12 in row".($i+1)." of duration</p>";  
+            }
+        }
+        if($error==0)
+        {
+            $k=$i+1;
+        mysqli_query($con,"delete from work_experience where userid=$usrid1");            
+        $query = "INSERT INTO work_experience (userid,sno,name,designation,doj,dol,duration,scale) VALUES ($usrid1,$k,'$name[$i]','$designation[$i]','$doj[$i]','$dol[$i]','$duration[$i]','$scale[$i]')";
+                mysqli_query($con,$query);
+        }
+            $i++;        
+    }
+    $num_rows1=$i;
+
 
 	$count2 = $_REQUEST['count2'];
 	$num_rows2 = $count2;
@@ -262,15 +362,19 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 		$value[$i] = $_REQUEST['val2'.$j];
 		$status[$i] = $_REQUEST['status2'.$j];
 
-		$query = "INSERT INTO spons_principal (userid,sno,title,agency,value,status) VALUES ($usrid1,$j,'$title[$i]','$agency[$i]','$value[$i]','$status[$i]')";
-
-
-		mysqli_query($con,$query);
 		$j=$j+1;
 
 	}
+    $i=0;
+while(!($title[$i] == '' and $agency[$i] == '' and $value[$i] == '' and $status[$i] == ''))
+{
+    $k=$i+1;
+        $query = "INSERT INTO spons_principal (userid,sno,title,agency,value,status) VALUES ($usrid1,$k,'$title[$i]','$agency[$i]','$value[$i]','$status[$i]')";
+        mysqli_query($con,$query);    
+    $i=$i+1;
+}
 
-
+    $num_rows2=$i;
 
 	$count3 = $_REQUEST['count3'];
 	$num_rows3 = $count3;
@@ -283,13 +387,19 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 		$value1[$i] = $_REQUEST['val3'.$j];
 		$status1[$i] = $_REQUEST['status3'.$j];
 
-		$query = "INSERT INTO spons_co_investigator (userid,sno,title,agency,value,status) VALUES ($usrid1,$j,'$title1[$i]','$agency1[$i]','$value[$i]','$status1[$i]')";
-
-
-		mysqli_query($con,$query);
 		$j=$j+1;
 	}
 
+    $i=0;
+    while(!($title1[$i] == '' and $agency1[$i] == '' and $value1[$i] == '' and $status1[$i] == ''))
+    {
+        $k=$i+1;
+        $query = "INSERT INTO spons_co_investigator (userid,sno,title,agency,value,status) VALUES ($usrid1,$k,'$title1[$i]','$agency1[$i]','$value[$i]','$status1[$i]')";
+        mysqli_query($con,$query);    
+        $i=$i+1;
+    }
+
+    $num_rows3=$i;
 //this is part I added
 
     $count4 = $_REQUEST['count4'];
@@ -300,11 +410,19 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
         $sno3[$i] = $j;
         $undergrad_courses_details[$i] = $_REQUEST['undergrad_courses'.$j];
 
-        $query = "INSERT INTO courses_handled_undergrad_level (userid,sno,course) VALUES ($usrid1,$j,'$undergrad_courses_details[$i]')";
-
-        mysqli_query($con,$query);
         $j=$j+1;
     }
+
+    $i=0;
+    while($undergrad_courses_details[$i] !='') 
+    {
+        $k=$i+1;
+        $query = "INSERT INTO courses_handled_undergrad_level (userid,sno,course) VALUES ($usrid1,$k,'$undergrad_courses_details[$i]')";
+        mysqli_query($con,$query);    
+        $i=$i+1;
+    }
+
+    $num_rows4=$i;
 
     $count5 = $_REQUEST['count5'];
     $num_rows5 = $count5;
@@ -314,11 +432,19 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
         $sno4[$i] = $j;
         $postgrad_courses_details[$i] = $_REQUEST['postgrad_courses'.$j];
 
-        $query = "INSERT INTO courses_handled_postgrad_level (userid,sno,course) VALUES ($usrid1,$j,'$postgrad_courses_details[$i]')";
-
-        mysqli_query($con,$query);
         $j=$j+1;
     }
+
+     $i=0;
+    while($postgrad_courses_details[$i] !='') 
+    {
+        $k=$i+1;
+        $query = "INSERT INTO courses_handled_postgrad_level (userid,sno,course) VALUES ($usrid1,$k,'$postgrad_courses_details[$i]')";
+        mysqli_query($con,$query);    
+        $i=$i+1;
+    }
+
+    $num_rows5=$i;
 
     $count6 = $_REQUEST['count6'];
     $num_rows6 = $count6;
@@ -327,12 +453,19 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
     {
         $sno5[$i] = $j;
         $short_courses_details[$i] = $_REQUEST['short_courses'.$j];
-
-        $query = "INSERT INTO short_courses (userid,sno,course) VALUES ($usrid1,$j,'$short_courses_details[$i]')";
-
-        mysqli_query($con,$query);
         $j=$j+1;
     }
+
+       $i=0;
+    while($short_courses_details[$i] !='') 
+    {
+        $k=$i+1;
+        $query = "INSERT INTO short_courses (userid,sno,course) VALUES ($usrid1,$k,'$short_courses_details[$i]')";
+        mysqli_query($con,$query);    
+        $i=$i+1;
+    }
+
+    $num_rows6=$i;  
 
     $count7 = $_REQUEST['count7'];
     $num_rows7 = $count7;
@@ -342,11 +475,19 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
         $sno6[$i] = $j;
         $patents_details[$i] = $_REQUEST['patents'.$j];
 
-        $query = "INSERT INTO patents_details (userid,sno,patent) VALUES ($usrid1,$j,'$patents_details[$i]')";
-
-        mysqli_query($con,$query);
         $j=$j+1;
     }
+
+    $i=0;
+    while($patents_details[$i] !='') 
+    {
+        $k=$i+1;
+        $query = "INSERT INTO patents_details (userid,sno,patent) VALUES ($usrid1,$k,'$patents_details[$i]')";
+        mysqli_query($con,$query);    
+        $i=$i+1;
+    }
+
+    $num_rows7=$i; 
 
     $count8 = $_REQUEST['count8'];
     $num_rows8 = $count8;
@@ -356,11 +497,20 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
         $sno7[$i] = $j;
         $administrative_details[$i] = $_REQUEST['administrative'.$j];
 
-        $query = "INSERT INTO administrative_experience (userid,sno,admin_experience) VALUES ($usrid1,$j,'$administrative_details[$i]')";
-
-        mysqli_query($con,$query);
         $j=$j+1;
     }
+
+    $i=0;
+    while($administrative_details[$i] !='') 
+    {
+        $k=$i+1;
+        $query = "INSERT INTO administrative_experience (userid,sno,admin_experience) VALUES ($usrid1,$k,'$administrative_details[$i]')";
+        mysqli_query($con,$query);    
+        $i=$i+1;
+    }
+
+    $num_rows8=$i; 
+
 
     $count9 = $_REQUEST['count9'];
     $num_rows9 = $count9;
@@ -370,11 +520,19 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
         $sno8[$i] = $j;
         $membership_details[$i] = $_REQUEST['membership'.$j];
 
-        $query = "INSERT INTO membership_professional (userid,sno,membership) VALUES ($usrid1,$j,'$membership_details[$i]')";
-
-        mysqli_query($con,$query);
         $j=$j+1;
     }
+
+     $i=0;
+    while($membership_details[$i] !='') 
+    {
+        $k=$i+1;
+        $query = "INSERT INTO membership_professional (userid,sno,membership) VALUES ($usrid1,$k,'$membership_details[$i]')";
+        mysqli_query($con,$query);    
+        $i=$i+1;
+    }
+
+    $num_rows9=$i; 
 
     $count10 = $_REQUEST['count10'];
     $num_rows10 = $count10;
@@ -384,11 +542,20 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
         $sno9[$i] = $j;
         $honors_awards[$i] = $_REQUEST['honors'.$j];
 
-        $query = "INSERT INTO honors_and_awards (userid,sno,honors) VALUES ($usrid1,$j,'$honors_awards[$i]')";
-
-        mysqli_query($con,$query);
         $j=$j+1;
     }
+
+     $i=0;
+    while($honors_awards[$i] !='') 
+    {
+        $k=$i+1;
+        $query = "INSERT INTO honors_and_awards (userid,sno,honors) VALUES ($usrid1,$k,'$honors_awards[$i]')";
+        mysqli_query($con,$query);    
+        $i=$i+1;
+    }
+
+    $num_rows10=$i; 
+
 //Part I added ended
 
 	$query1 = "INSERT INTO form3 (userid,undergrad,postgrad,doctoral,research_deg,submitted) VALUES ($usrid1,'$undergrad','$postgrad','$doctoral','$research_deg',0)";
@@ -844,6 +1011,15 @@ function myfunctionva14(countfunc)
             document.getElementById("id18mvad"+countfunc).innerHTML = "";
     }
 }
+    function checkDateValue(e)
+    {
+        var k = e.which || e.keyCode || e.charCode;
+            var ok = (k>=48&&k<=57) || k==45 || k==8 || k==37 || k==39 || k==9;
+
+            if (!ok){
+                e.preventDefault();
+            }
+    }
 </script>
 
 <body>
@@ -890,9 +1066,9 @@ var cell8=row.insertCell(7);
 cell1.innerHTML=count1+".";
 cell2.innerHTML="<input id =\"id2"+count1+"\" class=\"form-control\" type=\"text\" name=\"emp_name"+count1+"\" onchange = \"myfunction1("+count1+")\"> <p style=\"color:red\" id=\"idm2"+count1+"\"></p></td>";
 cell3.innerHTML="<input id =\"id3"+count1+"\" class=\"form-control\" type=\"text\" name=\"desig"+count1+"\" onchange = \"myfunction2("+count1+")\" ><p style=\"color:red\" id=\"idm3"+count1+"\"></p></td>";
-cell4.innerHTML="<input id =\"id4"+count1+"\" type=\"text\" name=\"doj"+count1+"\" value = \"yyyy-mm-dd\" size=\"14\" onchange = \"myfunction3("+count1+")\"><p style=\"color:red\" id=\"idm4"+count1+"\"></p></td>";
-cell5.innerHTML="<input id =\"id5"+count1+"\" type=\"text\" name=\"dol"+count1+"\" value = \"yyyy-mm-dd\" size=\"14\" onchange = \"myfunction4("+count1+")\"><p style=\"color:red\" id=\"idm5"+count1+"\"></p></td>";
-cell6.innerHTML="<input id =\"id6"+count1+"\" class=\"form-control\" type=\"text\" name=\"duration"+count1+"\" size=\"5\" onchange = \"myfunction5("+count1+")\"><p style=\"color:red\" id=\"idm6"+count1+"\"></p> </td>";
+cell4.innerHTML="<input id =\"id4"+count1+"\" type=\"text\" class=\"date-picker form-control\" data-date-format=\"YYYY-MM-DD\" onkeypress=\"checkDateValue(event);\" name=\"doj"+count1+"\" value = \"\" size=\"14\" onchange = \"myfunction3("+count1+")\"><p style=\"color:red\" id=\"idm4"+count1+"\"></p></td>";
+cell5.innerHTML="<input id =\"id5"+count1+"\" type=\"text\" class=\"date-picker form-control\" data-date-format=\"YYYY-MM-DD\" onkeypress=\"checkDateValue(event);\" name=\"dol"+count1+"\" value = \"\" size=\"14\" onchange = \"myfunction4("+count1+")\"><p style=\"color:red\" id=\"idm5"+count1+"\"></p></td>";
+cell6.innerHTML="<input id =\"id6"+count1+"\" class=\"form-control\" type=\"text\" name=\"duration"+count1+"\" onkeypress=\"checkDateValue(event);\" size=\"5\" onchange = \"myfunction5("+count1+")\"><p style=\"color:red\" id=\"idm6"+count1+"\"></p> </td>";
 cell7.innerHTML="<input id =\"id7"+count1+"\" class=\"form-control\" type=\"number\" name=\"pay"+count1+"\" onchange = \"myfunction6("+count1+")\"><p style=\"color:red\" id=\"idm7"+count1+"\"></p></td>";
 
 cell8.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count1\" value=\""+count1+"\"></td>";
@@ -929,10 +1105,10 @@ cell1.innerHTML=sno[i-1];
 
 cell2.innerHTML="<input id =\"idva2"+i+"\" class=\"form-control\" type=\"text\" name=\"emp_name"+i+"\" value =\""+name[i-1]+"\" onchange = \"myfunctionva1("+i+")\"> <p style=\"color:red\" id=\"idmva2"+i+"\"></p ></td>";
 cell3.innerHTML="<input id =\"idva3"+i+"\" class=\"form-control\" type=\"text\" name=\"desig"+i+"\" value = \""+designation[i-1]+"\" onchange = \"myfunctionva2("+i+")\" ><p style=\"color:red\" id=\"idmva3"+i+"\"></p></td>";
-cell4.innerHTML="<input id =\"idva4"+i+"\" type=\"text\" name=\"doj"+i+"\" size=\"14\" value = \""+doj[i-1]+"\" onchange = \"myfunctionva3("+i+")\"><p style=\"color:red\" id=\"idmva4"+i+"\"></p></td>";
-cell5.innerHTML="<input id =\"idva5"+i+"\" type=\"text\" name=\"dol"+i+"\" size=\"14\" value = \""+dol[i-1]+"\" onchange = \"myfunctionva4("+i+")\"><p style=\"color:red\" id=\"idmva5"+i+"\"></p></td>";
-cell6.innerHTML="<input id =\"idva6"+i+"\" class=\"form-control\" type=\"text\" name=\"duration"+i+"\" size=\"5\" value = \""+duration[i-1]+"\" onchange = \"myfunctionva5("+i+")\"><p style=\"color:red\" id=\"idmva6"+i+"\"></p></td>";
-cell7.innerHTML="<input id =\"idva7"+i+"\" class=\"form-control\" type=\"number\" name=\"pay"+i+"\" value = \""+scale[i-1]+"\" onchange = \"myfunctionva6("+i+")\"><p style=\"color:red\" id=\"idmva7"+i+"\"></p></td>";
+cell4.innerHTML="<input id =\"idva4"+i+"\" class=\"date-picker form-control\" data-date-format=\"YYYY-MM-DD\" onkeypress=\"checkDateValue(event);\" type=\"text\" name=\"doj"+i+"\" size=\"14\" value = \""+doj[i-1]+"\" onchange = \"myfunctionva3("+i+")\"><p style=\"color:red\" id=\"idmva4"+i+"\"></p></td>";
+cell5.innerHTML="<input id =\"idva5"+i+"\" class=\"date-picker form-contro\" data-date-format=\"YYYY-MM-DD\" onkeypress=\"checkDateValue(event);\" type=\"text\" name=\"dol"+i+"\" size=\"14\" value = \""+dol[i-1]+"\" onchange = \"myfunctionva4("+i+")\"><p style=\"color:red\" id=\"idmva5"+i+"\"></p></td>";
+cell6.innerHTML="<input id =\"idva6"+i+"\" class=\"form-control\" type=\"text\" name=\"duration"+i+"\" onkeypress=\"checkDateValue(event);\" size=\"5\" value = \""+duration[i-1]+"\" onchange = \"myfunctionva5("+i+")\"><p style=\"color:red\" id=\"idmva6"+i+"\"></p></td>";
+cell7.innerHTML="<input id =\"idva7"+i+"\" class=\"form-control\" type=\"number\" name=\"pay"+i+"\" min=\"0\" value = \""+scale[i-1]+"\" onchange = \"myfunctionva6("+i+")\"><p style=\"color:red\" id=\"idmva7"+i+"\"></p></td>";
 
 cell8.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count1\" value=\""+i+"\"></td>";
 }
@@ -951,13 +1127,13 @@ cell8.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count1\" v
 
 <tr>
 
-<th>Sr.No &nbsp &nbsp &nbsp</th>
-<th>Name of the &nbsp &nbsp &nbsp<br/>Employer &nbsp &nbsp &nbsp</th>
-<th>Designation &nbsp &nbsp &nbsp</th>
-<th>Date of &nbsp &nbsp &nbsp<br/>Joining &nbsp &nbsp &nbsp<br/>yyyy-mm-dd &nbsp &nbsp &nbsp</th>
-<th>Date of &nbsp &nbsp &nbsp<br/>Leaving &nbsp &nbsp &nbsp<br/>yyyy-mm-dd &nbsp &nbsp &nbsp</th>
-<th>Duration &nbsp &nbsp &nbsp<br/>[YY-MM] &nbsp &nbsp &nbsp</th>
-<th>Scale + Grade &nbsp &nbsp &nbsp<br/>Pay/Total Pay &nbsp &nbsp &nbsp<br/>(per month) last &nbsp &nbsp &nbsp<br/>drawn (in Rs) &nbsp &nbsp &nbsp</th>
+<th>Sr.No &nbsp; &nbsp; &nbsp;</th>
+<th>Name of the &nbsp; &nbsp; &nbsp;<br/>Employer &nbsp; &nbsp; &nbsp;</th>
+<th>Designation &nbsp; &nbsp; &nbsp;</th>
+<th>Date of &nbsp; &nbsp; &nbsp;<br/>Joining &nbsp; &nbsp; &nbsp;<br/>yyyy-mm-dd &nbsp; &nbsp; &nbsp;</th>
+<th>Date of &nbsp; &nbsp; &nbsp;<br/>Leaving &nbsp; &nbsp; &nbsp;<br/>yyyy-mm-dd &nbsp; &nbsp; &nbsp;</th>
+<th>Duration &nbsp; &nbsp; &nbsp;<br/>[YY-MM] &nbsp; &nbsp; &nbsp;</th>
+<th>Scale + Grade &nbsp; &nbsp; &nbsp;<br/>Pay/Total Pay &nbsp; &nbsp; &nbsp;<br/>(per month) last &nbsp; &nbsp; &nbsp;<br/>drawn (in Rs) &nbsp; &nbsp; &nbsp;</th>
 </tr>
 </table> 
 
@@ -977,7 +1153,7 @@ if ($num_rows1 !=0)
 
 
 <tr>
-<td>17. Number of Student Projects Guided (mention only viva completed/graduated student details):<span style="color:red;">*</span>
+<td>17. Number of Student Projects Guided (mention only viva completed/graduated student details):
 </td>
 </tr>
 
@@ -986,21 +1162,21 @@ if ($num_rows1 !=0)
 <table>
 
 <tr>
-<td>Undergraduate (B.Tech/B.E/B.Sc)
-<input  id = "id17a" class="form-control" type="number" name="undergrad" value="<?php echo $undergrad;?>" size="2" onchange = "myfunction7()"><p style ="color:red" id = "id17ma" ></p></td>
+<td>Undergraduate (B.Tech/B.E/B.Sc) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input  id = "id17a" class="form-control" type="number" name="undergrad" value="<?php echo $undergrad;?>" min="0" size="2" onchange = "myfunction7()"><p style ="color:red" id = "id17ma" ></p></td>
 
 
-<td>Reseach Degree (MS/M.Phil)
-<input  id = "id17b" class="form-control" type="number" name="research_deg" value="<?php echo $research_deg;?>" size="2" onchange = "myfunction8()"><p style ="color:red" id = "id17mb" ></p> </td>
+<td>Reseach Degree (MS/M.Phil) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input  id = "id17b" class="form-control" type="number" name="research_deg" value="<?php echo $research_deg;?>" min="0" size="2" onchange = "myfunction8()"><p style ="color:red" id = "id17mb" ></p> </td>
 
 </tr>
 <tr>
-<td>Postgraduate (M.Tech/M.E/M.Sc)
-<input  id ="id17c" class="form-control" type="number" name="postgrad" value="<?php echo $postgrad;?>" size="2" onchange = "myfunction9()"><p style ="color:red" id = "id17mc" ></p></td>
+<td>Postgraduate (M.Tech/M.E/M.Sc) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input  id ="id17c" class="form-control" type="number" name="postgrad" value="<?php echo $postgrad;?>" min="0" size="2" onchange = "myfunction9()"><p style ="color:red" id = "id17mc" ></p></td>
 
 
-<td>Doctoral(Ph.D)
-<input  id="id17d" class="form-control" type="number" name="doctoral" value="<?php echo $doctoral;?>" size="2" onchange = "myfunction10()"><p style ="color:red" id = "id17md" ></p></td>
+<td>Doctoral(Ph.D) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<input  id="id17d" class="form-control" type="number" name="doctoral" value="<?php echo $doctoral;?>" min="0" size="2" onchange = "myfunction10()"><p style ="color:red" id = "id17md" ></p></td>
 
 </tr>
 </table>
@@ -1040,7 +1216,7 @@ var cell6=row.insertCell(5);
 cell1.innerHTML=count2+".";
 cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"title2"+count2+"\"></td>";
 cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"spon2"+count2+"\"></td>";
-cell4.innerHTML="<input id = \"id18a"+count2+"\" class=\"form-control\" type=\"number\" step = \"any\" name=\"val2"+count2+"\" onchange = \"myfunction11("+count2+")\"><p style=\"color:red\" id=\"id18ma"+count2+"\"></p></td>";
+cell4.innerHTML="<input id = \"id18a"+count2+"\" class=\"form-control\" type=\"number\" min=\"0\" step = \"any\" name=\"val2"+count2+"\" onchange = \"myfunction11("+count2+")\"><p style=\"color:red\" id=\"id18ma"+count2+"\"></p></td>";
 cell5.innerHTML="<input id = \"id18b"+count2+"\" class=\"form-control\" type=\"text\" name=\"status2"+count2+"\" onchange = \"myfunction12("+count2+")\"><p style=\"color:red\" id=\"id18mb"+count2+"\"></p></td>";
 cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count2\" value=\""+count2+"\"></td>";
 }
@@ -1069,7 +1245,7 @@ var cell6=row.insertCell(5);
 cell1.innerHTML=sno[i-1];
 cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"title2"+i+"\" value = \""+title[i-1]+"\"></td>";
 cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"spon2"+i+"\" value = \""+agency[i-1]+"\"></td>";
-cell4.innerHTML="<input id = \"id18vaa"+i+"\" class=\"form-control\" type=\"number\" step = \"any\" name=\"val2"+i+"\" value = \""+value[i-1]+"\" onchange = \"myfunctionva11("+i+")\"><p style=\"color:red\" id=\"id18mvaa"+i+"\"></p></td>";
+cell4.innerHTML="<input id = \"id18vaa"+i+"\" class=\"form-control\" type=\"number\" min=\"0\" step = \"any\" name=\"val2"+i+"\" value = \""+value[i-1]+"\" onchange = \"myfunctionva11("+i+")\"><p style=\"color:red\" id=\"id18mvaa"+i+"\"></p></td>";
 cell5.innerHTML="<input id = \"id18vab"+i+"\" class=\"form-control\" type=\"text\" name=\"status2"+i+"\" value = \""+status[i-1]+"\" onchange = \"myfunctionva12("+i+")\"><p style=\"color:red\" id=\"id18mvab"+i+"\"></p></td>";
 cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count2\" value=\""+i+"\"></td>";
 
@@ -1086,11 +1262,11 @@ cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count2\" v
 
 <tr>
 
-<th>Sr.No &nbsp &nbsp &nbsp</th>
-<th>Title &nbsp &nbsp &nbsp</th>
-<th>Sponsoring Agency &nbsp &nbsp &nbsp</th>
-<th>Value (in<br/>Lakhs) &nbsp &nbsp &nbsp</th>
-<th>Status &nbsp &nbsp &nbsp</th>
+<th>Sr.No &nbsp; &nbsp; &nbsp;</th>
+<th>Title &nbsp; &nbsp; &nbsp;</th>
+<th>Sponsoring Agency &nbsp; &nbsp; &nbsp;</th>
+<th>Value (in<br/>Lakhs) &nbsp; &nbsp; &nbsp;</th>
+<th>Status &nbsp; &nbsp; &nbsp;</th>
 
 </tr>
 
@@ -1145,7 +1321,7 @@ var cell6=row.insertCell(5);
 cell1.innerHTML=count3+".";
 cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"title3"+count3+"\"></td>";
 cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"spon3"+count3+"\"></td>";
-cell4.innerHTML="<input id = \"id18c"+count3+"\" class=\"form-control\" type=\"number\" step = \"any\" name=\"val3"+count3+"\" onchange = \"myfunction13("+count3+")\"><p style=\"color:red\" id=\"id18mc"+count3+"\"></p></td>";
+cell4.innerHTML="<input id = \"id18c"+count3+"\" class=\"form-control\" type=\"number\" min=\"0\" step = \"any\" name=\"val3"+count3+"\" onchange = \"myfunction13("+count3+")\"><p style=\"color:red\" id=\"id18mc"+count3+"\"></p></td>";
 cell5.innerHTML="<input id = \"id18d"+count3+"\" class=\"form-control\" type=\"text\" name=\"status3"+count3+"\" onchange = \"myfunction14("+count3+")\"><p style=\"color:red\" id=\"id18md"+count3+"\"></p></td>";
 cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count3\" value=\""+count3+"\"></td>";
 }
@@ -1177,7 +1353,7 @@ var cell6=row.insertCell(5);
 cell1.innerHTML=sno[i-1];
 cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"title3"+i+"\" value = \""+title[i-1]+"\"></td>";
 cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"spon3"+i+"\" value = \""+agency[i-1]+"\"></td>";
-cell4.innerHTML="<input id = \"id18vac"+i+"\" class=\"form-control\" type=\"number\" step = \"any\" name=\"val3"+i+"\" value = \""+value[i-1]+"\" onchange = \"myfunctionva13("+i+")\"><p style=\"color:red\" id=\"id18mvac"+i+"\"></p></td>";
+cell4.innerHTML="<input id = \"id18vac"+i+"\" class=\"form-control\" type=\"number\" min=\"0\" step = \"any\" name=\"val3"+i+"\" value = \""+value[i-1]+"\" onchange = \"myfunctionva13("+i+")\"><p style=\"color:red\" id=\"id18mvac"+i+"\"></p></td>";
 cell5.innerHTML="<input id = \"id18vad"+i+"\" class=\"form-control\" type=\"text\" name=\"status3"+i+"\" value = \""+status[i-1]+"\" onchange = \"myfunctionva14("+i+")\"><p style=\"color:red\" id=\"id18mvad"+i+"\"></p></td>";
 cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count3\" value=\""+i+"\"></td>";
 
@@ -1194,11 +1370,11 @@ cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count3\" v
 
 <tr>
 
-<th>Sr.No &nbsp &nbsp &nbsp</th>
-<th>Title &nbsp &nbsp &nbsp</th>
-<th>Sponsoring Agency &nbsp &nbsp &nbsp</th>
-<th>Value (in<br/>Lakhs) &nbsp &nbsp &nbsp</th>
-<th>Status &nbsp &nbsp &nbsp</th>
+<th>Sr.No &nbsp; &nbsp; &nbsp;</th>
+<th>Title &nbsp; &nbsp; &nbsp;</th>
+<th>Sponsoring Agency &nbsp; &nbsp; &nbsp;</th>
+<th>Value (in<br/>Lakhs) &nbsp; &nbsp; &nbsp;</th>
+<th>Status &nbsp; &nbsp; &nbsp;</th>
 
 </tr>
 
@@ -1570,9 +1746,9 @@ cell3.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count10\" 
 <col width="1000">
 <tr>
 
-<th>Sr.No &nbsp &nbsp &nbsp</th>
-<th>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Courses <br/>
- &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp details</th>
+<th>Sr.No &nbsp; &nbsp; &nbsp;</th>
+<th>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Courses <br/>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; details</th>
 </tr>
 
 </table>
@@ -1603,9 +1779,9 @@ if ($num_rows4 !=0)
 <col width="1000">
 <tr>
 
-<th>Sr.No &nbsp &nbsp &nbsp</th>
-<th>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Courses <br/>
- &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp details</th>
+<th>Sr.No &nbsp; &nbsp; &nbsp;</th>
+<th>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Courses <br/>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; details</th>
 </tr>
 
 </table>
@@ -1636,9 +1812,9 @@ if ($num_rows5 !=0)
 <col width="1000">
 <tr>
 
-<th>Sr.No &nbsp &nbsp &nbsp</th>
-<th>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Courses <br/>
- &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp details</th>
+<th>Sr.No &nbsp; &nbsp; &nbsp;</th>
+<th>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Courses <br/>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; details</th>
 </tr>
 
 </table>
@@ -1668,9 +1844,9 @@ if ($num_rows6 !=0)
 <col width="1000">
 <tr>
 
-<th>Sr.No &nbsp &nbsp &nbsp</th>
-<th>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Patents <br/>
- &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp details</th>
+<th>Sr.No &nbsp; &nbsp; &nbsp;</th>
+<th>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Patents <br/>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; details</th>
 </tr>
 
 </table>
@@ -1699,9 +1875,9 @@ if ($num_rows7 !=0)
 <col width="1000">
 <tr>
 
-<th>Sr.No &nbsp &nbsp &nbsp</th>
-<th>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Patents <br/>
- &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp details</th>
+<th>Sr.No &nbsp; &nbsp; &nbsp;</th>
+<th>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Patents <br/>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; details</th>
 </tr>
 
 </table>
@@ -1732,9 +1908,9 @@ if ($num_rows8 !=0)
 <col width="1000">
 <tr>
 
-<th>Sr.No &nbsp &nbsp &nbsp</th>
-<th>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Life Membership <br/>
- &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp details</th>
+<th>Sr.No &nbsp; &nbsp; &nbsp;</th>
+<th>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Life Membership <br/>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; details</th>
 </tr>
 
 </table>
@@ -1764,9 +1940,9 @@ if ($num_rows9 !=0)
 <col width="1000">
 <tr>
 
-<th>Sr.No &nbsp &nbsp &nbsp</th>
-<th>&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Honors<br/>
- &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp and awards</th>
+<th>Sr.No &nbsp; &nbsp; &nbsp;</th>
+<th>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Honors<br/>
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; and awards</th>
 </tr>
 
 </table>

@@ -61,7 +61,7 @@
 
 
 	// Create connection
-	$con=mysqli_connect("localhost","root","root","faculty_recruitment");
+	$con=mysqli_connect("localhost","root","isquarer","faculty_recruitment");
 	// Check connection
 	if (mysqli_connect_errno($con))
 	{
@@ -126,7 +126,7 @@
 	        {
 			$errorMessage .= "<li>You have forgotten to enter your Name!</li>";
 		}
-		if(empty($row1['dob'])) 
+		if(empty($row1['dob']) || $row1['dob']=='0000-00-00') 
 	        {
 			$errorMessage .= "<li>You have forgotten to enter your Date Of Birth!</li>";
 		}
@@ -161,7 +161,7 @@
 				}
 			
 		}
-		if(empty($row1['address']) | empty($row1['addr_mobile']) | empty($row1['addr_email'])) 
+		if($row1['address']=="$" || empty($row1['addr_mobile']) || empty($row1['addr_email'])) 
 	        {
 			$errorMessage .= "<li>You have forgotten to enter your Contact Address!</li>";
 		}
@@ -169,6 +169,21 @@
   			{
   			$errorMessage .= "<li>Invalid email format</li>";
   		}
+		
+		if($row1['permaddress']=="$" || empty($row1['perm_mobile']) || empty($row1['perm_email'])) 
+	        {
+			$errorMessage .= "<li>You have forgotten to enter your Permanent Contact Address!</li>";
+		}
+		if (!preg_match("/([\w\-]+\@[\w\-]+\.[\w\-]+)/",$row1['perm_email']))
+  			{
+  			$errorMessage .= "<li>Invalid email format</li>";
+  		}  		
+
+		if(empty($row1['fname'])) 
+	        {
+			$errorMessage .= "<li>You have forgotten to enter your father name or your husband name!</li>";
+		}
+		
 		if(empty($row1['designation'])) 
 	        {
 			$errorMessage .= "<li>You have forgotten to enter your Designation!</li>";
@@ -176,12 +191,31 @@
 
 		if(mysqli_num_rows(mysqli_query($con, "select * from educational_qualifications where userid = $userid")) == 0)
 	        {
-			$errorMessage .= "<li>Educational Qualifications field is incomplete</li>";
+			$errorMessage .= "<li>Educational Qualifications field is incomplete atleast one row need to be filled</li>";
 		}
-		if(mysqli_num_rows(mysqli_query($con, "select * from educational_qualifications where userid = $userid")) == 0)
-	        {
-			$errorMessage .= "<li>Educational Qualifications field is incomplete</li>";
+		else
+		{
+		$j=0;
+		$retrieve = "SELECT * FROM educational_qualifications where userid = $userid";
+		$result = mysqli_query($con,$retrieve);
+		while($row = mysqli_fetch_array($result))
+		{
+			$sno[] = $row['sno'];
+			$degree[] = $row['degree'];
+			$insti[] = $row['insti'];
+			$yoe[] = $row['yoe'];
+			$yol[] = $row['yol'];
+			$percent[] = $row['percent'];
+			$degreetype[] = $row['degreetype'];
+			$scoreType[]=$row['scoreType'];	
+			if($degree[$j]=='' or $insti[$j]=='' or $yoe[$j]=='' or $yol[$j]=='' or ($percent[$j]==0 or $percent[$j]=='') or $degreetype[$j]==0 or $scoreType[$j]==0)
+			{
+				$errorMessage .= " <li> row " .($j+1). " of educational_qualifications is incomplete </li>";				
+			}
+			$j++;
 		}
+		}	
+
 		if(mysqli_num_rows(mysqli_query($con, "select * from educational_qualifications where userid = $userid AND percent>100 ")) > 0)
 	        {
 			$errorMessage .= "<li>Percentage exceeds 100</li>";
@@ -212,7 +246,7 @@
 		$errorMessage = "";		
 	if(strlen($row2['intjournals3']) == 0 || strlen($row2['intjournalsoverall'])==0 || strlen($row2['natjournals3'])==0 || strlen($row2['natjournalsoverall'])==0 || strlen($row2['intconf3'])==0 || strlen($row2['intconfoverall'])==0 || strlen($row2['natconf3'])==0 || strlen($row2['natconfoverall'])==0)
         {
-        	$errorMessage .="<li> All entries of Field 15 needs to be filled (fill 0 if NA) </li>";
+        	$errorMessage .="<li> All entries of Field 15 need to be filled (fill 0 if NA) </li>";
 		}
 
 		$publication_dollar= explode('$',$row2['publications']);
@@ -257,7 +291,7 @@
 		$query = "SELECT * FROM form3 where userid = $userid";
 		$result = mysqli_query($con,$query);
 		$row3 = mysqli_fetch_assoc($result);
-		if(strlen($row3['undergrad']) == 0 || strlen($row3['research_deg'])==0 || strlen($row3['postgrad'])==0 || strlen($row3['doctoral'])==0)
+		/*if(strlen($row3['undergrad']) == 0 || strlen($row3['research_deg'])==0 || strlen($row3['postgrad'])==0 || strlen($row3['doctoral'])==0)
         	{
 				echo "<p>There are errors in <a href='form3.php'>Professional Activities</a></p>";
 			
@@ -268,7 +302,9 @@
 		{
 			mysqli_query($con, "update form3 set submitted = 1 where userid = $userid");
 			echo "Professional Activities submitted successfully<br>";
-		}
+		}*/
+		mysqli_query($con, "update form3 set submitted = 1 where userid = $userid");
+		echo "Professional Activities submitted successfully<br>";
 
 	}
 

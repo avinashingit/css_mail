@@ -63,7 +63,24 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 		$temp=$temp.$_REQUEST[$p.$i].'^'.$_REQUEST[$p.($i+1)].'^'.$_REQUEST[$p.($i+2)].'^'.$_REQUEST[$p.($i+3)].'^'.$_REQUEST[$p.($i+4)].'^'.$_REQUEST[$p.($i+5)].'$';
 		$i+=6;
 	}
-	$publications = $_REQUEST['publications'] = $temp;
+	$publications = $temp;//$_REQUEST['publications'] = $temp;
+
+	if ($intjournalsoverall<$intjournals3) 
+	{
+		$intjournalsoverall=$intjournals3;
+	}
+	if ($natjournalsoverall<$natjournals3) 
+	{
+		$natjournalsoverall=$natjournals3;
+	}
+	if ($intconfoverall<$intconf3) 
+	{
+		$intconfoverall=$intconf3;
+	}
+	if ($natconfoverall<$natconf3) 
+	{
+		$natconfoverall=$natconf3;
+	}
 	//$publications = $temp_publications;
 
 	//if($intjournals3=='' || $intjournalsoverall=='' || $natjournals3=='' || $natjournalsoverall=='' || $intconf3=='' || $intconfoverall=='' || $natconf3=='' || $natconfoverall=='' || $publications=='' || $_FILES["paper1"]["name"]=='' || $_FILES["paper2"]["name"]=='' || $_FILES["paper3"]["name"]=='')
@@ -279,7 +296,7 @@ natconfoverall,publications,submitted,paper1,paper2,paper3) VALUES ('$usrid1','$
 		cell2.innerHTML="<input class=\"form-control\" type=\"text\" name=\"publications"+count_cell+"\" pattern=\'[a-zA-Z0-9]{0,100}\' title=\"Only alphanumeric input is valid upto 100 characters\" value=\""+cnt0+"\"></td>";count_cell++;
 		cell3.innerHTML="<input class=\"form-control\" type=\"text\" name=\"publications"+count_cell+"\" pattern=\'[a-zA-Z0-9]{0,100}\' title=\"Only alphanumeric input is valid upto 100 characters\" value=\""+cnt1+"\"></td>";count_cell++;
 		cell4.innerHTML="<input class=\"form-control\" type=\"text\" name=\"publications"+count_cell+"\" pattern=\'[a-zA-Z0-9]{0,100}\' title=\"Only alphanumeric input is valid upto 100 characters\" value=\""+cnt2+"\"></td>";count_cell++;
-		cell5.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\" value=\""+cnt3+"\"></td>";count_cell++;
+		cell5.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\" value=\""+cnt3+"\" min=\"1950\" max=\"2015\"></td>";count_cell++;
 		cell6.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\" min=\"0\" value=\""+cnt4+"\"></td>";count_cell++;
 		cell7.innerHTML="<input class=\"form-control\" type=\"number\" name=\"publications"+count_cell+"\"  min=\"0\" value=\""+cnt5+"\"></td>";
 		cell1.innerHTML=(count_cell/6)+". ";	
