@@ -12,22 +12,22 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 		echo "<br/><span style='color:green;'>Publication Details SAVED</span>";
 	}
 
+    // to check whether the form is submitted or not
 	if(mysqli_num_rows(mysqli_query($con, "select submitted from form3 where userid = $usrid1 and submitted = 1")) > 0)
 	{
-		echo "<br/><br/><br/><br/>Your form is already submitted<br>";
-		echo 'Click <a href="pdf_final.php">here</a></li> to generate the pdf of your application<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>';
+		echo "<br/><br/><br/><br/>Your form is already submitted<br><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>";
+		//echo 'Click <a href="pdf_final.php">here</a></li> to generate the pdf of your application<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>';
         include 'footer.php';
 		//echo '<p><a href=".">Home</a></p>';
 		exit;
 	}
-
+    //end of checking
 
 //	$usrid1 = $_GET['usrid'];
 
+    // retrieving data from form3 table 
 	$retrieve = "SELECT * FROM form3 where userid = $usrid1";
-
 	$result = mysqli_query($con,$retrieve);
-
 
 	while($row = mysqli_fetch_array($result))
   	{
@@ -43,16 +43,11 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 		//$memberships = $row['memberships'];
 		//$awards = $row['awards'];
   	}
-
+    //end of retrieval
   	
-
-
-
-
+    // retrieving data from work_experience table 
 	$retrieve = "SELECT * FROM work_experience where userid = $usrid1";
-
 	$result = mysqli_query($con,$retrieve);
-
 	$num_rows1 = mysqli_num_rows($result);
 
 	while($row = mysqli_fetch_array($result))
@@ -66,14 +61,11 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 		$scale[] = $row['scale'];
 
   	}
+    //end of retrieval
 
-
-
-
+    // retrieving data from spons_principal table 
 	$retrieve = "SELECT * FROM spons_principal where userid = $usrid1";
-
 	$result = mysqli_query($con,$retrieve);
-
 	$num_rows2 = mysqli_num_rows($result);
 
 	while($row = mysqli_fetch_array($result))
@@ -84,13 +76,11 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 		$value[] = $row['value'];
 		$status[] = $row['status'];
   	}
+    //end of retrieval
 
-
-
+    // retrieving data from spons_co_investigator table
 	$retrieve = "SELECT * FROM spons_co_investigator where userid = $usrid1";
-
 	$result = mysqli_query($con,$retrieve);
-
 	$num_rows3 = mysqli_num_rows($result);
 
 	while($row = mysqli_fetch_array($result))
@@ -101,13 +91,11 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 		$value1[] = $row['value'];
 		$status1[] = $row['status'];
   	}
+    //end of retrieval
 
-
-
+    // retrieving data from courses_handled_undergrad_level table
     $retrieve = "SELECT * FROM courses_handled_undergrad_level where userid = $usrid1";
-
     $result = mysqli_query($con,$retrieve);
-
     $num_rows4 = mysqli_num_rows($result);
 
     while($row = mysqli_fetch_array($result))
@@ -115,11 +103,11 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
         $sno3[] = $row['sno'];
         $undergrad_courses_details[] = $row['course'];
     }
+    //end of retrieval
 
+    //retrieving data from courses_handled_postgrad_level table
     $retrieve = "SELECT * FROM courses_handled_postgrad_level where userid = $usrid1";
-
     $result = mysqli_query($con,$retrieve);
-
     $num_rows5 = mysqli_num_rows($result);
 
     while($row = mysqli_fetch_array($result))
@@ -127,11 +115,11 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
         $sno4[] = $row['sno'];
         $postgrad_courses_details[] = $row['course'];
     }
+    //end of retrieval
 
+    //retrieving data from short_courses table
     $retrieve = "SELECT * FROM short_courses where userid = $usrid1";
-
     $result = mysqli_query($con,$retrieve);
-
     $num_rows6 = mysqli_num_rows($result);
 
     while($row = mysqli_fetch_array($result))
@@ -139,11 +127,11 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
         $sno5[] = $row['sno'];
         $short_courses_details[] = $row['course'];
     }
+    //end of retrieval
 
+    //retrieving data from patents_details
     $retrieve = "SELECT * FROM patents_details where userid = $usrid1";
-
     $result = mysqli_query($con,$retrieve);
-
     $num_rows7 = mysqli_num_rows($result);
 
     while($row = mysqli_fetch_array($result))
@@ -151,11 +139,11 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
         $sno6[] = $row['sno'];
         $patents_details[] = $row['patent'];
     }
+    //end of retrieval
 
+    //retrieving data from administrative_experience table
     $retrieve = "SELECT * FROM administrative_experience where userid = $usrid1";
-
     $result = mysqli_query($con,$retrieve);
-
     $num_rows8 = mysqli_num_rows($result);
 
     while($row = mysqli_fetch_array($result))
@@ -163,11 +151,11 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
         $sno7[] = $row['sno'];
         $administrative_details[] = $row['admin_experience'];
     }
+    //end of retrieval
 
+    //retrieving data from membership_professional table
     $retrieve = "SELECT * FROM membership_professional where userid = $usrid1";
-
     $result = mysqli_query($con,$retrieve);
-
     $num_rows9 = mysqli_num_rows($result);
 
     while($row = mysqli_fetch_array($result))
@@ -175,11 +163,11 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
         $sno8[] = $row['sno'];
         $membership_details[] = $row['membership'];
     }
+    //end of retrieval
 
+    //retrieving data from honors_and_awards table
     $retrieve = "SELECT * FROM honors_and_awards where userid = $usrid1";
-
     $result = mysqli_query($con,$retrieve);
-
     $num_rows10 = mysqli_num_rows($result);
 
     while($row = mysqli_fetch_array($result))
@@ -187,15 +175,20 @@ error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
         $sno9[] = $row['sno'];
         $honors_awards[] = $row['honors'];
     }
+    //end of retrieval
+
 if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1])) 
 {
 
 	echo "<br/><span style='color:green;'>Professional Activities SAVED</span>";
 
+    //copying submitted form variables of form3 table
 	$undergrad = $_REQUEST['undergrad'];
 	$research_deg = $_REQUEST['research_deg'];
 	$postgrad = $_REQUEST['postgrad'];
 	$doctoral = $_REQUEST['doctoral'];
+    //end of copying
+
 	//$courses_undergrad = $_REQUEST['courses_undergrad'];
 	//$courses_postgrad = $_REQUEST['courses_postgrad'];
 	//$wrkshps = $_REQUEST['wrkshps'];
@@ -216,6 +209,7 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 
        	{
 
+    //deleting existing records from the database            
 	mysqli_query($con,"delete from spons_principal where userid=$usrid1");
 	mysqli_query($con,"delete from spons_co_investigator where userid=$usrid1");
     mysqli_query($con,"delete from courses_handled_undergrad_level where userid=$usrid1");
@@ -226,7 +220,9 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
     mysqli_query($con,"delete from membership_professional where userid=$usrid1");
     mysqli_query($con,"delete from honors_and_awards where userid=$usrid1");
 	mysqli_query($con,"delete from form3 where userid=$usrid1");
+    //end of deletion
 
+    // copying work experience form variables
 	$count1 = $_REQUEST['count1'];
 	$num_rows1 = $count1;
     $error=0;
@@ -247,10 +243,13 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 		//if (!preg_match('/[^a-zA-Z.]/', $name[$i]) && !preg_match('/[^a-zA-Z]/', $designation[$i]) && )
 
 	}
+    //end of copying
+
     $i=0;
     while(!($name[$i]=='' && $designation[$i]==''&& ($doj[$i]=='' or $doj[$i]=='0000-00-00' or $doj[$i]=='yyyy-mm-dd') && ($dol[$i]=='' or $dol[$i]=='0000-00-00' or $dol[$i]=='yyyy-mm-dd') && $duration[$i] =='' && ($scale[$i] =='' or $scale[$i])))
     {
-                       if(strlen($doj[$i])!=0)
+        //validation of dates and its formats
+        if(strlen($doj[$i])!=0)
         {
             $dobSplitArray=explode("-", $doj[$i]);
             if(sizeof($dobSplitArray)!=3)
@@ -292,7 +291,7 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
             }
             else
             {
-                if(!validateDateOfBirth($dobSplitArray1[1],$dobSplitArray1[0],$dobSplitArray1[2]) or $dobSplitArray1[2]=='00' or $dobSplitArray1[2]=='00' or strlen($dobSplitArray1[1])!=2 or strlen($dobSplitArray1[2])!=2 or strlen($dobSplitArray1[0])!=4 )
+                if(!validateDateOfBirth($dobSplitArray1[1],$dobSplitArray1[0],$dobSplitArray1[2]) or $dobSplitArray1[2]=='00' or strlen($dobSplitArray1[1])!=2 or strlen($dobSplitArray1[2])!=2 or strlen($dobSplitArray1[0])!=4 )
                 {
                     $error=1;
                     echo "<p class='text-center'>Date of leaving is ahead of now in row".($i+1)."</p>";
@@ -338,18 +337,22 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
               echo "<p class='text-center'>months are greater than 12 in row".($i+1)." of duration</p>";  
             }
         }
+        //end of date validation
+
         if($error==0)
         {
+            //writing the validated content in to the work_experience table
             $k=$i+1;
         mysqli_query($con,"delete from work_experience where userid=$usrid1");            
         $query = "INSERT INTO work_experience (userid,sno,name,designation,doj,dol,duration,scale) VALUES ($usrid1,$k,'$name[$i]','$designation[$i]','$doj[$i]','$dol[$i]','$duration[$i]','$scale[$i]')";
                 mysqli_query($con,$query);
+            //end of writing
         }
             $i++;        
     }
     $num_rows1=$i;
 
-
+    //copying of  submitted form variables of spons_principal and writing in its table
 	$count2 = $_REQUEST['count2'];
 	$num_rows2 = $count2;
 
@@ -373,9 +376,10 @@ while(!($title[$i] == '' and $agency[$i] == '' and $value[$i] == '' and $status[
         mysqli_query($con,$query);    
     $i=$i+1;
 }
-
     $num_rows2=$i;
+    //end of spons_principal
 
+    //copying of  submitted form variables of spons_co_investigator and writing in its table
 	$count3 = $_REQUEST['count3'];
 	$num_rows3 = $count3;
 
@@ -398,10 +402,12 @@ while(!($title[$i] == '' and $agency[$i] == '' and $value[$i] == '' and $status[
         mysqli_query($con,$query);    
         $i=$i+1;
     }
-
     $num_rows3=$i;
-//this is part I added
+    //end of spons_co_investigator
 
+    //this is part I added
+
+    //copying of  submitted form variables of courses_handled_undergrad_level and writing in its table
     $count4 = $_REQUEST['count4'];
     $num_rows4 = $count4;
 
@@ -421,9 +427,10 @@ while(!($title[$i] == '' and $agency[$i] == '' and $value[$i] == '' and $status[
         mysqli_query($con,$query);    
         $i=$i+1;
     }
-
     $num_rows4=$i;
+    //end of courses_handled_undergrad_level
 
+    //copying of  submitted form variables of courses_handled_postgrad_level and writing in its table
     $count5 = $_REQUEST['count5'];
     $num_rows5 = $count5;
 
@@ -443,9 +450,10 @@ while(!($title[$i] == '' and $agency[$i] == '' and $value[$i] == '' and $status[
         mysqli_query($con,$query);    
         $i=$i+1;
     }
-
     $num_rows5=$i;
+    //end of courses_handled_postgrad_level
 
+    //copying of  submitted form variables of short_courses and writing in its table
     $count6 = $_REQUEST['count6'];
     $num_rows6 = $count6;
 
@@ -464,9 +472,10 @@ while(!($title[$i] == '' and $agency[$i] == '' and $value[$i] == '' and $status[
         mysqli_query($con,$query);    
         $i=$i+1;
     }
-
     $num_rows6=$i;  
+    //end of short_courses
 
+    //copying of  submitted form variables of patents_details and writing in its table
     $count7 = $_REQUEST['count7'];
     $num_rows7 = $count7;
 
@@ -486,9 +495,10 @@ while(!($title[$i] == '' and $agency[$i] == '' and $value[$i] == '' and $status[
         mysqli_query($con,$query);    
         $i=$i+1;
     }
-
     $num_rows7=$i; 
+    //end of patents_details
 
+    //copying of  submitted form variables of administrative_experience and writing in its table
     $count8 = $_REQUEST['count8'];
     $num_rows8 = $count8;
 
@@ -508,10 +518,10 @@ while(!($title[$i] == '' and $agency[$i] == '' and $value[$i] == '' and $status[
         mysqli_query($con,$query);    
         $i=$i+1;
     }
-
     $num_rows8=$i; 
+    //end of administrative_experience
 
-
+    //copying of  submitted form variables of membership_professional and writing in its table
     $count9 = $_REQUEST['count9'];
     $num_rows9 = $count9;
 
@@ -531,9 +541,10 @@ while(!($title[$i] == '' and $agency[$i] == '' and $value[$i] == '' and $status[
         mysqli_query($con,$query);    
         $i=$i+1;
     }
-
     $num_rows9=$i; 
+    //end of membership_professional
 
+    //copying of  submitted form variables of honors_and_awards and writing in its table
     $count10 = $_REQUEST['count10'];
     $num_rows10 = $count10;
 
@@ -553,8 +564,8 @@ while(!($title[$i] == '' and $agency[$i] == '' and $value[$i] == '' and $status[
         mysqli_query($con,$query);    
         $i=$i+1;
     }
-
     $num_rows10=$i; 
+    //end of honors_and_awards
 
 //Part I added ended
 
@@ -579,6 +590,8 @@ while(!($title[$i] == '' and $agency[$i] == '' and $value[$i] == '' and $status[
 <script src="include/js/form3include/addrow.js" type="text/javascript"></script>
 -->
 <script type="text/javascript">
+
+//functions below checks the dates,formats and numbers 
 function myfunction1(countfunc)
 {
 	var inpObj= document.getElementById("id2"+countfunc);
@@ -983,7 +996,9 @@ function myfunctionva13(countfunc)
             document.getElementById("id18mvac"+countfunc).innerHTML = "";
     }
 }
+//end of checking dates, formats and numbers
 
+// function to check input entries only of alphabets
 function myfunction14(countfunc)
 {
     var inpObj= document.getElementById("id18d"+countfunc);
@@ -1011,6 +1026,9 @@ function myfunctionva14(countfunc)
             document.getElementById("id18mvad"+countfunc).innerHTML = "";
     }
 }
+//end of entries checking'
+
+// function to check date
     function checkDateValue(e)
     {
         var k = e.which || e.keyCode || e.charCode;
@@ -1020,6 +1038,7 @@ function myfunctionva14(countfunc)
                 e.preventDefault();
             }
     }
+    //end of checking date
 </script>
 
 <body>
@@ -1041,6 +1060,7 @@ myfunction6 is not checking for alphabets in salary.
 <script type="text/javascript">
 var count1 = 0;
 
+// create a new row or show previously entered data 
 function add_row16(cnt)
 {
 //alert("hello");
@@ -1115,8 +1135,12 @@ cell8.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count1\" v
 }
 
 }
+//end of row function
+
 </script>
 <br/><span style="color:red;">* required fields</span><br/><br/>
+
+<!-- work experience and its sub fields -->
 <table class="table table-striped" id="myTable">
 <tr>
 <td>16. Work Experience (in reverse chronological order)</td>
@@ -1136,9 +1160,9 @@ cell8.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count1\" v
 <th>Scale + Grade &nbsp; &nbsp; &nbsp;<br/>Pay/Total Pay &nbsp; &nbsp; &nbsp;<br/>(per month) last &nbsp; &nbsp; &nbsp;<br/>drawn (in Rs) &nbsp; &nbsp; &nbsp;</th>
 </tr>
 </table> 
+<!-- end of work experience -->
 
-
-
+<!--button to create new row -->
 <?php 
 if ($num_rows1 !=0)
   {
@@ -1146,12 +1170,14 @@ if ($num_rows1 !=0)
   }
   	?>
 
-
 <br/>
-									<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row16(0)";?>">Insert new row</button>
-</td></tr>
+    <button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row16(0)";?>">Insert new row</button>
+<!-- end of new row -->
 
+</td>
+</tr>
 
+<!-- input fields for entering projects guided -->
 <tr>
 <td>17. Number of Student Projects Guided (mention only viva completed/graduated student details):
 </td>
@@ -1179,6 +1205,7 @@ if ($num_rows1 !=0)
 <input  id="id17d" class="form-control" type="number" name="doctoral" value="<?php echo $doctoral;?>" min="0" size="2" onchange = "myfunction10()"><p style ="color:red" id = "id17md" ></p></td>
 
 </tr>
+<!-- end of number of student projects guided -->
 </table>
 </td>
 </tr>
@@ -1194,6 +1221,8 @@ if ($num_rows1 !=0)
 
 <script type="text/javascript">
 var count2 = 0;
+
+// create a new row or to show previously entered data of 18a
 function add_row18a(cnt)
 {
 
@@ -1253,11 +1282,14 @@ cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count2\" v
 }
 
 }
+//end of row function 18a
+
 </script>
 
 </head>
 <tr>
 <td>
+<!-- 18a field and its sub fields -->
 <table id="Table18a" border ="1">
 
 <tr>
@@ -1269,6 +1301,7 @@ cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count2\" v
 <th>Status &nbsp; &nbsp; &nbsp;</th>
 
 </tr>
+<!-- end of 18a field -->
 
 <!--<tr>
 <td>1.</td>
@@ -1278,7 +1311,9 @@ cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count2\" v
 <td><input type="text" name="status21"></td>
 </tr>-->
 
+
 </table>
+<!--button to create new row for 18a-->
 <?php 
 if ($num_rows2 !=0)
   {
@@ -1287,7 +1322,9 @@ if ($num_rows2 !=0)
 
   	?>
 <br/>
-									<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row18a(0)";?>">Insert new row</button></td></tr>
+	<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row18a(0)";?>">Insert new row</button></td></tr>
+    <!-- end of new row of 18a-->
+
 <tr>
 <td>(b) As Co Investigator</td>
 </tr>
@@ -1299,6 +1336,7 @@ if ($num_rows2 !=0)
 <script type="text/javascript">
 var count3 = 0;
 
+// create a new row or to show previously entered data of 18 b
 function add_row18b(cnt)
 {
 
@@ -1361,11 +1399,13 @@ cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count3\" v
 }
 
 }
+//end of row function 18b
 </script>
 </head>
 
 <tr>
 <td>
+<!-- 18b field and its sub fields -->
 <table id="Table18b" border = "1">
 
 <tr>
@@ -1377,6 +1417,7 @@ cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count3\" v
 <th>Status &nbsp; &nbsp; &nbsp;</th>
 
 </tr>
+<!-- end of 18b field -->
 
 <!--
 <tr>
@@ -1389,6 +1430,7 @@ cell6.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count3\" v
 
 
 </table>
+<!--button to create new row for 18b-->
 <?php 
 if ($num_rows3 !=0)
   {
@@ -1398,13 +1440,15 @@ if ($num_rows3 !=0)
 
 
 <br/>
-									<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row18b(0)";?>">Insert new row</button>
+	<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row18b(0)";?>">Insert new row</button>
+    <!-- end of new row of 18b-->
+
 </td></tr>
 </table>
 
+<!-- create a new row or to show previously entered data of 19a courses handled-->
 <script type="text/javascript">
 var count4 = 0;
-
 function add_row19a(cnt)
 {
 
@@ -1448,7 +1492,9 @@ cell3.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count4\" v
 
 }
 </script>
+<!--end of row function 19a courses handled-->
 
+<!-- create a new row or to show previously entered data of 19b courses handled-->
 <script type="text/javascript">
 var count5 = 0;
 
@@ -1495,7 +1541,9 @@ cell3.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count5\" v
 
 }
 </script>
+<!--end of row function 19b courses handled-->
 
+<!-- create a new row or to show previously entered data of 20 short courses -->
 <script type="text/javascript">
 var count6 = 0;
 
@@ -1542,7 +1590,9 @@ cell3.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count6\" v
 
 }
 </script>
+<!--end of row function 20 short courses -->
 
+<!-- create a new row or to show previously entered data of 21 details of patents -->
 <script type="text/javascript">
 var count7=0;
 
@@ -1589,7 +1639,9 @@ cell3.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count7\" v
 
 }
 </script>
+<!--end of row function 21 details of patents -->
 
+<!-- create a new row or to show previously entered data of 22 administrative experience -->
 <script type="text/javascript">
 var count8=0;
 
@@ -1636,7 +1688,9 @@ cell3.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count8\" v
 
 }
 </script>
+<!--end of row function 22 administrative experience -->
 
+<!-- create a new row or to show previously entered data of 23 membership of professional bodies -->
 <script type="text/javascript">
 var count9=0;
 
@@ -1683,7 +1737,9 @@ cell3.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count9\" v
 
 }
 </script>
+<!--end of row function 23 membership of professional bodies -->
 
+<!-- create a new row or to show previously entered data of 24 honors and awards -->
 <script type="text/javascript">
 var count10=0;
 
@@ -1730,10 +1786,14 @@ cell3.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count10\" 
 
 }
 </script>
+<!--end of row function 24 honors and awards -->
+
 <table class="table table-striped" id="myTable">
+
+<!-- start of courses handled-->
 <tr><td>19. Courses Handled</td></tr>
 
-
+<!-- start of undergraduate level -->
 <tr><td>a)Undergraduate Level</td></tr>
 <!--<td><textarea class="form-control" rows="15" cols="100" name="courses_undergrad">
 <?php echo $courses_undergrad ;?>
@@ -1755,21 +1815,23 @@ cell3.innerHTML="<input class=\"form-control\" type=\"hidden\" name=\"count10\" 
 </td>
 </tr>
 
+<!-- to create a new row -->
 <?php 
 if ($num_rows4 !=0)
   {
             echo "<script> add_row19a(".$num_rows4."); </script>";
   }
     ?>
+<!-- end of new row -->
 
 <tr>
 <td>
 <button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row19a(0)";?>">Insert new row</button>
 </td>
 </tr>
+<!-- end of undergraduate level -->
 
-
-
+<!-- start of postgraduate level -->
 <tr><td>b)Postgraduate Level</td></tr>
 
 <tr>
@@ -1788,20 +1850,24 @@ if ($num_rows4 !=0)
 </td>
 </tr>
 
+<!-- to create a new row -->
 <?php 
 if ($num_rows5 !=0)
   {
             echo "<script> add_row19b(".$num_rows5."); </script>";
   }
 ?>
+<!-- end of new row -->
 
 <tr>
 <td>
 <button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row19b(0)";?>">Insert new row</button>
 </td>
 </tr>
+<!-- end of postgraduate level -->
+<!-- end of courses handled -->
 
-
+<!-- start of 20th field short courses-->
 <tr><td>20. Short courses / Workshops /Seminars organized</td></tr>
 
 
@@ -1821,21 +1887,24 @@ if ($num_rows5 !=0)
 </td>
 </tr>
 
+<!-- to create a new row -->
 <?php 
 if ($num_rows6 !=0)
   {
             echo "<script> add_row20(".$num_rows6."); </script>";
   }
 ?>
+<!-- end of new row -->
 
 <tr>
 <td>
 <button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row20(0)";?>">Insert new row</button>
 </td>
 </tr>
+<!-- end of short courses -->
 
+<!-- start of 21st field details of patents-->
 <tr><td>21. Details of Patents (if any)</td></tr>
-
 
 <tr>
 <td>
@@ -1853,19 +1922,23 @@ if ($num_rows6 !=0)
 </td>
 </tr>
 
+<!-- to create a new row -->
 <?php 
 if ($num_rows7 !=0)
   {
             echo "<script> add_row21(".$num_rows7."); </script>";
   }
 ?>
+<!-- end of new row -->
 
 <tr>
 <td>
 <button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row21(0)";?>">Insert new row</button>
 </td>
 </tr>
+<!-- end of details of patents -->
 
+<!-- start of 22nd field administrative experience -->
 <tr><td>22. Administrative Experience (if any)</td></tr>
 
 <tr>
@@ -1884,21 +1957,23 @@ if ($num_rows7 !=0)
 </td>
 </tr>
 
+<!-- to create a new row -->
 <?php 
 if ($num_rows8 !=0)
   {
             echo "<script> add_row22(".$num_rows8."); </script>";
   }
 ?>
+<!-- end of new row -->
 
 <tr>
 <td>
 <button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row22(0)";?>">Insert new row</button>
 </td>
 </tr>
+<!-- end of administrative experience -->
 
-
-
+<!-- start of 23rd field membership of professional bodies -->
 <tr><td>23. Membership of Professional Bodies (Give only Life Memberships, if any) </td></tr>
 
 <tr>
@@ -1917,20 +1992,23 @@ if ($num_rows8 !=0)
 </td>
 </tr>
 
+<!-- to create a new row -->
 <?php 
 if ($num_rows9 !=0)
   {
             echo "<script> add_row23(".$num_rows9."); </script>";
   }
 ?>
+<!-- end of new row -->
 
 <tr>
 <td>
 <button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row23(0)";?>">Insert new row</button>
 </td>
 </tr>
+<!-- end of membership of professional bodies -->
 
-
+<!-- start of 24th field honors and awards -->
 <tr><td>24. Honors and Awards</td></tr>
 
 <tr>
@@ -1949,23 +2027,26 @@ if ($num_rows9 !=0)
 </td>
 </tr>
 
+<!-- to create a new row -->
 <?php 
 if ($num_rows10 !=0)
   {
             echo "<script> add_row24(".$num_rows10."); </script>";
   }
 ?>
+<!-- end of new row -->
 
 <tr>
 <td>
 <button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row24(0)";?>">Insert new row</button>
 </td>
 </tr>
+<!-- end of honors and awards -->
 
 </table>
 						<div class="text-center">
-							<input type="submit" class="btn btn-sm btn-info" name = "submitted_val" value="Save">
-							<input type="submit" class="btn btn-sm btn-success" name = "submitted_val1" value="Save & Next">
+							<input type="submit" class="btn btn-sm btn-info" name = "submitted_val" value="Save"> <!-- button to save -->
+							<input type="submit" class="btn btn-sm btn-success" name = "submitted_val1" value="Save & Next"> <!-- button to save and go to next form -->
 						</div>
 
 </form>

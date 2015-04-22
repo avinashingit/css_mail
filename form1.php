@@ -27,13 +27,18 @@ Chages made:
 		}
 	
 	$usrid1 = $_SESSION['userid'];
+
+	// to check whether the form is submitted or not
 	if(mysqli_num_rows(mysqli_query($con, "select submitted from form1 where userid = $usrid1 and submitted = 1")) > 0)
 	{
-		echo "<br/><br/><br/><br/>Your form is already submitted<br>";
-		echo 'Click <a href="pdf_final.php">here</a></li> to generate the pdf of your application<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>';
+		echo "<br/><br/><br/><br/>Your form is already submitted<br><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>";
+		//echo 'Click <a href="pdf_final.php">here</a></li> to generate the pdf of your application<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>';
 		include 'footer.php';
 		exit;
 	}
+	//end of checking
+
+	// retrieving data from form1 table 
 	$retrieve = "SELECT * FROM form1 where userid = $usrid1";
 	$result = mysqli_query($con,$retrieve);
 	while($row = mysqli_fetch_array($result))
@@ -59,7 +64,9 @@ Chages made:
 		$permSameAsCurr=$row['permAddSame'];
 		$directPhD=$row['directPHD'];
 	}
+	//end of retrieval
 
+	// retrieving data from educational_qualifications table 
 	$retrieve = "SELECT * FROM educational_qualifications where userid = $usrid1";
 	$result = mysqli_query($con,$retrieve);
 	$num_rows1 = mysqli_num_rows($result);
@@ -74,7 +81,9 @@ Chages made:
 		$degreetype[] = $row['degreetype'];
 		$scoreType[]=$row['scoreType'];	
 	}
+	//end of retrieval from educational_qualification
 	
+	//script function to create new row
 	function create_row1()
 	{
 		global $num_rows1;
@@ -84,6 +93,8 @@ Chages made:
 		}
 		echo "<script> add_row16(".$num_rows1."); </script>";
 	}
+	// end of new row creation function
+
 	if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	{
 		$count1 = $_REQUEST['count1'];
@@ -99,6 +110,8 @@ Chages made:
 
 		//mysqli_query($con,"delete from form1 where userid=$usrid1");
 		//mysqli_query($con,"delete from educational_qualifications where userid=$usrid1");
+
+		//copying submitted form variables of educational_qualification
 		$degree=array();
 		$insti=array();
 		$yoe=array();
@@ -123,6 +136,7 @@ Chages made:
 				break;
 				}*/
 		}
+		//end of copying
 
 		/*$eduError=0;
 		for($i=1;$i<=$count1;$i++)
@@ -145,6 +159,8 @@ Chages made:
 				$query = "INSERT INTO educational_qualifications (userid,sno,degree,insti,yoe,yol,percent,degreetype,scoreType) VALUES ('$usrid1','$i','$degree[$x]','$insti[$x]','$yoe[$x]','$yol[$x]','$percent[$x]','$degreetype[$x]','$scoreType[$x]')"; // Added april 9 2014
 				mysqli_query($con,$query); //or die(mysqli_error($con));
 			}*/
+
+			//checking whether invalid entries are there in the educational_qualifications
 			$j=0;
 			$year_error='';
 			while(!($degree[$j]=='' && $insti[$j]=='' && $yoe[$j]=='' && $yol[$j]=='' && ($percent[$j]==0 || $percent[$j]=='') && $degreetype[$j]=='' && $scoreType[$j]==''))
@@ -160,6 +176,8 @@ Chages made:
 
 				$j++;
 			}
+			// end of checking
+
 		//}
 		//if($eduError)
 		//{
@@ -171,6 +189,8 @@ Chages made:
 			}
 			else
 			{
+
+				//writing the data into the educational_qualification
 					mysqli_query($con,"delete from educational_qualifications where userid=$usrid1");				
 					$l=0;
 					while(!($degree[$l]=='' && $insti[$l]=='' && $yoe[$l]=='' && $yol[$l]=='' && ($percent[$l]==0 || $percent[$l]=='') && $degreetype[$l]=='' && $scoreType[$l]==''))
@@ -198,11 +218,13 @@ Chages made:
 			}
 			//echo '<script>add_row16('.$num_rows1.');</script>';					
 			}
+			//end of writing
 		
 		$num_rows1=$j;
 		echo "<script> add_row16(".$num_rows1."); </script>";		
 		//echo '<script type="text/javascript">', 'add_row16('.$num_rows1.');', '</script>';
 
+		//copying submitted form variables of educational_qualification
 		$error=0;
 		$post=$_REQUEST['post'];
 		$area=$_REQUEST['area'];
@@ -239,6 +261,8 @@ Chages made:
 			$perm_mobile=$addr_mobile;
 			$perm_email=$addr_email;
 		}
+		//end of of copying
+
 		//if(isset($_REQUEST['directPhdValue']))
 		//{
 		//	$dPHD=1;
@@ -252,6 +276,7 @@ Chages made:
 
 		//echo $dPHD;
 
+		//start of validation
 		if(strlen($addr_email)!=0)
 		{
 			if(!validateEmail($addr_email))
@@ -324,6 +349,7 @@ Chages made:
 		        echo "<p class=\"text-center\">Please enter a valid email</p>";
 		    }
 		}
+		//end of validation
 
 		// Upload photo
 		if(strlen($_FILES["photo"]["name"]) != 0)
@@ -412,12 +438,15 @@ Chages made:
 
 		if($error==0 )
 		{
+			// writing data in to the form1
 			mysqli_query($con,"delete from form1 where userid=$usrid1");
 			$sql1=" INSERT INTO form1 (userid,post,area,researcharea,name,dob,nationality,gender,category,address,addr_mobile,addr_email,
 				permaddress,perm_mobile,perm_email,fathername,designation,submitted,photo,categorycerti,adno,permAddSame,directPHD) VALUES  ('$usrid1','$post','$area','$research','$name','$dob','$nationality','$gender','$caste','$addr','$addr_mobile','$addr_email',
 				'$perm_addr','$perm_mobile','$perm_email','$fname','$posn',0,'$photo','$categorycerti','$adno','$pSAC','$dPHD')";
 				mysqli_query($con,$sql1);// or die(mysqli_error($con));
 				//echo "<br/><span class='text-center' style='color:green;'>Personal Details SAVED</span>";
+
+			//end of writing				
 		}
 		if($error==0 && $year_error=='')
 		{
@@ -426,7 +455,10 @@ Chages made:
 				{
 					echo '<meta http-equiv="REFRESH" content="0;url=form2.php?a=1">';					
 				}
+				else
+				{
 					echo '<meta http-equiv="REFRESH" content="0;url=form1.php?a=1">';								
+				}
 		}
 			
 	}
@@ -434,6 +466,7 @@ Chages made:
 
 <script>
 
+	// function to check person name
 	function checkPersonName(e)
 	{
 		var k = e.which || e.keyCode || e.charCode;
@@ -444,26 +477,31 @@ Chages made:
 	            e.preventDefault();
 	        }
 	}
+	//end of checking person name
 
+	// function to check date
 	function checkDateValue(e)
 	{
 		var k = e.which || e.keyCode || e.charCode;
-	        var ok = (k>=48&&k<=57) || k==45 || k==8 || k==37 || k==39 || k==9 || k==32 || k==46;
+	        var ok = (k>=48&&k<=57) || k==45 || k==8 || k==9 ;
 
 	        if (!ok){
 	            e.preventDefault();
 	        }
 	}
+	//end of date checking
 
+	// function to check mobile number
 	function checkMobileValue(e)
 	{
 		var k = e.which || e.keyCode || e.charCode;
-	    var ok = (k>=48 && k<=57) || k==8 || k==37 || k==39 || k==9 ||  k==46;
+	    var ok = (k>=48 && k<=57) || k==8 || k==9 ;
 
 	    if (!ok){
 	        e.preventDefault();
 	    }
 	}
+	//end of checking mobile number
 
 </script>
 <html>
@@ -475,6 +513,8 @@ Chages made:
 				<form method="post" class="form" action="form1.php" enctype="multipart/form-data">
 					<script type="text/javascript">
 						var count1 = 1;
+
+						// function to create new row and to show the previously entered data
 						function add_row16(cnt)
 						{
 							if(cnt == 0  || cnt == -1)  //add row
@@ -578,6 +618,9 @@ Chages made:
 								}
 							}
 						}
+						//end of function
+
+						// fuction to check the upper limit of score type
 						function scoring(counter)
 						{
 							para1="scoreType"+counter;							
@@ -604,6 +647,7 @@ Chages made:
 								document.getElementById(para).max=100;
 							}
 						}
+						//end of function
 						
 						/*function retrieval_scoring(counter,index)
 						{
@@ -634,6 +678,8 @@ Chages made:
 					</script>
 
 					<script type="text/javascript">
+
+						//function to check the file size
 						function check_file(a){
 					        if(document.getElementById(a).files[0].size >= 2097152)
 					        {
@@ -641,7 +687,77 @@ Chages made:
 					            document.getElementById(a).value='';        		        		
 					        }	
 					    }
+					    // end of file checking
 					</script>
+
+					<script type="text/javascript"> 
+						var temp=0;
+						var ta1= "<?php echo $temp_addr1; ?>";
+						var ta2= "<?php echo $temp_addr2; ?>";
+						var pa1= "<?php echo $perm_addr1; ?>";
+						var pa2= "<?php echo $perm_addr2; ?>";
+						var mt= "<?php echo $addr_mobile; ?>";
+						var mp= "<?php echo $perm_mobile; ?>";
+						var et= "<?php echo $addr_email; ?>";
+						var ep= "<?php echo $perm_email; ?>";													
+						if(ta1==pa1 && ta2== pa2 && mt==mp)
+						{
+							ep=mp=pa2=pa1="";
+						}
+
+					//	function to check permanent address is same as current
+					function alerting(a)
+					{
+						//alert(a + " "+ temp);																										
+						if(a=='1')
+						{
+							temp++;
+						}
+						if(temp%2==0)
+						{
+							document.getElementById('perm_add1').value= ta1;
+							document.getElementById('perm_add2').value= ta2;
+							document.getElementById('mob_p').value=mt;
+							document.getElementById('email_p').value=et;														
+							document.getElementById('perm_add1').disabled = true;
+							document.getElementById('perm_add2').disabled = true;
+							document.getElementById('mob_p').disabled = true;
+							document.getElementById('email_p').disabled = true;
+						}
+						else
+						{
+							document.getElementById('perm_add1').value= pa1;
+							document.getElementById('perm_add2').value= pa2;														
+							document.getElementById('mob_p').value=mp;
+							document.getElementById('email_p').value=ep;														
+							document.getElementById('perm_add1').disabled = false;
+							document.getElementById('perm_add2').disabled = false;														
+							document.getElementById('mob_p').disabled = false;
+							document.getElementById('email_p').disabled = false;														
+						}
+						if(a=='0')
+						{
+							temp++;
+						}
+					}
+					//end of check
+
+					function disable()
+					{
+						return "hello";
+					}
+					</script>
+
+					<?php 				
+					$temp_addr_dollar=explode('$',$addr);
+					$temp_addr1= $temp_addr_dollar[0];
+					$temp_addr2= $temp_addr_dollar[1];
+					$perm_addr_dollar=explode('$',$perm_addr);
+					$perm_addr1= $perm_addr_dollar[0];
+					$perm_addr2= $perm_addr_dollar[1];
+					$psacurr=$permSameAsCurr[0];
+					$dirphd=$directPhD[0];
+					?>					
 
 					<left>
 						<br/>
@@ -649,6 +765,8 @@ Chages made:
 						<br/><br/>
 						<table class="table table-striped" id="myTable">
 							<tr>
+
+								<!-- drop down menu for choosing post-->							
 								<td>
 									<b>1. Post Applied</b> <span style="color:red;">*</span>
 								</td>
@@ -662,12 +780,16 @@ Chages made:
 										</select>
 									</div>
 								</td>
+								<!-- end of post applied -->								
+
 							</tr>
 							<tr>
+								
+								<!-- drop down menu for choosing area of interest-->							
 								<td>
 									<b>2. Broad Area</b> <span style="color:red;">*</span>
 								</td>
-								<td>
+								<td>								
 									<div class="col-md-6">
 										<select class="form-control" name="area">
 											<option value=""<?php if($area=='') echo 'Selected="Selected"'?>>Select</option>
@@ -678,8 +800,12 @@ Chages made:
 										</select>
 									</div>
 								</td>
+								<!-- end of broad area -->								
+
 							</tr>
 							<tr>
+								
+								<!-- text field for entering current area of research -->							
 								<td>
 									<b>3. Current Areas Of Research</b> <span style="color:red;">*</span>
 								</td>
@@ -688,10 +814,15 @@ Chages made:
 										<input class="form-control" type="text" name="research" value="<?php echo $research; ?>"  >
 									</div>
 								</td>
+								<!-- end of current area of research -->
+
 							</tr>
 							<tr>	
+								
+								<!-- hidden field for showing retrieved advertisement number-->							
 								<td>
 									<b>4. Advertisement No</b></td><td><div class="col-md-6">
+									<!-- retrieving advertisement number from database -->
 									<?php
 										$retrieve = "SELECT * FROM advt_number";
 											$result = mysqli_query($con,$retrieve);
@@ -704,8 +835,12 @@ Chages made:
 									?>
 									<input type="hidden" name="adno" value="<?php echo $advt_no; ?>"></div>
 								</td>
+								<!-- end of advertisement number -->								
+
 							</tr>
 							<tr>
+								
+								<!-- text field for entering name-->							
 								<td>
 									<b>5. Name in Full</b> (Capital Letters) <span style="color:red;">*</span></br>(as in SSLC Certificate)
 								</td>
@@ -714,8 +849,12 @@ Chages made:
 										<input class="form-control" type="text" name="name" value="<?php echo $name; ?>" onkeypress="checkPersonName(event);" >
 									</div>
 								</td>
+								<!-- text field for entering name-->								
+
 							</tr>
 							<tr>
+
+								<!-- text field for entering date of birth in a specified format -->						
 								<td>
 									<b>6. Date Of Birth</b> <span style="color:red;">*</span></br>
 								</td>
@@ -726,8 +865,12 @@ Chages made:
 										<!--Age:<input type="text" size="1" name="yrs" value="<?php echo $_REQUEST['yrs']; ?>" >Y<input type="text" size="1" name="months" value="<?php echo $_REQUEST['months']; ?>" >M -->
 									</div>
 								</td>
+								<!-- end of date of birth -->
+
 							</tr>
 							<tr>
+
+								<!-- file field for uploading photo -->
 								<td>
 									<b>7. Photograph</b> <span style="color:red;">*</span>
 								</td>
@@ -736,9 +879,12 @@ Chages made:
 										Photo in GIF/JPEG/PNG format only<br/>
 										<input type="file"  onchange="check_file_image('photo'); check_file('photo');" name="photo" id="photo"><?php if(strlen($photo) > 0) echo "You have already uploaded the photo." ?> <br>
 									</div>
-								</tr>
-							<tr>
 								</td>
+								<!-- end of photograpth -->									
+							</tr>
+							<tr>
+
+								<!-- text field for entering nationality -->
 								<td>
 									<b>8. Nationality</b> <span style="color:red;">*</span>
 								</td>
@@ -747,8 +893,12 @@ Chages made:
 										<input class="form-control" type="text" name="nationality" value="<?php echo $nationality; ?>" onkeypress="checkPersonName(event);">
 									</div>
 								</td>
+								<!-- end of nationality -->
+							
 							</tr>
 							<tr>
+
+								<!-- radio buttons for choosing gender -->
 								<td>
 									<b>9. Gender</b> <span style="color:red;">*</span>
 								</td>
@@ -763,8 +913,12 @@ Chages made:
 										</table>
 									</div>
 								</td>
+								<!-- end of gender -->
+
 							</tr>
 							<tr>
+
+								<!-- radio buttons for choosing category -->
 								<td>
 									<b>10. Category</b> <span style="color:red;">*</span></br>(Attach Certificate(s))
 								</td>
@@ -788,121 +942,96 @@ Chages made:
 												<td><input type="radio" name="caste" value="Others" <?php if($caste == 'Others') echo 'checked' ?>/></td>
 											</tr>
 	
-												<?php 				
-												$temp_addr_dollar=explode('$',$addr);
-												$temp_addr1= $temp_addr_dollar[0];
-												$temp_addr2= $temp_addr_dollar[1];
-												$perm_addr_dollar=explode('$',$perm_addr);
-												$perm_addr1= $perm_addr_dollar[0];
-												$perm_addr2= $perm_addr_dollar[1];
-												$psacurr=$permSameAsCurr[0];
-												$dirphd=$directPhD[0];
-												?>
-												<script type="text/javascript"> 
-													var temp=0;
-													var ta1= "<?php echo $temp_addr1; ?>";
-													var ta2= "<?php echo $temp_addr2; ?>";
-													var pa1= "<?php echo $perm_addr1; ?>";
-													var pa2= "<?php echo $perm_addr2; ?>";
-													var mt= "<?php echo $addr_mobile; ?>";
-													var mp= "<?php echo $perm_mobile; ?>";
-													var et= "<?php echo $addr_email; ?>";
-													var ep= "<?php echo $perm_email; ?>";													
-													if(ta1==pa1 && ta2== pa2 && mt==mp)
-													{
-														ep=mp=pa2=pa1="";
-													}
-												function alerting(a)
-												{
-													//alert(a + " "+ temp);																										
-													if(a=='1')
-													{
-														temp++;
-													}
-													if(temp%2==0)
-													{
-														document.getElementById('perm_add1').value= ta1;
-														document.getElementById('perm_add2').value= ta2;
-														document.getElementById('mob_p').value=mt;
-														document.getElementById('email_p').value=et;														
-														document.getElementById('perm_add1').disabled = true;
-														document.getElementById('perm_add2').disabled = true;
-														document.getElementById('mob_p').disabled = true;
-														document.getElementById('email_p').disabled = true;
-													}
-													else
-													{
-														document.getElementById('perm_add1').value= pa1;
-														document.getElementById('perm_add2').value= pa2;														
-														document.getElementById('mob_p').value=mp;
-														document.getElementById('email_p').value=ep;														
-														document.getElementById('perm_add1').disabled = false;
-														document.getElementById('perm_add2').disabled = false;														
-														document.getElementById('mob_p').disabled = false;
-														document.getElementById('email_p').disabled = false;														
-													}
-													if(a=='0')
-													{
-														temp++;
-													}
-												}
-												function disable()
-												{
-													return "hello";
-												}
-												</script>
-
-								</table>
+										</table>
 									</div>
+
+									<!-- file field for uploading category certificate -->
 									<div class="col-md-4 col-md-offset-1">
 										<br/><br/><br/>
 										Upload the certificate in PDF format only<br/>
 										<input type="file" onchange="check_file_pdf('cat_certi'); check_file('cat_certi');" name="cat_certi" id="cat_certi"><?php if(strlen($categorycerti) > 0) echo "You have already uploaded the category certificate." ?>
 									</div>
+									<!-- end of category certificate -->
+
 								</td>
+								<!-- end of category -->								
+
 							</tr>
 							<tr>
+
+								<!-- information about temporary address -->
 								<td>
 									<b>11. Address for Communication</b> <span style="color:red;">*</span>
 								</td>
 								<td>
 									<div class="col-md-6">
 										<!--<textarea class="form-control" rows="5" cols="100" name="addr" type="text"><?php echo $addr; ?></textarea></br> -->
+
+										<!-- two text fields for entering address -->										
 											<input class="form-control" name="temp_addr1" type="text" value="<?php echo $temp_addr1; ?>"> <br/>
 											<input class="form-control" name="temp_addr2" type="text" value="<?php echo $temp_addr2; ?>"> <br/>											
+										<!-- end of address -->	
+
 										<table class="table">
 											<tr>
+
+											 	<!-- text field for entering mobile number -->
 												<td><b>Mobile</b></td><td>
 												<div class="col-md-12"><input class="form-control" placeholder="Should be of the form 9898989898. 6 to 10 characters." type="text" pattern=".{6,10}" name="addr_mob" value="<?php echo $addr_mobile; ?>" maxlength="10" size="10" onkeypress="checkMobileValue(event);check_mobile_number(this,event);"></div>
 												</td>
+												<!-- end of mobile number -->
+
 											</tr>
 											<tr>
+
+												<!-- email field for entering email -->
 												<td><b>Email</b></td><td><div class="col-md-12"><input class="form-control" type="email" name="addr_email" value="<?php echo $addr_email; ?>"></div>
 												</td>
+												<!-- end of email -->
+
 											</tr>
 										</table>
 									</div>
-							</td></tr>
+								</td>
+								<!-- end of temporary address -->
+
+							</tr>
 							<tr>
+
+								<!-- information about permanent address -->							
 								<td>
 									<b>12. Permanent Home Address</b> <span style="color:red;">*</span>
 								</td>
 								<td>
 									<div class="col-md-6">
 									<!-- <textarea class="form-control" rows="5" cols="100" name="addr_p" type="text"><?php echo $perm_addr; ?></textarea></br> -->
+
+										<!-- two text fields for entering address -->										
 										<input class="form-control" type="text" id="perm_add1" name="perm_addr1" value="<?php if($psacurr==1) echo $temp_addr1; else echo $perm_addr1; ?>" <?php if($psacurr==1) echo 'disabled';?> > <br/>
 										<input class="form-control" type="text" id="perm_add2" name="perm_addr2" value="<?php if($psacurr==1) echo $temp_addr2; else echo $perm_addr2; ?>" <?php if($psacurr==1) echo 'disabled';?> > <br/>
+										<!-- end of address -->	
+
 									<table class="table">
 										<tr>
+
+											<!-- text field for entering mobile number -->										
 											<td><b>Mobile</b></td><td><div class="col-md-12"><input placeholder="Should be of the form 9898989898" class="form-control" id="mob_p" minLength="6" type="text" maxlength="10" size="10" pattern=".{6,10}" name="mob_p" value="<?php if($psacurr==1) echo $addr_mobile; else echo $perm_mobile; ?>" onkeypress="checkMobileValue(event);check_mobile_number(this,event);"  <?php if($psacurr==1) echo 'disabled';?> ></div>
 											</td>
+											<!-- end of mobile number -->
+
 										</tr>
 											<tr>
+
+												<!-- email field for entering email -->											
 												<td><b>Email</b></td><td><div class="col-md-12"><input class="form-control" type="email" name="email_p" id="email_p" value="<?php if($psacurr==1) echo $addr_email; else echo $perm_email; ?>"  <?php if($psacurr==1) echo 'disabled';?> ></div>
 												</td>
+												<!-- end of email -->
+
 											</tr>										
 									</table>
 									</div>
+
+									<!-- check box for copying the address on to permanent address --> 
 									<div class="col-md-6">
 
 										<label>
@@ -911,9 +1040,15 @@ Chages made:
 										</label>
 
 									</div>
+									<!-- end of checkbox -->
+
 								</td>
+								<!-- end of temporary address -->
+
 							</tr>
 							<tr>
+
+								<!-- text field for entering name of father or husband -->
 								<td>
 									<b>13. Name of Father/Husband</b> <span style="color:red;">*</span>
 								</td>
@@ -922,31 +1057,44 @@ Chages made:
 										<input class="form-control" type="text" size="50" name="fname" value="<?php echo $fname; ?>"  onkeypress="checkPersonName(event);">
 									</div>
 								</td>
+								<!-- end of name of father/husband -->
+
 							</tr>
 							<tr>
+
 								<td>
 									<b>14. Present Position/Designation & Pay Drawn</b>  <span style="color:red;">*</span>
 								</td>
+
+								<!-- text field for entering designation and pay drawn -->								
 								<td>
 									<div class="col-md-6">
 										<input class="form-control" type="text" size="50" name="posn" value="<?php echo $posn; ?>">
 									</div>
 								</td>
+								<!-- end of Positive/Designation & Pay Drawn -->
+
 							</tr>
 							<tr >
+
+								<!-- start of Educational qualification -->
 								<td>
 									<b>15. Educational Qualifications</b><br/> (Starting from Bachelor's Degree) <span style="color:red;">*</span>
 								</td>
 
+								<!-- checkbox to check whether phd done directly or not -->
 								<td>
 									
 									<label><input type="checkbox" value="1" name="directPhdValue" <?php if($dirphd==1) echo"checked='checked'"; ?> >&nbsp&nbsp;Direct Ph.D &nbsp;&nbsp; </label><small> Check this if Ph.D is taken after undergraduate degree.</small>
 
 								</td>
+								<!-- end of direct phd -->
 
 							</tr>
 
 							<tr class="col-md-12">
+
+									<!-- subfields of educational qualification -->
 									<table class="table " id="myTable1" >	
 										<tr>
 											<th>Sl.No</th>
@@ -958,16 +1106,23 @@ Chages made:
 											<th class="col-md-2">Score type</th>
 											<th class="col-md-2">Score</th>
 										</tr>
+									<!-- end of subfields of educational qualification -->
+
+									<!-- creating a new row -->
 									</table>
 									<?php 	create_row1(); ?>
 									<br/>
 									<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row16(0)";?>">Insert new row</button>
+									<!-- end of new row -->	
+
+								<!-- end of educational qualifications-->		
+																							
 							</tr>
 						</table>
 						</br>
 						<div class="text-center">
-							<input type="submit" class="btn btn-sm btn-info" name = "submitted_val" value="Save">
-							<input type="submit" class="btn btn-sm btn-success" name = "submitted_val1" value="Save & Next">
+							<input type="submit" class="btn btn-sm btn-info" name = "submitted_val" value="Save"> <!-- button to save -->
+							<input type="submit" class="btn btn-sm btn-success" name = "submitted_val1" value="Save & Next"> <!-- button to save and go to next form -->
 						</div>
 				</form>
 				</left>

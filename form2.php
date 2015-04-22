@@ -12,16 +12,17 @@
 		echo "<br/><span style='color:green;'>Personal Details SAVED</span>";
 	}
 
-
+	// to check whether the form is submitted or not
 	if(mysqli_num_rows(mysqli_query($con, "select submitted from form2 where userid = $usrid1 and submitted = 1")) > 0)
 	{
-		echo "Your form is already submitted<br>";
-		echo '<p><a href=".">Home</a></p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>';
+		echo "Your form is already submitted<br><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>";
+		//echo '<p><a href=".">Home</a></p><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>';
         include 'footer.php';
 		exit;
 	}
+	//end of checking
 
-
+	// retrieving data from form1 table 
 	$retrieve ="SELECT * FROM form2 where userid = $usrid1";
 
 	$result = mysqli_query($con,$retrieve);
@@ -41,11 +42,12 @@
 		$paper2 = $row['paper2'];
 		$paper3 = $row['paper3'];
   	}
+  	//end of retrieval
 
 if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1])) 
 {
-	echo "<br/><span style='color:green;'>Publication Details SAVED</span>";
 
+	//copying submitted form variables
 	$intjournals3 = $_REQUEST['intjournals3'];
 	$intjournalsoverall = $_REQUEST['intjournalsoverall'];
 	$natjournals3 = $_REQUEST['natjournals3'];
@@ -64,7 +66,9 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 		$i+=6;
 	}
 	$publications = $temp;//$_REQUEST['publications'] = $temp;
+	//end of copying
 
+	//copying the values of last3 on to the overall on condition
 	if ($intjournalsoverall<$intjournals3) 
 	{
 		$intjournalsoverall=$intjournals3;
@@ -81,6 +85,29 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	{
 		$natconfoverall=$natconf3;
 	}
+	//end of copying
+
+	//validation
+	$errorMessage = "";
+
+	if($intjournalsoverall<$intjournals3 || $intjournalsoverall=='' || $intjournals3=='')
+	{
+		$errorMessage .= "<li>overall is less than last 3 years in international journals or there are empty fields</li>";
+	}
+	if ($natjournalsoverall<$natjournals3 || $natjournalsoverall=='' || $natjournals3=='') 
+	{
+		$errorMessage .= "<li>overall is less than last 3 years in national journals or there are empty fields</li>";
+	}
+	if ($intconfoverall<$intconf3 || $intconfoverall=='' || $intconf3=='') 
+	{
+		$errorMessage .= "<li>overall is less than last 3 years in international conference presentations or there are empty fields</li>";
+	}
+	if ($natconfoverall<$natconf3 || $natconfoverall=='' || $natconf3=='') 
+	{
+		$errorMessage .= "<li>overall is less than last 3 years in national conference presentations or there are empty fields</li>";
+	}
+	//end of validation
+
 	//$publications = $temp_publications;
 
 	//if($intjournals3=='' || $intjournalsoverall=='' || $natjournals3=='' || $natjournalsoverall=='' || $intconf3=='' || $intconfoverall=='' || $natconf3=='' || $natconfoverall=='' || $publications=='' || $_FILES["paper1"]["name"]=='' || $_FILES["paper2"]["name"]=='' || $_FILES["paper3"]["name"]=='')
@@ -113,7 +140,6 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 		$_FILES['paper3']['name']='';		
 	}*/
 
-	mysqli_query($con,"delete from form2 where userid=$usrid1");
 
 	/*$intjournals3 = $_REQUEST['intjournals3'];
 	$intjournalsoverall = $_REQUEST['intjournalsoverall'];
@@ -130,6 +156,7 @@ if(isset($_POST[submitted_val]) || isset($_POST[submitted_val1]))
 	//echo "paper1 = " . $_FILES["paper1"]["name"] . "<br>";
 	//echo $_FILES["paper1"]["tmp_name"]."<br>";
 
+	// Upload paper-1
 	if(strlen($_FILES["paper1"]["name"]) != 0)
 	{
 		// Start upload script
@@ -242,11 +269,19 @@ $query = "INSERT INTO `form2` (`userid`,`intjournals3`,`intjournalsoverall`,`nat
 VALUES ('$usrid1','$intjournals3','$intjournalsoverall','$natjournals3','$natjournalsoverall','$intconf3','$intconfoverall','$natconf3','$natconfoverall',
 		'$publications','0','$paper1','$paper2','$paper3')";*/
 
-$query = "INSERT INTO form2 (userid,intjournals3,intjournalsoverall,natjournals3,natjournalsoverall,intconf3,intconfoverall,natconf3,
-natconfoverall,publications,submitted,paper1,paper2,paper3) VALUES ('$usrid1','$intjournals3','$intjournalsoverall','$natjournals3',
-'$natjournalsoverall','$intconf3','$intconfoverall','$natconf3','$natconfoverall','$publications',0, '$paper1', '$paper2', '$paper3')";
+if($errorMessage=="")
+{
+	//writing the validated data in to the form2
+	echo "<br/><span style='color:green;'>Publication Details SAVED</span>";
+
+	mysqli_query($con,"delete from form2 where userid=$usrid1");	
+	
+	$query = "INSERT INTO form2 (userid,intjournals3,intjournalsoverall,natjournals3,natjournalsoverall,intconf3,intconfoverall,natconf3,
+	natconfoverall,publications,submitted,paper1,paper2,paper3) VALUES ('$usrid1','$intjournals3','$intjournalsoverall','$natjournals3',
+	'$natjournalsoverall','$intconf3','$intconfoverall','$natconf3','$natconfoverall','$publications',0, '$paper1', '$paper2', '$paper3')";
 
  	mysqli_query($con,$query) or die(mysqli_error($con));
+ 	//end of writing
 
 	//echo '<meta http-equiv="REFRESH" content="0;url=saved.php">';
 	//echo "Form saved successfully";
@@ -262,9 +297,16 @@ natconfoverall,publications,submitted,paper1,paper2,paper3) VALUES ('$usrid1','$
 			echo '<meta http-equiv="REFRESH" content="0;url=form3.php?a=1">';		
 			}	
 }
+else
+{
+	echo "<ul>".$errorMessage."</ul>";
+}			
+}
 ?> 
 
 <script type="text/javascript">
+
+	//function to check the file size and extension
 	function check_file(a){
                 str=document.getElementById(a).value.toUpperCase();
         suffix=".PDF";
@@ -279,10 +321,14 @@ natconfoverall,publications,submitted,paper1,paper2,paper3) VALUES ('$usrid1','$
             document.getElementById(a).value='';        		        		
         }	
     }
+    //end of file checking
+
 </script>
 
 <script type="text/javascript">
 	var count_cell=1;
+
+	//function to create new row and to show the previously enterd data
 	function add_row(cnt0,cnt1,cnt2,cnt3,cnt4,cnt5) {
 		var table=document.getElementById("table_pub");
 		var row=table.insertRow();
@@ -303,13 +349,16 @@ natconfoverall,publications,submitted,paper1,paper2,paper3) VALUES ('$usrid1','$
 		count_cell++;
 
 		}
+		//end of function
 
 </script>
 
-<script type="text/javascript">
+<!--<script type="text/javascript">
 	function greaterthan1(a,b)
 	{
-		if (document.getElementById(a).value>document.getElementById(b).value && document.getElementById(a).value!='' && document.getElementById(b).value!='')
+		var jour1 = parseInt(document.getElementById(a).value,10);
+		var jour2 = parseInt(document.getElementById(b).value,10);
+		if (jour1>jour2 && document.getElementById(a).value!='' && document.getElementById(b).value!='')
 		{
 			alert("Journals published in last 3 years are more than total");
 			document.getElementById(a).value='';
@@ -318,221 +367,234 @@ natconfoverall,publications,submitted,paper1,paper2,paper3) VALUES ('$usrid1','$
 	}
 	function greaterthan2(a,b)
 	{
-		if (document.getElementById(a).value>document.getElementById(b).value && document.getElementById(a).value!='' && document.getElementById(b).value!='')
+		var jour1 = parseInt(document.getElementById(a).value,10);
+		var jour2 = parseInt(document.getElementById(b).value,10);
+		if (jour1>jour2 && document.getElementById(a).value!='' && document.getElementById(b).value!='')
 		{
 			alert("Journals published in last 3 years are more than total");
 			document.getElementById(b).value='';
 		}
 
 	}
-</script>
+</script> -->
 
 <html>
-<body>
+	<body>
 		<div class="row">
 
 			<div class="col-md-12">
 
 				<form method="post" class="form" action="form2.php" enctype="multipart/form-data">			
+					<!--
+					<?php
+					/*function cal_publications()
+					{
+							$count=$_REQUEST['count_cell'];
+							for($i =1 ; $i<$count ; $i++)
+								{
+							 		$temp_pub=$temp_pub.$_REQUEST['publications'.$i].',';
+								}
+								$temp_pub=$temp_pub.$_REQUEST['publications6'];
+							$_REQUEST['publications']=$temp_pub;
+					}*/
+					?> -->
 
 
-<!--
-<?php
-/*function cal_publications()
-{
-			echo "hi";
-		$count=$_REQUEST['count_cell'];
-		for($i =1 ; $i<$count ; $i++)
-			{
-		 		$temp_pub=$temp_pub.$_REQUEST['publications'.$i].',';
-			}
-			$temp_pub=$temp_pub.$_REQUEST['publications6'];
-		$_REQUEST['publications']=$temp_pub;
-}*/
-?> -->
+					<!--<div id="demo"></div>
+					<script language="JavaScript" type="text/javascript">
+
+					//document.write("jbdf");
+					//document.getElementById('demo').innerHTML +	= "Form has been save";	
+					/*function GetUrlValue(VarSearch){
+					    var SearchString = window.location.search.substring(1);
+					    var VariableArray = SearchString.split('&');
+					    for(var i = 0; i < VariableArray.length; i++){
+					        var KeyValuePair = VariableArray[i].split('=');
+					        if(KeyValuePair[0] == VarSearch){
+					            return KeyValuePair[1];
+					        }
+					    }
+					}
+					var count;
+
+					/*if(GetUrlValue('a')==0)
+					{
+					alert("Form SAVED");
+					}
+					/*
+					if(GetUrlValue('a')==1)
+					{
+						alert("your has been saved");
+					}
+					*/
+					/*if(getUrlVars()["a"]!=0)
+					{
+						document.getElementById('demo').innerHTML +	= "Form1 has been saved heress";
+					}	*/
+					  
+
+					</script>-->
+					<br/>
+					<span style="color:red;"class="text-center">* required fields</span>
+
+					<!--<div style="position:right"><span style="color:red;" class="text-center"> Incomplete upload fields will not save the form.</span></div>-->
+					<br/><br/>
+
+					<!-- Number of Research publications -->
+					<b>15.Number of Research Publications</b><span style="color:red;">*</span><br/><br/>
+
+					<table class="table table-striped" id="myTable">
+
+						<tr>
+							<th>Publication Category</th>
+							<th class="text-center">Last 3 Years</th>
+							<th class="text-center">Overall</th>
+						</tr>
+						<tr>
+
+							<!-- number fields for entering number of international journals -->
+							<td>International Referred Journals(Published/Accepted only)</td>
+							<td><input class="form-control" type="number" id="intjournals3" name="intjournals3" value="<?php echo $intjournals3;?>" size="7"></td>
+							<td><input class="form-control" type="number" id="intjournalsoverall" name="intjournalsoverall" value="<?php echo $intjournalsoverall;?>" size="7"></td>
+							<!-- end of international journals -->							
+
+						</tr>
+						<tr>
+
+							<!-- number fields for entering number of national journals -->
+							<td>National Referred Journals(Published/Accepted only)</td>
+							<td><input class="form-control" type="number" id="natjournals3" name="natjournals3" value="<?php echo $natjournals3;?>" size="7" ></td>
+							<td><input class="form-control" type="number" id="natjournalsoverall" name="natjournalsoverall" value="<?php echo $natjournalsoverall;?>" size="7" ></td>
+							<!-- end of national journals -->
+
+						</tr>
+
+						<tr>
+
+							<!-- number of journals presented at international conferences -->
+							<td>Presentation at International Conferences(Atleast one<br/>author should have presented personally)</td>
+							<td><input class="form-control" type="number" id="intconf3" name="intconf3" value="<?php echo $intconf3;?>" size="7" ></td>
+							<td><input class="form-control" type="number" id="intconfoverall" name="intconfoverall" value="<?php echo $intconfoverall;?>" size="7" ></td>
+							<!-- end of journals presentation at international conferences -->
+
+						</tr>
+						<tr>
+
+							<!-- number of journals presented at national conferences -->
+							<td>Presentation at National Conferences(Atleast one author<br/>should have presented personally)</td>
+							<td><input class="form-control" type="number" id="natconf3" name="natconf3" value="<?php echo $natconf3;?>" size="7" ></td>
+							<td><input class="form-control" type="number" id="natconfoverall" name="natconfoverall" value="<?php echo $natconfoverall;?>" size="7" ></td>
+							<!-- end of journals presentation at national conferences -->
+
+						</tr>
+					</table>
+					<!-- end of number of research publications -->
+
+					<!-- journal details -->
+					<table class="table table-striped" id="myTable">
+						<tr>
+							<td><br/>Give the complete list as appendix with name of authors, title, journal/conference name, year, volume, page number format <span style="color:red;">*</span></td>
+						</tr>
+						<tr>
+							<td>
+							<!--
+							<textarea class="form-control" name="publications" rows="12" cols="160">	
+							<?php echo $publications;?>
+							</textarea>
+							-->
+								<table id="table_pub" class="text-center">
+									<tr class="text-center">
+										<td>S No:</td>
+										<td>Name of Author:</td>
+										<td>Title:</td>
+										<td>Journal/conference name:</td>
+										<td>Year:</td>
+										<td>volume:</td>
+										<td>Page number:</td>
+									</tr>
+
+									<!--
+									<tr>
+									<td>
+									<input class="form-control" type="text" name="publications1" value="<?php echo $publication_split[0];?>">
+									</td>
+									<td>
+									<input class="form-control" type="text" name="publications2" value="<?php echo $publication_split[1];?>">
+									</td>
+									<td>
+									<input class="form-control" type="text" name="publications3" value="<?php echo $publication_split[2];?>">
+									</td>
+									<td>
+									<input class="form-control" type="text" name="publications4" value="<?php echo $publication_split[3];?>">
+									</td>
+									<td>
+									<input class="form-control" type="text" name="publications5" value="<?php echo $publication_split[4];?>">
+									</td>
+									<td>
+									<input class="form-control" type="text" name="publications6" value="<?php echo $publication_split[5];?>">
+									</td>
+									<?php $_POST['publications'] = $row['publications1'] + ',' + $row['publications2'] + ',' + $row['publications3'] + ',' + $row['publications4'] + ',' + $row['publications5'] + ',' + $row['publications6'];?>
+									</tr>-->
+								</table>
+								<!-- <?php //echo "<script> add_row(); </script>";?> -->
+
+								<?php 
+								$publication_dollar= explode('$',$publications);
 
 
-<!--<div id="demo"></div>
-<script language="JavaScript" type="text/javascript">
+								if(sizeof($publication_dollar)>1) // retrieved rows are placed in their positions
+								{
+								$n=sizeof($publication_dollar);
 
-//document.write("jbdf");
-//document.getElementById('demo').innerHTML +	= "Form has been save";	
-/*function GetUrlValue(VarSearch){
-    var SearchString = window.location.search.substring(1);
-    var VariableArray = SearchString.split('&');
-    for(var i = 0; i < VariableArray.length; i++){
-        var KeyValuePair = VariableArray[i].split('=');
-        if(KeyValuePair[0] == VarSearch){
-            return KeyValuePair[1];
-        }
-    }
-}
-var count;
+								for($i=1;$i<$n;$i++)
+								{
+									$publication_split=explode('^', $publication_dollar[$i-1]);
+									$j0=$publication_split[0];
+									$j1=$publication_split[1];
+									$j2=$publication_split[2];
+									$j3=$publication_split[3];
+									$j4=$publication_split[4];
+									$j5=$publication_split[5];		
 
-/*if(GetUrlValue('a')==0)
-{
-alert("Form SAVED");
-}
-/*
-if(GetUrlValue('a')==1)
-{
-	alert("your has been saved");
-}
-*/
-/*if(getUrlVars()["a"]!=0)
-{
-	document.getElementById('demo').innerHTML +	= "Form1 has been saved heress";
-}	*/
-  
+									echo "<script> add_row('".$j0."','".$j1."','".$j2."','".$j3."','".$j4."','".$j5."'); </script>";
+								}
+								}
+								else // default row if no row is entered
+								{
+									echo "<script> add_row('','','','','',''); </script>";
+								}
+								?>	
+								<br/>
+								<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row('','','','','','')";?>">Insert new row</button>
+							</td>
+							<!--12X70-->
+						</tr>
+					</table>
+					<!-- end of journal details -->
 
-</script>-->
-<br/>
-<span style="color:red;"class="text-center">* required fields</span>
+					<!-- file fields for uploading top 3 journals -->
+					<table class="table table-striped" id="myTable">
+						<tr>
+							<td><br/>Upload copies of three best papers in PDF format (file size < 2MB is accepted.)<br/></td>
+							<td>Paper 1:<input type="file" name="paper1" id="paper1" onchange="check_file('paper1')"><?php if(strlen($paper1) > 0) echo "Paper-1 is already submitted; To overwrite, upload again"; ?><br/></td>
+							<td>Paper 2:<input type="file" name="paper2" id="paper2" onchange="check_file('paper2')"><?php if(strlen($paper2) > 0) echo "Paper-2 is already submitted; To overwrite, upload again"; ?><br/></td>
+							<td>Paper 3:<input type="file" name="paper3" id="paper3" onchange="check_file('paper3')"><?php if(strlen($paper3) > 0) echo "Paper-3 is already submitted; To overwrite, upload again"; ?><br/></td>
+						</tr>
+					</table>
+					<!-- end of uploading fields-->
 
-<!--<div style="position:right"><span style="color:red;" class="text-center"> Incomplete upload fields will not save the form.</span></div>-->
-<br/><br/>
+					<!-- -->
+					<br/>
+					<div class="text-center">
+						<input type="submit" class="btn btn-sm btn-info" name = "submitted_val" value="Save"> <!-- button to save -->
+						<input type="submit" class="btn btn-sm btn-success" name = "submitted_val1" value="Save & Next"><!-- button to save and go to next form -->
+					</div>
 
+					<!--<input type="submit" value="Submit Form"> -->
 
-<b>15.Number of Research Publications</b><span style="color:red;">*</span><br/><br/>
-
-<table class="table table-striped" id="myTable">
-
-<tr>
-<th>Publication Category</th>
-<th class="text-center">Last 3 Years</th>
-<th class="text-center">Overall</th>
-</tr>
-
-<tr>
-<td>International Referred Journals(Published/Accepted only)</td>
-
-<td><input class="form-control" type="number" id="intjournals3" onchange="greaterthan1('intjournals3', 'intjournalsoverall')" name="intjournals3" value="<?php echo $intjournals3;?>" size="7" min="0"></td>
-<td><input class="form-control" type="number" id="intjournalsoverall" onchange="greaterthan2('intjournals3', 'intjournalsoverall')" name="intjournalsoverall" value="<?php echo $intjournalsoverall;?>" size="7" min="0"></td>
-</tr>
-
-<tr>
-<td>National Referred Journals(Published/Accepted only)</td>
-<td><input class="form-control" type="number" id="natjournals3" onchange="greaterthan1('natjournals3', 'natjournalsoverall')"  name="natjournals3" value="<?php echo $natjournals3;?>" size="7" min="0"></td>
-<td><input class="form-control" type="number" id="natjournalsoverall" onchange="greaterthan2('natjournals3', 'natjournalsoverall')" name="natjournalsoverall" value="<?php echo $natjournalsoverall;?>" size="7" min="0"></td>
-</tr>
-
-<tr>
-<td>Presentation at International Conferences(Atleast one<br/>author should have presented personally)</td>
-<td><input class="form-control" type="number" id="intconf3" onchange="greaterthan1('intconf3', 'intconfoverall')"  name="intconf3" value="<?php echo $intconf3;?>" size="7" min="0"></td>
-<td><input class="form-control" type="number" id="intconfoverall" onchange="greaterthan2('intconf3', 'intconfoverall')" name="intconfoverall" value="<?php echo $intconfoverall;?>" size="7" min="0"></td>
-</tr>
-
-<tr>
-<td>Presentation at National Conferences(Atleast one author<br/>should have presented personally)</td>
-<td><input class="form-control" type="number" id="natconf3" onchange="greaterthan1('natconf3', 'natconfoverall')"  name="natconf3" value="<?php echo $natconf3;?>" size="7" min="0"></td>
-<td><input class="form-control" type="number" id="natconfoverall" onchange="greaterthan2('natconf3', 'natconfoverall')" name="natconfoverall" value="<?php echo $natconfoverall;?>" size="7" min="0"></td>
-</tr>
-
-<!--every input type above is changed to number and attribute min is assigned with 1 -->
-
-</table>
-
-<table class="table table-striped" id="myTable">
-<tr>
-<td><br/>Give the complete list as appendix with name of authors, title, journal/conference name, year, volume, page number format <span style="color:red;">*</span></td>
-</tr>
-<tr>
-<td>
-<!--
-<textarea class="form-control" name="publications" rows="12" cols="160">	
-<?php echo $publications;?>
-</textarea>
--->
-<table id="table_pub" class="text-center">
-<tr class="text-center">
-<td>S No:</td>
-<td>Name of Author:</td>
-<td>Title:</td>
-<td>Journal/conference name:</td>
-<td>Year:</td>
-<td>volume:</td>
-<td>Page number:</td>
-</tr>
-
-<!--
-<tr>
-<td>
-<input class="form-control" type="text" name="publications1" value="<?php echo $publication_split[0];?>">
-</td>
-<td>
-<input class="form-control" type="text" name="publications2" value="<?php echo $publication_split[1];?>">
-</td>
-<td>
-<input class="form-control" type="text" name="publications3" value="<?php echo $publication_split[2];?>">
-</td>
-<td>
-<input class="form-control" type="text" name="publications4" value="<?php echo $publication_split[3];?>">
-</td>
-<td>
-<input class="form-control" type="text" name="publications5" value="<?php echo $publication_split[4];?>">
-</td>
-<td>
-<input class="form-control" type="text" name="publications6" value="<?php echo $publication_split[5];?>">
-</td>
-<?php $_POST['publications'] = $row['publications1'] + ',' + $row['publications2'] + ',' + $row['publications3'] + ',' + $row['publications4'] + ',' + $row['publications5'] + ',' + $row['publications6'];?>
-</tr>-->
-</table>
-<!-- <?php //echo "<script> add_row(); </script>";?> -->
-
-<?php 
-$publication_dollar= explode('$',$publications);
-
-
-if(sizeof($publication_dollar)>1)
-{
-$n=sizeof($publication_dollar);
-
-for($i=1;$i<$n;$i++)
-{
-	$publication_split=explode('^', $publication_dollar[$i-1]);
-	$j0=$publication_split[0];
-	$j1=$publication_split[1];
-	$j2=$publication_split[2];
-	$j3=$publication_split[3];
-	$j4=$publication_split[4];
-	$j5=$publication_split[5];		
-
-	echo "<script> add_row('".$j0."','".$j1."','".$j2."','".$j3."','".$j4."','".$j5."'); </script>";
-}
-}
-else
-{
-	echo "<script> add_row('','','','','',''); </script>";
-}
-?>	
-<br/>
-<button type="button" class="btn btn-sm btn-primary" onclick="<?php echo "add_row('','','','','','')";?>">Insert new row</button>
-</td>
-	<!--12X70-->
-</tr>
-</table>
-
-<table class="table table-striped" id="myTable">
-<tr>
-<td><br/>Upload copies of three best papers in PDF format (file size < 2MB is accepted.)<br/></td>
-<td>Paper 1:<input type="file" name="paper1" id="paper1" onchange="check_file('paper1')"><?php if(strlen($paper1) > 0) echo "Paper-1 is already submitted; To overwrite, upload again"; ?><br/></td>
-<td>Paper 2:<input type="file" name="paper2" id="paper2" onchange="check_file('paper2')"><?php if(strlen($paper2) > 0) echo "Paper-2 is already submitted; To overwrite, upload again"; ?><br/></td>
-<td>Paper 3:<input type="file" name="paper3" id="paper3" onchange="check_file('paper3')"><?php if(strlen($paper3) > 0) echo "Paper-3 is already submitted; To overwrite, upload again"; ?><br/></td>
-</tr>
-</table>
-<!-- -->
-<!-- -->
-<br/>
-						<div class="text-center">
-							<input type="submit" class="btn btn-sm btn-info" name = "submitted_val" value="Save">
-							<input type="submit" class="btn btn-sm btn-success" name = "submitted_val1" value="Save & Next">
-						</div>
-
-<!--<input type="submit" value="Submit Form"> -->
-
-</form>
-</div>
-</div>
-</body>
+				</form>
+			</div>
+		</div>
+	</body>
 </html>
 <?php include 'footer.php'; ?>
